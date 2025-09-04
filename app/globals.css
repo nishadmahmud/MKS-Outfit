@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.maateen.me/adorsho-lipi/font.css');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=WDXL+Lubrifont+TC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exile&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+*{
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+}
+
+body{
+  overflow-x: hidden;
+}
+
+.perspective {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.loaderText{
+    /* font-family: "Edu VIC WA NT Hand Pre", cursive; */
+
+   font-family: "Cinzel", serif;
+
+     /* font-family: "WDXL Lubrifont TC", sans-serif; */
+
+}
+/* loader */
+.loaderSvg{
+ 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.loaderSvg text{
+    animation: stroke 5s infinite alternate;
+    stroke-width: 1;
+    stroke: teal;
+    
+    font-size: 50px;
+    transition: opacity 0.75s, visibility 0.75s;
+
+}
+
+@keyframes stroke{
+    0%
+    {
+        fill: rgba(72, 138, 20, 0); stroke: rgba(0, 128, 128);
+        stroke-dashoffset: 25%; 
+        stroke-dasharray: 0 50%;
+        stroke-width: 2;
+    }
+    70%
+    {
+        fill: rgba(72, 138, 20, 0); stroke: rgba(0, 128, 128);   
+    }
+    80%
+    {
+        fill: rgba(72, 138, 20, 0); stroke: rgba(0, 128, 128); 
+        stroke-width: 3; 
+    }
+    100%
+    {
+        fill: rgba(0, 128, 128); stroke: rgba(54, 95, 160, 0);  
+        stroke-dashoffset: -25%;
+        stroke-dasharray: 50% 0;
+        stroke-width: 0;
+    }
+}
+
+
+.logoFont{
+  font-family: "Cinzel", serif;
+}
+
+.poppins{
+  font-family: "Poppins", serif;
+}
+
+.logo{
+  font-family: "PT Serif", serif;
+}
+.sans{
+  font-family: "Open Sans", serif; 
+}
+
+.font-bangla{
+  font-family: 'AdorshoLipi', sans-serif;
+}
+
+/* chatbot css */
+
+/* -----react chat bot------ */
+.react-chatbot-kit-chat-bot-message{
+  background-color:#115e59;
+}
+
+.react-chatbot-kit-chat-bot-message-arrow{
+ border-right: #115e59;
+}
+.react-chatbot-kit-chat-btn-send{
+  background:linear-gradient(90deg, rgb(192, 59, 44) 25%, rgb(137, 25, 13) 100%);
+}
+
+.react-chatbot-kit-chat-input{
+  background: linear-gradient(90deg, rgba(192, 59, 44) 25%, rgb(192, 59, 44) 100%);
+  border-color: #115e59;
+}
+
+.chat-container {
+  width: 350px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.chat-box {
+  height: 300px;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  max-width: 80%;
+}
+
+.chat-message.user {
+  background: #007bff;
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-message.bot {
+  background: #e9ecef;
+  color: black;
+  align-self: flex-start;
+}
+
+.chat-input {
+  display: flex;
+  gap: 5px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 5px;
+}
+
+.chat-input button {
+  padding: 5px 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ffffff;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.slick-slide {
+  padding: 0 5px; /* Space between slides */
+}
+
+.slick-list {
+  margin: 0 -5px; /* Prevent edge overflow */
+}
+
+.slick-prev::before,
+.slick-next::before {
+  content: ''; 
+  color: #ff8800 !important; 
+  font-size: 20px; 
+  opacity: .75 !important; 
+}
+
+
+
+
+
+
+.neon-white{
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                 0 0 20px rgba(255, 255, 255, 0.6),
+                 0 0 30px rgba(255, 255, 255, 0.4),
+                 0 0 40px rgba(255, 255, 255, 0.2);
+}
+.nunito {
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* Remove input spinner (increment/decrement) */
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-arrows {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: none; /* Hidden by default */
+}
+
+/* Show overlay when the cart is open */
+.overlay.active {
+  display: block;
+}
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+ 
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trending-swiper .swiper-slide {
+  display: flex;
+  align-items: stretch;
+}
+
+.trending-swiper img{
+  width: 100% !important;
+  object-fit: cover;
+}
+
+
+.trending-swiper .swiper-slide > a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.swiper-button-prev, 
+.swiper-button-next {
+  color: #ccc !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 28px !important;
+  font-weight: 900;
+}
+
+.swiper-hover .swiper-button-prev,
+.swiper-hover .swiper-button-next {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show navigation buttons on hover */
+.swiper-hover:hover .swiper-button-prev,
+.swiper-hover:hover .swiper-button-next {
+  opacity: 1;
+}
+
+
+.swiper-container-2 .custom-prev-2,
+.swiper-container-2 .custom-next-2 {
+  color: red;
+  font-size: 28px;
+}
+
+.swiper-pagination-bullet {
+  background-color: #ffffff !important;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Custom active bullet */
+.swiper-pagination-bullet-active {
+  background-color: #393939 !important;
+  transform: scale(1.2);
+}
+
+
+@keyframes flipDown {
+  0% {
+    transform: rotateX(-180deg) ;
+
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.animate-flip-top {
+  animation: flipDown 300ms ease-in-out;
+  backface-visibility: hidden;
+  transform-origin: top;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .trending-swiper img{
+    width: 100%;
+    object-fit: contain;
+  }
+}
+
+@media (min-width: 768px) {
+  .cardBtn {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+
