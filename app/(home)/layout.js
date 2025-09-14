@@ -3,11 +3,9 @@ import "../globals.css";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import StoreProvider from "../StoreContext/store";
-import AvatarChat from "../Components/AvatarChat";
 import { Suspense } from "react";
+import { Audiowide, Outfit, Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import Image from "next/image";
-import Script from "next/script";
 import ClientLayout from "../client-layout";
 import Providers from "@/lib/Providers";
 
@@ -17,11 +15,32 @@ const geistSans = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+const audiowide = Audiowide({
+   subsets: ["latin"],
+   weight: [ '400'],
+   variable: '--font-audiowide'
+  });
+
+const poppins = Poppins({
+   subsets: ["latin"],
+   weight: ['100', '200', '300', '400', '500', '600','700', '800'],
+   variable: '--font-poppins'
+  });
+
+
+const outfit = Outfit({
+   subsets: ["latin"],
+   weight: ['100', '200', '300', '400', '500', '600','700', '800', '900'],
+   variable: '--font-outift'
+  });
+
 
 export const metadata = {
   title: "MKS Outfit",
@@ -37,7 +56,7 @@ export default async function RootLayout({ children }) {
      
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased nunito`}
+        className={`${geistSans.variable} ${poppins.variable} ${outfit.variable} ${audiowide.variable} ${geistMono.variable} antialiased nunito`}
       >
         <Toaster></Toaster>
         <StoreProvider>
@@ -45,12 +64,12 @@ export default async function RootLayout({ children }) {
             <Header />
           </div>
           <Suspense fallback={null}>
-            <div className="bg-[#ffffff] ">
+            <div className="bg-[#ffffff]">
               <Providers>
                 <ClientLayout>{children}</ClientLayout>
               </Providers>
               
-              <AvatarChat />
+              {/* <AvatarChat /> */}
             </div>
             <Footer />
           </Suspense>

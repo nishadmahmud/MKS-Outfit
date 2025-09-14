@@ -44,6 +44,8 @@ const StoreProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [selectedSizeCart, setSelectedSizeCart] = useState("")
 console.log(selectedSizeCart);
+  const [selectedSku, setSelectedSku] = useState('')
+
 
   const [isInCart, setIsInCart] = useState(false)
   const [selectedId, setSelectedId] = useState(null)
@@ -372,6 +374,8 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     setHasToken,
     loading,
     setLoading,
+    setSelectedSku,
+    selectedSku,
     setUserInfo,
     userInfo,
     isOpenPromoBanner,

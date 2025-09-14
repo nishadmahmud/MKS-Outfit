@@ -4,7 +4,7 @@ import useSWR from "swr";
 import Loader from "@/app/Components/Loader";
 import ProductCard from "@/app/Components/ProductCard";
 import CardSkeleton from "./CardSkeleton";
-import Heading from "../CustomHooks/heading";
+import Heading from "../CustomHooks/title";
 import { fetcher } from "../(home)/page";
 
 // Swiper imports

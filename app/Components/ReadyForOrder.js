@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import Heading from '../CustomHooks/heading';
+import Heading from '../CustomHooks/title';
 import useStore from '../CustomHooks/useStore';
 import Link from 'next/link';
 import SubHeading from '../CustomHooks/subHeading';

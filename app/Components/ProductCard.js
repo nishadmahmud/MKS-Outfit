@@ -13,8 +13,8 @@ const ProductCard = ({ product }) => {
   const { handleCart, handleBuy, prices, country, setProductPrice } = useStore()
   const { toggleWishlist, isInWishlist } = useWishlist()
 
-  const selectedCountry = JSON.parse(localStorage.getItem("selectedCountry"))
-  const countrySign = selectedCountry?.value === "BD" ? "৳" : "$"
+
+  
 
   useEffect(() => {
     if (product?.id && product?.retails_price) {
@@ -24,25 +24,20 @@ const ProductCard = ({ product }) => {
 
   const productPrice = prices[product.id]
 
-  const getPriceByCountry = () => {
-    if (country && country.value === "BD") {
-      return productPrice?.basePrice || product?.retails_price || 0
-    } else {
-      return productPrice?.intl_retails_price  || product?.intl_retails_price || 0
-    }
-  }
+  // const getPriceByCountry = () => {
+  //   if (country && country.value === "BD") {
+  //     return productPrice?.basePrice || product?.retails_price || 0
+  //   } else {
+  //     return productPrice?.intl_retails_price  || product?.intl_retails_price || 0
+  //   }
+  // }
 
-  const discountedPrice = country?.value === "BD"?
-    product?.discount
-    ? product?.discount_type === "Percentage"
-      ? (product.retails_price - (product.retails_price * product.discount) / 100).toFixed(0)
-      : (product.retails_price - product.discount).toFixed(0)
-    : null
-  :  product?.intl_discount
-    ? product?.discount_type === "Percentage"
-      ? (product.intl_retails_price - (product.intl_retails_price * product.intl_discount) / 100).toFixed(0)
-      : (product.intl_retails_price - product.intl_discount).toFixed(0)
-    : null
+  const discountedPrice = product?.discount
+  ? product?.discount_type === "Percentage"
+    ? (product.retails_price - (product.retails_price * product.discount) / 100).toFixed(0)
+    : (product.retails_price - product.discount).toFixed(0)
+  : product?.retails_price; 
+
   const discountSuffix = product?.discount_type === "Percentage" ? "%" : product?.discount_type === "Fixed" ? "Tk" : ""
 
   const updateRecentViews = () => {
@@ -73,11 +68,11 @@ const ProductCard = ({ product }) => {
   }
 
   
-
+// console.log(product);
   return (
     <div
       className="
-      group bg-white rounded-lg overflow-hidden
+      group bg-white overflow-hidden
       transition-all duration-300 mx-auto w-full max-w-sm
       flex flex-col h-full
       sm:max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm
@@ -96,6 +91,7 @@ const ProductCard = ({ product }) => {
           className="block w-full h-full"
         >
           <Image
+          unoptimized
             src={product?.image_path || noImg}
             alt={product?.name || "Product image"}
             fill
@@ -106,7 +102,8 @@ const ProductCard = ({ product }) => {
           {/* Hover Image */}
           {product?.image_path1 && (
             <Image
-              src={product.image_path1 || "/placeholder.svg"}
+            unoptimized
+              src={product.image_path1 || noImg}
               alt={`${product?.name} alternate view`}
               fill
               className="
@@ -121,13 +118,13 @@ const ProductCard = ({ product }) => {
 
         {/* Discount Badge */}
       {
-        !countrySign ? <>
+        product?.discount ? <>
           {product?.discount && (
-          <div className="absolute top-2 left-2 z-10 sm:top-3 sm:left-3">
+          <div className="absolute top-2 -left-0 z-40 sm:top-3">
             <span
               className="
-              bg-red-500 text-white text-xs font-bold 
-              py-1 px-2 rounded-full shadow-lg
+              bg-gray-900 text-white text-xs font-bold 
+              py-1 px-2 rounded-xs shadow-lg
               sm:py-1.5 sm:px-2.5
             "
             >
@@ -179,38 +176,42 @@ const ProductCard = ({ product }) => {
         {/* Price and Cart Section */}
         <div className="flex items-center justify-between pt-1">
           <div className="flex flex-col justify-between gap-1">
-            {discountedPrice ? (
-              <div className="flex items-start gap-2 flex-wrap">
-                <span
-                  className="
-                  text-base font-bold text-gray-900
-                  sm:text-lg md:text-base lg:text-lg
-                "
-                >
-                  {countrySign}
-                  {discountedPrice}
-                </span>
-                <p
-                  className="
-                  text-xs text-gray-500 
-                  sm:text-sm md:text-xs text-start lg:text-sm
-                "
-                >
-                  {countrySign}
-                  {getPriceByCountry()}
-                </p>
-              </div>
-            ) : (
-              <span
-                className="
-                text-base font-bold text-gray-900
-                sm:text-lg md:text-base lg:text-lg
-              "
-              >
-                {countrySign}
-                {getPriceByCountry()}
-              </span>
-            )}
+            {product?.discount ? (
+  <div className="flex items-start gap-2 flex-wrap">
+    {/* Original Price */}
+    <span
+      className="
+        text-base font-bold text-gray-900 
+        sm:text-lg md:text-base lg:text-lg
+      "
+    >
+      ৳{product?.retails_price || 0}
+    </span>
+
+    {/* Discounted Price */}
+    <span
+      className="font-bold text-gray-600
+         text-sm line-through
+      "
+    >
+      ৳
+      {product?.discount_type === "Percentage"
+        ? (product.retails_price - (product.retails_price * product.discount) / 100).toFixed(0)
+        : (product.retails_price - product.discount).toFixed(0)}
+    </span>
+  </div>
+) : (
+  // No discount → show only retail price
+  <span
+    className="
+      text-base font-bold text-gray-900
+      sm:text-lg md:text-base lg:text-lg
+    "
+  >
+    ৳{product?.retails_price || 0}
+  </span>
+)}
+
           </div>
 
 
@@ -229,9 +230,9 @@ const ProductCard = ({ product }) => {
           title={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
         >
           {isInWishlist(product.id) ? (
-            <FaHeart className="w-4 h-4 text-teal-600 sm:w-5 sm:h-5" />
+            <FaHeart className="w-4 h-4 text-gray-900 sm:w-5 sm:h-5" />
           ) : (
-            <FaRegHeart className="w-4 h-4 text-gray-600 hover:text-red-500 transition-colors sm:w-5 sm:h-5" />
+            <FaRegHeart className="w-4 h-4 text-gray-600 hover:text-gray-500 transition-colors sm:w-5 sm:h-5" />
           )}
         </button>
         </div>

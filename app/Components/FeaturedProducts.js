@@ -1,6 +1,6 @@
 "use client";
 
-import Heading from "../CustomHooks/heading";
+import Heading from "../CustomHooks/title";
 import noImg from "/public/no-image.jpg";
 import Image from "next/image";
 import useSWR from "swr";

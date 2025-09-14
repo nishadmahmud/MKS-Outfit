@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "@smastrom/react-rating/style.css";
-import Heading from "../CustomHooks/heading";
+import Heading from "../CustomHooks/title";
 import useStore from "../CustomHooks/useStore";
 import useSWR from "swr";
 import { fetcher, userId } from "../(home)/page";

@@ -48,6 +48,7 @@ const CursorImageZoom = ({
       onMouseMove={handleMouseMove}
     >
       <Image
+      unoptimized
         fill
         src={src || noImage}
         alt={alt}

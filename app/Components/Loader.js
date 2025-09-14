@@ -5,7 +5,7 @@ export default function Loader() {
     <div>
     <svg className="loaderSvg" viewBox="0 0 1320 300">
         <text className="loaderText" x="50%" y="50%" dy=".35em" text-anchor="middle">
-            Morshed Mart
+            MKS
         </text>
     </svg>
 </div>    

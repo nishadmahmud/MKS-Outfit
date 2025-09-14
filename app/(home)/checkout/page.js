@@ -7,6 +7,7 @@ import { ShoppingCart, Package } from "lucide-react"
 import dynamic from "next/dynamic"
 import toast from "react-hot-toast"
 import axios from "axios"
+import { ShoppingBag } from "lucide-react"
 
 const DeliveryForm = dynamic(() => import("../../Components/DeliveryForm"), {
   ssr: false,
@@ -112,25 +113,11 @@ console.log(cartItems);
   console.log(cartItems);
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-14">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="w-full md:w-11/12 mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-12">
-            <div className="flex items-center space-x-2">
-              <Package className="h-8 w-8 text-[#115e59]" />
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Checkout</h1>
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <ShoppingCart className="h-4 w-4" />
-              <span>{quantity} items</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen md:bg-gray-100 pt-12">
+     
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-        <div className="grid lg:grid-cols-12 gap-4 lg:gap-8">
+      <div className="w-11/12 mx-auto">
+        <div className="grid lg:grid-cols-12 gap-4 lg:gap-y-8">
           {/* Main Content */}
           <div className="lg:col-span-7 order-last lg:order-first">
             <DeliveryForm
@@ -149,13 +136,13 @@ console.log(cartItems);
 
           {/* Order Summary Sidebar */}
           <div className="lg:col-span-5 mt-4 md:mt-8 lg:mt-0 order-first lg:order-last">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 sticky top-24">
+            <div className="sticky top-24">
               {cartItems.length > 0 ? (
                 <>
                   {/* Header */}
                   <div className="px-6 py-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                      <ShoppingCart className="h-5 w-5 mr-2 text-[#115e59]" />
+                    <h2 className="text-xl md:text-2xl font-semibold text-gray-900 flex items-center poppins">
+                      <ShoppingBag className="h-7 w-7 mr-2 text-[#141414]" />
                       Order Summary
                     </h2>
                   </div>
@@ -168,7 +155,7 @@ console.log(cartItems);
                         return (
                           <div
                             key={item.id}
-                            className="flex items-start space-x-4 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                            className="flex items-start space-x-4 transition-colors"
                           >
                             <div className="relative flex-shrink-0">
                               {item?.images?.length > 0 ? (
@@ -177,7 +164,7 @@ console.log(cartItems);
                                   width={80}
                                   alt="product"
                                   src={item.images[0] || "/placeholder.svg"}
-                                  className="rounded-lg border border-gray-200 object-cover"
+                                  className="rounded-md border border-gray-200 object-cover"
                                 />
                               ) : item?.image_path ? (
                                 <Image
@@ -185,7 +172,7 @@ console.log(cartItems);
                                   width={80}
                                   alt="product"
                                   src={item.image_path || "/placeholder.svg"}
-                                  className="rounded-lg border border-gray-200 object-cover"
+                                  className="rounded-md border border-gray-200 object-cover"
                                 />
                               ) : (
                                 <Image
@@ -194,10 +181,10 @@ console.log(cartItems);
                                   width={80}
                                   loading="lazy"
                                   alt="mobile-phone"
-                                  className="rounded-lg border border-gray-200 object-cover"
+                                  className="rounded-md border border-gray-200 object-cover"
                                 />
                               )}
-                              <div className="absolute -top-2 -right-2 bg-[#115e59] text-white text-xs font-medium rounded-full h-6 w-6 flex items-center justify-center">
+                              <div className="absolute -top-2 -right-2 bg-[#363636] text-white text-xs font-medium rounded-full h-6 w-6 flex items-center justify-center">
                                 {item.quantity}
                               </div>
                             </div>
@@ -227,70 +214,62 @@ console.log(cartItems);
                           onChange={(e) => setCouponCode(e.target.value)}
                           type="text"
                           placeholder="Enter coupon code"
-                          className="flex-1 text-black dark:bg-white px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                          className="flex-1 text-black dark:bg-white px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
                         />
                         <button
                           disabled={loading}
                           onClick={handleApply}
                           type="submit"
-                          className="px-4 py-2 bg-teal-600 text-white font-medium rounded-sm hover:bg-teal-700 transition"
+                          className="px-4 py-2 bg-gray-800 text-white font-medium rounded-sm hover:bg-gray-700 transition"
                         >
                           {loading ? "Applying..." : "Apply"}
                         </button>
                       </div>
                     </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Subtotal ({quantity} items)</span>
-                      <span className="font-medium text-gray-900">
-                        {country && country.value === "BD" ? "৳" : "$"}
+                    <div className="flex justify-between text-sm ">
+                      <span className="text-gray-600 poppins">Subtotal ({quantity} items)</span>
+                      <span className="font-semibold text-gray-900">
+                        ৳
                         {SubtotalWithoutDiscount.toFixed(2)}
                       </span>
                     </div>
 
                     {TotalDiscount > 0 && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Discount</span>
+                        <span className="text-gray-600 poppins">Discount</span>
                         <span className="font-medium text-red-600">
-                          -{country && country.value === "BD" ? "৳" : "$"}
+                          -৳
                           {TotalDiscount.toFixed(2)}
                         </span>
                       </div>
                     )}
 
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Coupon Discount</span>
+                      <span className="text-gray-600 poppins">Coupon Discount</span>
                       <span className="font-medium text-red-600">
-                        -{country && country.value === "BD" ? "৳" : "$"}
+                        -৳
                         {Number(couponAmount).toFixed(2)}
                       </span>
                     </div>
 
-                    {selectedDonate && selectedDonate !== "Not now" && (
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Donation</span>
-                        <span className="font-medium text-gray-900">
-                          {country && country.value === "BD" ? "৳" : "$"}
-                          {selectedDonate}
-                        </span>
-                      </div>
-                    )}
+                   
 
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Shipping</span>
-                      <span className="font-medium text-gray-900">
-                        {country && country.value === "BD" ? "৳" : "$"}
+                      <span className="text-gray-600 poppins">Shipping</span>
+                      <span className="font-semibold text-gray-900 poppins">
+                        ৳
                         {shippingFee}
                       </span>
                     </div>
 
-                    <div className="border-t border-gray-200 pt-3">
+                    <div className="border-t border-gray-300 pt-3">
                       <div className="flex justify-between">
-                        <span className="text-lg font-semibold text-gray-900">Total</span>
-                        <span className="text-lg font-bold text-[#115e59]">
-                          {country && country.value === "BD" ? "৳" : "$"}
+                        <span className="text-lg font-semibold text-gray-900 poppins">Total:</span>
+                        <span className="text-lg font-bold text-[#353535] poppins">
+                          ৳
                           {(
                             Number.parseInt(Subtotal) +
-                            (selectedDonate === "Not now" ? 0 : Number(selectedDonate)) +
+                            
                             shippingFee -
                             couponAmount
                           ).toFixed(2)}
@@ -300,15 +279,8 @@ console.log(cartItems);
                   </div>
 
                   {/* Security Badge */}
-                  <div className="px-6 py-4 bg-gray-50 rounded-b-xl">
-                    <div className="flex items-center justify-center space-x-2 text-sm text-gray-600">
-                      <div className="flex items-center gap-2 text-black mt-2">
-                        Our delivery partner:
-                        <Image className="w-10" src="/pahtao.png" alt="pathao" width={500} height={500}></Image>
-                        <Image className="w-10" src="/fedEx.png" alt="fedx" width={500} height={500}></Image>
-                        <Image className="w-8" src="/dhl.png" alt="dhl" width={500} height={500}></Image>
-                      </div>
-                    </div>
+                  <div className="pb-5">
+                    
                     <div className="flex justify-center items-center gap-1 text-black text-xs">
                       <svg className="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                         <path

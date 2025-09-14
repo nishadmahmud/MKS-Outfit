@@ -8,7 +8,7 @@ import "swiper/css";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css/pagination";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
 const sanitizeSlug = (str) => {
   return str
@@ -25,18 +25,18 @@ const SliderUi = ({ slider }) => {
 
   return (
     <div className="pt-[3.5rem] w-11/12 mx-auto relative py-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch h-[90vh]">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4 items-stretch md:h-[90vh]">
         <div className="space-y-4">
           {/* Left big box - Text */}
-          <div className="bg-gray-200 h-[65vh] flex flex-col justify-center p-6 px-10 rounded-2xl">
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight text-gray-900">
-              <span className="flex items-center gap-2">
+          <div className="bg-gray-200 h-[65vh] flex-col justify-center p-6 px-10 rounded-2xl hidden md:flex">
+            <h2 className="text-3xl md:text-5xl font-bold leading-10 text-gray-900">
+              <span className="flex items-center gap-2 heroTitle">
                 FOR <ArrowRight size={30}></ArrowRight>
               </span>
-              <span className="text-black">EVERYONE BUT</span> <br />
-              <span className="text-black">NOTANYONE</span>
+              <span className="text-black heroTitle">EVERYONE BUT</span> <br />
+              <span className="text-black heroTitle">NOTANYONE</span>
             </h2>
-            <p className="text-gray-600 mt-4 max-w-lg">
+            <p className="text-gray-600 mt-4 max-w-lg poppins text-base">
               We establish personal relationships with our boutiques, to make
               sure each is vetted for a stress-free shopping experience.
             </p>
@@ -46,6 +46,7 @@ const SliderUi = ({ slider }) => {
           <div className="flex items-center justify-between gap-4">
             <div className="h-40 w-1/2 bg-gray-200 rounded-2xl overflow-hidden relative flex items-end cursor-pointer">
               <Image
+              unoptimized
                 src="/slider-11.jpg"
                 alt="men category"
                 width={500}
@@ -62,6 +63,7 @@ const SliderUi = ({ slider }) => {
 
             <div className="h-40 w-1/2 bg-gray-200 rounded-2xl relative overflow-hidden flex items-end cursor-pointer">
               <Image
+              unoptimized
                 src="/womencat.jpg"
                 alt="women category"
                 width={500}
@@ -79,7 +81,7 @@ const SliderUi = ({ slider }) => {
         </div>
 
         {/* Right big box - Swiper Slider */}
-        <div className="relative h-[40vh] md:h-full rounded-2xl overflow-hidden">
+        <div className="relative h-[40vh] md:h-full rounded-2xl overflow-hidden md:order-last order-first">
           <Swiper
             pagination={{ clickable: true }}
             ref={swiperRef}
@@ -91,10 +93,10 @@ const SliderUi = ({ slider }) => {
             className="w-full h-full"
           >
             {slider.status === 200 &&
-              slider?.data.length > 0 &&
+              slider?.data?.length > 0 &&
               slider?.data[0]?.image_path?.map((img, idx) => {
                 const product = slider?.data[0]?.products?.[0];
-                if (!product) return null;
+                // if (!product) return null;
 
                 const slug = sanitizeSlug(product?.brand_name || product?.name);
                 const productId = product?.id;
@@ -104,6 +106,7 @@ const SliderUi = ({ slider }) => {
                   <SwiperSlide key={idx} className="relative w-full h-full">
                     <Link href={productLink}>
                       <Image
+                      unoptimized
                         src={img}
                         priority={idx === 0}
                         alt={product?.name || "slider-image"}
@@ -111,7 +114,8 @@ const SliderUi = ({ slider }) => {
                         quality={100}
                         className="cursor-pointer object-cover"
                       />
-                      <button className="absolute bottom-4 left-4 bg-white text-black px-4 py-2 rounded-full text-sm font-medium shadow-md">
+                      <button className="absolute bottom-4 left-4 bg-black/20 poppins border border-white text-white px-10 py-2 rounded-full text-sm font-medium shadow-md backdrop-blur-sm flex items-center gap-2">
+                      <ExternalLink size={20} />
                         SHOP NOW
                       </button>
                     </Link>

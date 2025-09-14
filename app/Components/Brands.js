@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import Heading from '../CustomHooks/heading';
+import Heading from '../CustomHooks/title';
 
 const Brands = ({ brands }) => {
     const [brandCount, setBrandCount] = useState(9); // Default: small device (9 brands)

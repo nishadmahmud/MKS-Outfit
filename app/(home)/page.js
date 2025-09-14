@@ -5,17 +5,18 @@ import FeaturedCategories from '../Components/FeaturedCategories';
 import NewArrival from "../Components/NewArrival";
 import PromotionModal from "../Components/PromotionModal";
 import SmallBanner from "../Components/SmallBanner";
-import MensBanner from "../Components/MensBanner";
-import SolidTshirt from "../Components/SolidTshirt";
 import OfferPage from "../Components/OfferPage";
 import HalfSelveePolo from "../Components/HalfSelveePolo";
 import BenefitsSection from "../Components/BenefitsSection";
 import VideoSection from "../Components/VideoSection";
-import SummerCollection from "../Components/SummerCollection";
 import BrandMarquee from "../Components/BrandMarquee";
+import TrendingNow from "../Components/TrendingNow";
+import Banner from "../Components/Banner";
+import Banner2 from "../Components/Banner2";
+import MensCollection from "../Components/MensCollection";
 
 
-export const userId = 203;
+export const userId = 230;
 export const fetcher = (url) => fetch(url).then(res => res.json());
 
 
@@ -41,16 +42,18 @@ export default async function Home() {
   return (
     <>
     {/* <SelectRegionModal></SelectRegionModal> */}
-      <PromotionModal promotionBanner={promotion?.data[0]}/>
+      {/* <PromotionModal promotionBanner={promotion?.data[0]}/> */}
       <HeroSlider />
       {/* <BrandMarquee /> */}
-      <div>
-        {/* <FeaturedCategories /> */}
-        {/* <NewArrival banner={banner}/>  */}
-        {/* <MensBanner banner={banner}></MensBanner> */}
-        {/* <SummerCollection></SummerCollection> */}
+      <div className="pb-10">
+        <FeaturedCategories />
+        <NewArrival /> 
+        <Banner banner={banner}></Banner>
+        <TrendingNow></TrendingNow>
+        <Banner2 banner={banner}></Banner2>
+        <MensCollection></MensCollection>
         {/* <SmallBanner banner={banner}/> */}
-        {/* <SolidTshirt></SolidTshirt> */}
+        
         {/* <VideoSection></VideoSection> */}
         {/* <BannerSection categories={categories} banner={banner}/> */}
         {/* <HalfSelveePolo></HalfSelveePolo> */}

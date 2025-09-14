@@ -4,7 +4,7 @@ import { userId } from '../(home)/page';
 
 const FeaturedCategories = async () => {
   const categoriesRes = await fetch(`${process.env.NEXT_PUBLIC_API}/public/categories/${userId}`,{
-      next : {revalidate : 360}
+      cache: 'no-store'
     });
     const categories = categoriesRes.json();
   return (

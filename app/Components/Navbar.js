@@ -11,6 +11,7 @@ import loginLogo from "/public/user.png";
 import { IoNewspaperOutline } from "react-icons/io5";
 import GlobeModalButton from "./GlobeModalButton";
 import { Heart } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 
 const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +70,7 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
           <div className="flex justify-around items-center py-2">
             <Link
               href="/"
-              className="flex flex-col items-center text-sm text-[#115e59]"
+              className="flex flex-col items-center text-sm text-[#242424]"
             >
               <House className="text-2xl" />
               <span className="text-black">Home</span>
@@ -78,11 +79,11 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
            <Link
             href='/wishlist'
               
-              className="flex flex-col items-center text-sm text-[#115e59]"
+              className="flex flex-col items-center text-sm text-[#242424]"
             >
               <div>
                 <Heart className="text-2xl" />
-                {wishlist ? (<p className="bg-[#115e59] z-[900] h-fit text-[#ffffff] w-fit px-1 text-xs rounded-full absolute top-2">
+                {wishlist.length ? (<p className="bg-[#242424] z-[900] h-fit text-[#ffffff] w-fit px-1 text-xs rounded-full absolute top-2">
                   {wishlist.length}
                 </p>): ""}
               </div>
@@ -92,11 +93,11 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
             <Link
             href='/cart'
               
-              className="flex flex-col items-center text-sm text-[#115e59]"
+              className="flex flex-col items-center text-sm text-[#242424]"
             >
               <div>
-                <ShoppingCart className="text-2xl" />
-                {total ? (<p className="bg-[#115e59] z-[900] h-fit text-[#ffffff] w-fit px-1 text-xs rounded-full absolute top-2">
+                <ShoppingBag className="text-2xl" />
+                {total ? (<p className="bg-[#242424] z-[900] h-fit text-[#ffffff] w-fit px-1 text-xs rounded-full absolute top-2">
                   {total}
                 </p>) : ""}
               </div>
@@ -104,12 +105,12 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
             </Link>
             {user ? (
               <Link
-                href="/profileDashboard"
-                className="flex flex-col items-center text-sm text-[#115e59]"
+                href="/"
+                className="flex flex-col items-center text-sm text-[#242424]"
               >
                 <Image
                   
-                  className="border-2 p-0.5 border-[#115e59] rounded-full"
+                  className="border-2 p-0.5 border-[#242424] rounded-full"
                   src={loginLogo}
                   alt="navLogo"
                   width={30}
@@ -119,25 +120,16 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
               </Link>
             ) : (
               <Link 
-              href="/login"
+              href="/"
                
-                className="flex flex-col items-center text-sm text-[#115e59] cursor-pointer"
+                className="flex flex-col items-center text-sm text-[#242424] cursor-pointer"
               >
                 <LogIn className="text-2xl" />
                 <span className="text-black">Login</span>
               </Link>
             )}
 
-             <div className="text-teal-700 relative">
-  <GlobeModalButton  />
-
-  {country?.value && (
-    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[7px] font-medium rounded-full px-1 py-1">
-      {country.value}
-    </span>
-  )}
-  {/* <div className="text-black">Cn</div> */}
-</div>
+             
           </div>
 
 
