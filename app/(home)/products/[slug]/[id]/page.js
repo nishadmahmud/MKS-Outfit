@@ -884,13 +884,7 @@ const ProductPage = ({ params }) => {
 
   const productPrice = prices[product?.data.id]
 
-  const getPriceByCountry = () => {
-    if (country && country.value === "BD") {
-      return productPrice?.basePrice || product?.data.retails_price || 0
-    } else {
-      return productPrice?.intl_retails_price || product?.data.intl_retails_price || 0
-    }
-  }
+
 
   useEffect(() => {
     if (product?.data && product?.data?.product_variants.length) {
@@ -1417,7 +1411,7 @@ const ProductPage = ({ params }) => {
                       {item.name}
                     </h3>
                     <p className="font-semibold text-neutral-900">
-                      {country?.value === "BD" ? `৳ ${item.retails_price}` : `$ ${item?.intl_retails_price || 0}`}
+                      {`${item.retails_price || 0}`}
                     </p>
                   </div>
                 </Link>
@@ -1480,13 +1474,11 @@ const ProductPage = ({ params }) => {
                 <div className="flex items-center space-x-2">
                   <p className="font-bold text-sm text-neutral-900">
                     
-                    {country?.value === "BD"
-                      ? product.data.discount > 0
+                    {
+                       product.data.discount > 0
                         ? discountedPrice
                         : product.data.retails_price
-                      : product.data.intl_discount > 0
-                        ? discountedPrice
-                        : product.data.intl_retails_price}
+                      }
                   </p>
                   {selectedSize && <span className="text-xs text-neutral-600">Size: {selectedSize}</span>}
                 </div>

@@ -23,11 +23,7 @@ console.log(cartItems);
   const getPriceByCountry = (item) => {
     const productPrice = prices[item.id]
 
-    if (country && country.value === "BD") {
-      return productPrice?.basePrice || item?.retails_price || 0
-    } else {
-      return productPrice?.intl_retails_price || item?.intl_retails_price || 0;
-    }
+    return productPrice?.basePrice || item?.retails_price || 0
   }
 
  
@@ -135,12 +131,12 @@ console.log(cartItems);
           </div>
 
           {/* Order Summary Sidebar */}
-          <div className="lg:col-span-5 mt-4 md:mt-8 lg:mt-0 order-first lg:order-last">
-            <div className="sticky top-24">
+          <div className="lg:col-span-5 mt-4 md:mt-8 lg:mt-0 order-first lg:order-last overflow-x-auto w-full">
+            <div className="md:sticky top-24 ">
               {cartItems.length > 0 ? (
                 <>
                   {/* Header */}
-                  <div className="px-6 py-4 border-b border-gray-200">
+                  <div className="md:px-6 px-4 py-4 border-b border-gray-200 ">
                     <h2 className="text-xl md:text-2xl font-semibold text-gray-900 flex items-center poppins">
                       <ShoppingBag className="h-7 w-7 mr-2 text-[#141414]" />
                       Order Summary
@@ -148,7 +144,7 @@ console.log(cartItems);
                   </div>
 
                   {/* Cart Items */}
-                  <div className="px-6 py-4 max-h-96 overflow-y-auto">
+                  <div className="md:px-6 px-4 py-4 max-h-96 overflow-y-auto">
                     <div className="space-y-4">
                       {cartItems.map((item) => {
                         const itemPrice = getPriceByCountry(item)
@@ -195,7 +191,7 @@ console.log(cartItems);
                                 <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
                                 <div className="text-sm text-gray-600">Size: {item.selectedSize || "N/A"}</div>
                                 <div className="text-sm font-semibold text-gray-900">
-                                  {country && country.value === "BD" ? "৳" : "$"}
+                                 ৳
                                   {itemPrice}
                                 </div>
                               </div>
@@ -207,14 +203,14 @@ console.log(cartItems);
                   </div>
 
                   {/* Price Breakdown */}
-                  <div className="px-6 py-4 border-t border-gray-200 space-y-3">
+                  <div className="md:px-6 px-4 py-4 border-t border-gray-200 space-y-3">
                     <div>
                       <div className="flex items-center gap-2">
                         <input
                           onChange={(e) => setCouponCode(e.target.value)}
                           type="text"
                           placeholder="Enter coupon code"
-                          className="flex-1 text-black dark:bg-white px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
+                          className="flex-1 md:w-full w-40 text-black dark:bg-white px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
                         />
                         <button
                           disabled={loading}
@@ -294,7 +290,7 @@ console.log(cartItems);
                   </div>
                 </>
               ) : (
-                <div className="px-6 py-12 text-center">
+                <div className="md:px-6 px-4 py-12 text-center">
                   <ShoppingCart className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
                   <p className="text-gray-600">Add some products to get started</p>

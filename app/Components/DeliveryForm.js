@@ -591,7 +591,7 @@ const DeliveryForm = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* First Name */}
-            <div>
+            <div className="col-span-2 md:col-span-1">
               
                 <FloatingLabelInput
                  type="text"
@@ -606,19 +606,8 @@ const DeliveryForm = ({
            
 
             {/* Email */}
-            <div>
-              {/* <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
-                <Mail size={18} />
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData?.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                className="w-full dark:bg-white text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 transition-colors"
-              /> */}
+            <div className="col-span-2 md:col-span-1">
+              
 
                <FloatingLabelInput
                  type="number"
@@ -626,7 +615,7 @@ const DeliveryForm = ({
                 icon={Phone}
           value={formData.phone}
                 onChange={handleChange}
-                placeholder="Enter your phone number"
+                placeholder="Enter your number"
       />
             </div>
 
@@ -647,11 +636,9 @@ const DeliveryForm = ({
               />
             </div>
 
-            {/* Select country */}
-
           
             {/* Address */}
-            <div className="md:col-span-2">
+            <div className="col-span-2">
               
 
               <FloatingLabelInput
@@ -665,7 +652,7 @@ const DeliveryForm = ({
       />
             </div>
 
-            <div className="md:col-span-2">
+            <div className="col-span-2">
               
 
               <FloatingLabelInput
@@ -907,7 +894,7 @@ const DeliveryForm = ({
                 className="mt-3 bg-gray-50 rounded-lg p-3 text-sm text-gray-700 leading-relaxed w-full"
               >
                 <div>
-                  <Image src='https://www.outletexpense.xyz/uploads/168-Khan-Sahadat/1757847594.png' width={500} height={500} alt="ssl" className="w-20 mx-auto mb-3">
+                  <Image src='https://www.outletexpense.xyz/uploads/135-MD.-Nahid-Hossain-Faisal/1757918681.png' width={600} height={500} alt="ssl" className="w-20 mx-auto mb-3">
                   
                 </Image>
                 </div>

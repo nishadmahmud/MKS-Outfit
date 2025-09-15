@@ -73,7 +73,6 @@ body{
     animation: stroke 5s infinite alternate;
     stroke-width: 1;
     stroke: gray;
-    
     font-size: 50px;
     transition: opacity 0.75s, visibility 0.75s;
 }

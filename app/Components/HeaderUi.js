@@ -247,7 +247,7 @@ const HeaderUi = ({ data }) => {
           
             {/* Search icon */}
             <button
-              // onClick={toggleSearchSidebar}
+              onClick={toggleSearchSidebar}
               className="flex md:hidden items-center transition ease-in-out text-black"
               aria-label="Search"
               data-sidebar-trigger="search"
@@ -452,7 +452,10 @@ const HeaderUi = ({ data }) => {
                         .replace(/[^a-z0-9-]/g, "")
 
                     return (
-                      <ProductCard key={idx} product={item} />
+                      <div key={idx} onClick={toggleSearchSidebar}>
+                      
+                      <ProductCard  product={item} />
+                      </div>
                     )
                   })}
                 </div>

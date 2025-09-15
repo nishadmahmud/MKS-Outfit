@@ -17,6 +17,8 @@ const PromotionModal = () => {
 
     const offer = offers?.data;
 
+    console.log(offer);
+
  useEffect(() => {
     const hasSeenModal = sessionStorage.getItem("hasSeenPromoBanner");
 
@@ -37,28 +39,29 @@ const PromotionModal = () => {
 
 
     return (
-        <div className={`modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center z-[9999] items-center px-4 ${isOpenPromoBanner && isFirstVisit && offer?.length > 0 ? '' : 'hidden'}`}>
+        <div className={`modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center z-[9999] items-center px-4 ${isOpenPromoBanner && isFirstVisit && offer?.length > 0 ? '' : 'hidden'}`}>
             <dialog
                 open
-                className="relative p-1.5 lg:p-2 rounded-lg flex flex-col justify-center bg-white text-black lg:w-[40%] w-[85%] h-[30vh] md:h-[60vh]"
+                className="relative rounded-lg flex flex-col justify-center bg-white text-black w-auto h-auto"
             >
                 {/* Close Button */}
                <button
           onClick={handleClose}
-          className="absolute top-3 right-3 z-30 bg-red-500 hover:bg-red-600 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 group focus:outline-none focus:ring-2 focus:ring-red-300"
+          className="absolute top-3 right-3 z-30 bg-red-500 hover:bg-red-600 p-1.5 rounded-full shadow-lg transition-all duration-200 hover:scale-110 group focus:outline-none focus:ring-2 focus:ring-red-300"
           aria-label="Close promotion"
         >
-          <X className="w-5 h-5 text-white group-hover:text-gray-100 transition-colors duration-200" />
+          <X className="w-4 h-4 text-white group-hover:text-gray-100 transition-colors duration-200" />
         </button>
 
                 {/* Image Container */}
-                <div className="relative w-full h-full flex justify-center items-center">
+                <div className="relative h-full flex justify-center items-center md:w-[20rem] w-80">
                     {lastImage ? (
                         <Image
                         className='rounded-md' 
                         src={lastImage}
                         quality={100}
-                        fill
+                        width={1000}
+                        height={1000}
                         alt='promo' 
                         style={{ objectFit: 'cover' }} />
                     ) : (
