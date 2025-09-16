@@ -4,16 +4,11 @@ import BannerSection from '../Components/BannerSection';
 import FeaturedCategories from '../Components/FeaturedCategories';
 import NewArrival from "../Components/NewArrival";
 import PromotionModal from "../Components/PromotionModal";
-import SmallBanner from "../Components/SmallBanner";
-import OfferPage from "../Components/OfferPage";
-import HalfSelveePolo from "../Components/HalfSelveePolo";
-import BenefitsSection from "../Components/BenefitsSection";
-import VideoSection from "../Components/VideoSection";
 import BrandMarquee from "../Components/BrandMarquee";
 import TrendingNow from "../Components/TrendingNow";
 import Banner from "../Components/Banner";
 import Banner2 from "../Components/Banner2";
-import MensCollection from "../Components/MensCollection";
+import MensPanjabi from "../Components/MensCollection";
 
 
 export const userId = 230;
@@ -49,7 +44,7 @@ export default async function Home() {
         <Banner banner={banner}></Banner>
         <TrendingNow></TrendingNow>
         <Banner2 banner={banner}></Banner2>
-        <MensCollection></MensCollection>
+        <MensPanjabi></MensPanjabi>
         {/* <SmallBanner banner={banner}/> */}
         
         {/* <VideoSection></VideoSection> */}

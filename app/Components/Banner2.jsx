@@ -12,14 +12,14 @@ const Banner2 = ({ banner }) => {
   return (
     <div className="w-11/12 mx-auto mt-10">
       {/* Banner 1 */}
-      <div className="relative w-full  overflow-hidden h-full rounded-lg">
+      <div className="relative w-full  overflow-hidden h-full rounded-md">
         <Image
         unoptimized
           src={image1}
           alt="Mens Banner 1"
           width={2000}
           height={2000}
-          className="object-contain"
+          className="md:object-contain md:h-full h-32 object-cover"
           
         />
       </div>

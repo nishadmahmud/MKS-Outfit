@@ -193,6 +193,7 @@ const DeliveryForm = ({
     phone: "",
     billCountry: "",
     billFirstName: "",
+    delivery_note: "",
     billLastName: "",
     billAddress: "",
     address2: "",
@@ -207,13 +208,13 @@ const DeliveryForm = ({
     if (items.length) {
       setCartItems(items);
       setLoading(false);
-      const total = items.reduce(
-        (prev, curr) =>
-          country.value === "BD"
-            ? prev + curr.retails_price
-            : prev + curr?.intl_retails_price,
-        0
-      );
+
+      
+      const total = items?.reduce(
+  (prev, curr) => prev + (curr?.retails_price || 0),
+  0
+);
+// console.log(total);
       setCartTotal(total);
       setOrderSchema((prev) => ({
         ...prev,
@@ -222,11 +223,12 @@ const DeliveryForm = ({
     }
   }, [getCartItems]);
 
+
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("Bangladesh");
 
   useEffect(() => {
-    const countryNames = getNames(); // returns all country names
+    const countryNames = getNames(); 
     setCountries(countryNames);
   }, []);
 
@@ -251,7 +253,7 @@ const DeliveryForm = ({
         product_variant_id: item.product_variant_id,
       })),
       delivery_method_id: 1,
-      delivery_note: deliveryNote,
+      delivery_note: formData?.delivery_note || deliveryNote,
       donation_amount:
         selectedDonate === "Not now" ? 0 : Number(selectedDonate),
       email: formData.email || userData?.email || "N/A",
@@ -301,6 +303,7 @@ const DeliveryForm = ({
     formData.lastName,
     formData.address,
     formData.address2,
+    formData.delivery_note,
     formData.phone,
     userData?.email,
     firstName,
@@ -410,7 +413,7 @@ const DeliveryForm = ({
       };
 
       console.log(finalOrderSchema);
-      return;
+      // return;
       axios
         .post(
           `${process.env.NEXT_PUBLIC_API}/public/ecommerce-sales-with-check`,
@@ -556,7 +559,7 @@ const DeliveryForm = ({
         email: user.email,
         phone: user.phone || null,
       });
-      setCustomerId(user.id);
+      setCustomerId(user?.id);
     }
   }, []);
 

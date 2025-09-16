@@ -29,10 +29,10 @@ import { fetcher, userId } from '../(home)/page';
 import CardSkeleton from './CardSkeleton';
 import ProductCard from './ProductCard';
 
-const MensCollection = () => {
+const MensPanjabi = () => {
 
    const { data: menCollections, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API}/public/categorywise-products/7346&limit=12`,
+    `${process.env.NEXT_PUBLIC_API}/public/subcategorywise-products/7169`,
     fetcher,
    
   );
@@ -44,7 +44,7 @@ const MensCollection = () => {
     <div className='w-11/12 mx-auto mt-12'>
 
      <div className='mb-5'>
-       <Title title='Men Collection'></Title>
+       <Title title="Men's Panjabi"></Title>
 
       {/* <p className='text-gray-600'>Fresh picks just in — discover the latest styles and products first.</p> */}
      </div>
@@ -68,4 +68,4 @@ const MensCollection = () => {
   );
 };
 
-export default MensCollection;
+export default MensPanjabi;

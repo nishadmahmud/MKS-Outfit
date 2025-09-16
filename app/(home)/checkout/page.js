@@ -132,7 +132,7 @@ console.log(cartItems);
 
           {/* Order Summary Sidebar */}
           <div className="lg:col-span-5 mt-4 md:mt-8 lg:mt-0 order-first lg:order-last overflow-x-auto w-full">
-            <div className="md:sticky top-24 ">
+            <div className="md:sticky top-20">
               {cartItems.length > 0 ? (
                 <>
                   {/* Header */}

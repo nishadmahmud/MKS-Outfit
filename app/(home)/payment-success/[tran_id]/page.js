@@ -25,7 +25,7 @@ const payMode = searchParams.get('pay_mode');
   }
 
   return (
-    <div className="md:pt-20 pt-16 bg-gradient-to-br border from-teal-50 via-white to-emerald-50 flex items-center justify-center p-4">
+    <div className="md:pt-20 pt-16 bg-gradient-to-br border from-gray-50 via-white to-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {showToast && (
           <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
@@ -39,9 +39,9 @@ const payMode = searchParams.get('pay_mode');
         )}
 
         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden animate-in zoom-in-95 duration-500">
-          <div className="text-center p-6 pb-4 bg-gradient-to-b from-emerald-50 to-white">
+          <div className="text-center p-6 pb-4 bg-gradient-to-b from-gray-50 to-white">
             <div className="relative mb-3">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 shadow-lg">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-slate-700 to-gray-900 shadow-lg">
                 <CheckCircle className="h-9 w-9 text-white" />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
@@ -62,7 +62,7 @@ const payMode = searchParams.get('pay_mode');
                 <button
                   className={`h-8 w-8 flex items-center justify-center rounded-lg transition-all duration-200 ${
                     copied
-                      ? "bg-emerald-100 text-emerald-600"
+                      ? "bg-gray-100 text-gray-800"
                       : "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-700 shadow-sm"
                   }`}
                   onClick={copyToClipboard}
@@ -90,19 +90,19 @@ const payMode = searchParams.get('pay_mode');
             </div>
           </div>
 
-          <div className="px-6 pb-4">
+          {/* <div className="px-6 pb-4">
             <div className="flex items-center justify-center">
               <span className="inline-flex items-center rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 border border-emerald-200">
                 <div className="h-2 w-2 bg-emerald-400 rounded-full mr-2 animate-pulse"></div>
                 Order Confirmed
               </span>
             </div>
-          </div>
+          </div> */}
 
           <div className="p-6 pt-2 space-y-3">
             <Link
               href="/order-tracking"
-              className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="w-full bg-gradient-to-r from-gray-900 to-gray-950 hover:from-gray-800 hover:to-gray-900 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               <Truck className="mr-2 h-4 w-4" />
               Track Your Order
@@ -120,7 +120,7 @@ const payMode = searchParams.get('pay_mode');
           <div className="px-6 pb-6 text-center">
             <p className="text-xs text-gray-500">
               Sms confirmation sent •
-              <Link href="tel:+8801970085954" className="text-teal-600 hover:text-teal-700 font-medium ml-1">
+              <Link href="tel:+8801737332432" className="text-gray-600 hover:text-gray-700 font-medium ml-1">
                 Need help?
               </Link>
             </p>

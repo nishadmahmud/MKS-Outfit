@@ -35,11 +35,9 @@ const CartPage = () => {
   }, [getCartItems]);
 
   const getPriceByCountry = (item) => {
-    if (country?.value === "BD") {
+   
       return item?.retails_price ?? 0;
-    } else {
-      return item?.intl_retails_price ?? 0;
-    }
+    
   };
 
   useEffect(() => {
@@ -71,9 +69,8 @@ const CartPage = () => {
 
     const subtotal = cartItems.reduce((acc, item) => {
       const price =
-        country.value == "BD"
-          ? Number(item?.retails_price)
-          : Number(item?.intl_retails_price) || 0;
+        Number(item?.retails_price)
+         
       return acc + price * item.quantity;
     }, 0);
 
@@ -269,8 +266,8 @@ const CartPage = () => {
                     <span className="text-gray-700 font-medium">
                       Sub-Total:
                     </span>
-                    <span className="font-bold">
-                      BDT
+                    <span className="font-semibold">
+                      ৳
                       {totalSubtotalWithoutDiscount.toLocaleString()}
                     </span>
                   </div>
@@ -278,15 +275,15 @@ const CartPage = () => {
                     <span className="text-gray-700 font-medium">
                       Total Discount:
                     </span>
-                    <span>
-                      BDT
+                    <span className="text-red-500">
+                     -৳
                       {totalDiscount.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pt-3 border-t border-gray-200">
-                    <span className="text-gray-900 font-bold">Total:</span>
-                    <span className="text-gray-800 font-bold">
-                      BDT
+                    <span className="text-gray-950 font-bold text-lg">Total:</span>
+                    <span className="text-gray-900 font-bold text-lg">
+                      ৳
                       {cartTotal.toLocaleString()}
                     </span>
                   </div>

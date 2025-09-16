@@ -95,7 +95,7 @@ export default function Page() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="p-1 px-4 bg-[#115e59] text-white rounded-r-md hover:bg-teal-600 transition-colors disabled:opacity-50"
+                  className="p-1 px-4 bg-[#101010] text-white rounded-r-md hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
                   <SearchIcon size={23} />
                 </button>
