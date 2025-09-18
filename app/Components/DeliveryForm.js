@@ -424,7 +424,7 @@ const DeliveryForm = ({
           if (res.status === 200 && res?.data?.success === true) {
             const _invoiceId = res?.data?.data?.invoice_id;
             setInvoiceId(_invoiceId);
-            localStorage.removeItem("cart");
+            // localStorage.removeItem("cart");
             localStorage.removeItem("cartAttachment");
             toast.success("Order Placed Successfully!");
             router.push(`/payment-success/${_invoiceId}?pay_mode=${payment}`);
