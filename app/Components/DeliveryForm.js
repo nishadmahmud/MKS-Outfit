@@ -32,6 +32,7 @@ import { Wheel } from "react-custom-roulette";
 import useStore from "../CustomHooks/useStore";
 import { GiWorld } from "react-icons/gi";
 import { getNames } from "country-list";
+
 import FloatingLabelInput from "../shared/FloatingLabelInput";
 import { Box } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -116,7 +117,7 @@ const DeliveryForm = ({
     fetcher
   );
 
-  const { setToken, googleLogin, setUserInfo, getCartItems } = useStore();
+  const { setToken, googleLogin, setUserInfo, getCartItems, removeCheckedOutItems } = useStore();
 
   // State declarations
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -427,6 +428,7 @@ const DeliveryForm = ({
             localStorage.removeItem("cartAttachment");
             toast.success("Order Placed Successfully!");
             router.push(`/payment-success/${_invoiceId}?pay_mode=${payment}`);
+             removeCheckedOutItems()
           }
 
         

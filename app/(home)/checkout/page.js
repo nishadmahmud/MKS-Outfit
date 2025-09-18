@@ -14,9 +14,15 @@ const DeliveryForm = dynamic(() => import("../../Components/DeliveryForm"), {
 })
 
 const CheckoutPage = () => {
-  const { getCartItems, prices, country, setProductPrice, selectedSize } = useStore()
+  const { getCartItems, prices, country } = useStore()
 
-  const cartItems = getCartItems()
+  
+  const [cartItems, setCheckoutItems] = useState([])
+
+  useEffect(() => {
+    const savedCheckoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || []
+    setCheckoutItems(savedCheckoutItems)
+  }, [])
   const quantity = cartItems.reduce((acc, curr) => acc + curr.quantity, 0)
 
 console.log(cartItems);

@@ -189,6 +189,31 @@ console.log(selectedSizeCart);
     return cartItems;
   };
 
+  const removeCheckedOutItems = () => {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+
+  const updatedCart = cart.map(cartItem => {
+    const orderedItem = checkoutItems.find(checkedItem => 
+      (checkedItem.cartItemId || checkedItem.id) === (cartItem.cartItemId || cartItem.id)
+    );
+
+    if (orderedItem) {
+      // If user ordered part of the quantity → reduce
+      const remainingQty = cartItem.quantity - orderedItem.quantity;
+      if (remainingQty > 0) {
+        return { ...cartItem, quantity: remainingQty };
+      }
+      return null; // remove completely if none left
+    }
+    return cartItem;
+  }).filter(Boolean);
+
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  localStorage.removeItem("checkoutItems"); // cleanup
+};
+
+
   const handleCartUpdate = () => {
     setRefetch(true);
     const updatedItems = getCartItems();
@@ -355,6 +380,7 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     handleCartItemDelete,
     handleWishlist,
     selectedId,
+    removeCheckedOutItems,
     setSelectedId,
     getWishList,
     handleBuy,
