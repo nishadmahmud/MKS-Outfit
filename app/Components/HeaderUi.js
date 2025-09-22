@@ -375,16 +375,16 @@ const handleToggleCategory = async (categoryId) => {
             {/* User account */}
             {!user ? (
               <Link 
-              href="/" 
-              // href="/login" 
+              // href="/" 
+              href="/login" 
               className="hidden lg:flex items-center cursor-pointer" aria-label="Login">
                 <User size={22} className="text-black" />
               </Link>
             ) : (
               <Link 
               
-              href="/"
-              // href="/profileDashboard"
+              // href="/"
+              href="/profileDashboard"
               
               className="hidden lg:flex items-center cursor-pointer">
                 <div className="w-6 h-6 rounded-full overflow-hidden">

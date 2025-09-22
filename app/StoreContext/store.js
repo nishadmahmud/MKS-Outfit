@@ -129,7 +129,9 @@ console.log(selectedSizeCart);
 
  const handleCart = (item, quantity, variant_id) => {
    if (!selectedSizeCart) {
-     toast.error("Please select a size first");
+     toast.error("Please select a size first", {
+      position: "bottom-center",
+    });
      return; 
    }
   if (!isMounted) return;
@@ -163,13 +165,17 @@ console.log(selectedSizeCart);
     newItem.current_stock > 0;
 
   if (!isInStock) {
-    toast.error("Out of stock!");
+    toast.error("Out of stock!", {
+      position: "bottom-center",
+    });
     return;
   }
 
   // If item exists, show error
   if (existingItemIndex > -1) {
-    toast.error("This product with the selected size is already in your cart!");
+    toast.error("This product with the selected size is already in your cart!", {
+      position: "bottom-center",
+    });
     return;
   }
 
@@ -232,7 +238,9 @@ console.log(selectedSizeCart);
 
       // If stock limit reached, show toast and return original item
       if (matchedVariant && qty + 1 > matchedVariant.quantity) {
-        toast.error(`Only ${matchedVariant.quantity} items in stock`);
+        toast.error(`Only ${matchedVariant.quantity} items in stock`, {
+      position: "bottom-center",
+    });
         return item;
       }
 
@@ -314,7 +322,9 @@ const handleDncQuantity = (id, qty, selectedSize) => {
   
   const handleBuy = (item, quantity) => {
   if (!selectedSizeCart) {
-    toast.error("Please select a size first");
+    toast.error("Please select a size first", {
+      position: "bottom-center",
+    });
     return;
   }
 
@@ -343,7 +353,9 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     // Redirect to checkout
     router.push("/checkout");
   } else {
-    toast.error("This item is out of stock");
+    toast.error("This item is out of stock", {
+      position: "bottom-center",
+    });
   }
 };
 

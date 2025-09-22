@@ -14,10 +14,9 @@ export default function ProductListing({ params }) {
   const searchParams = useSearchParams()
   const searchedCategory = searchParams.get("category") || "All Products"
   const searchedTotal = searchParams.get("total") || "100"
-  const limit = 20
+  const limit = 20;
   const totalPage = Math.ceil(Number.parseInt(searchedTotal) / limit)
   const { slug: id } = params
-
   const [filteredItems, setFilteredItems] = useState([])
   const [sortBy, setSortBy] = useState("")
   const [priceRange, setPriceRange] = useState([0, 0])

@@ -181,7 +181,7 @@ const onClose = () => {
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="hidden md:flex flex-col items-center justify-center p-8">
-          <iframe height={500} src="https://lottie.host/embed/f86f91b1-7ead-40ac-b231-62fb3b0c7151/6NU0cxwe90.lottie"></iframe>
+          <Image src='https://www.outletexpense.xyz/uploads/238-MD.-Sarawer-Jahan-Evan/1758542859.jpg' alt="login" width={500} height={500}></Image>
         </div>
 
         <div className="p-8 flex flex-col justify-center">
@@ -234,7 +234,7 @@ const onClose = () => {
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#006d77] hover:bg-[#005d65] text-white font-medium rounded-md transition duration-200"
+                className="w-full py-2.5 bg-[#1c1c1c] hover:bg-[#0d0d0d] text-white font-medium rounded-md transition duration-200"
               >
                 Sign In
               </button>
@@ -281,7 +281,7 @@ const onClose = () => {
             <div className="mt-5 text-center">
               <p className="text-gray-600">
                 Don&apos;t have an account?{" "}
-                <Link href="/register" className="text-[#006d77] hover:underline font-medium">
+                <Link href="/register" className="text-[#1c1c1c] hover:underline font-medium">
                   Register now
                 </Link>
               </p>

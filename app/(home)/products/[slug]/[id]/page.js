@@ -909,15 +909,7 @@ const ProductPage = ({ params }) => {
           : null
         : product?.data.intl_retails_price - product?.data.intl_discount
 
-  const fixedDiscount =
-    country?.value === "BD"
-      ? product?.data.discount_type === "Fixed"
-        ? "Tk"
-        : null
-      : product?.data.discount_type === "Fixed"
-        ? "$"
-        : null
-  const percentageDiscount = product?.data.discount_type === "Percentage" ? "%" : null
+ 
 
   useEffect(() => {
     const getCartItems = () => {
@@ -980,7 +972,9 @@ const ProductPage = ({ params }) => {
     if (quantity < sizeQuantity) {
       setQuantity((prev) => prev + 1)
     } else {
-      toast.error(`Only ${sizeQuantity || 0} items available in stock`)
+      toast.error(`Only ${sizeQuantity || 0} items available in stock`, {
+      position: "bottom-center",
+    })
     }
   }
 

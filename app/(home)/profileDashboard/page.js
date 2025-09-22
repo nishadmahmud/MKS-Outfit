@@ -83,7 +83,7 @@ const PersonalInfo = () => {
 
   return (
     <>
-      <h2 className="text-xl font-bold mb-4 lg:mb-6 text-teal-800">Personal Info</h2>
+      <h2 className="text-xl font-bold mb-4 lg:mb-6 text-gray-800">Personal Info</h2>
       <div className="bg-white p-6 shadow-md rounded-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -155,7 +155,7 @@ const PersonalInfo = () => {
         <button
           onClick={handleUpdate}
           disabled={loading}
-          className="mt-6 px-4 flex justify-center items-center gap-1 w-full py-2 bg-teal-800 text-white rounded hover:bg-teal-900"
+          className="mt-6 px-4 flex justify-center items-center gap-1 w-full py-2 bg-gray-800 text-white rounded hover:bg-gray-900"
         >
           <RefreshCcw size={18}></RefreshCcw>
           {loading ? "Updating..." : "Update Info"}

@@ -813,6 +813,64 @@ const DeliveryForm = ({
               </motion.div>
             )}
           </AnimatePresence>
+
+         
+        </label>
+
+
+        {/* Outside Dhaka */}
+        <label
+          className={`relative flex flex-col p-4 border rounded-lg cursor-pointer transition ease-in-out ${
+            location === "outside"
+              ? "border-gray-500"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center space-x-4">
+            <input
+              type="radio"
+              name="shipping"
+              value="instant"
+              checked={location === "instant"}
+              onChange={() => setLocation("instant")}
+              className="sr-only"
+            />
+            <div
+              className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                location === "instant" ? "border-gray-700 border-4" : "border-gray-300"
+              }`}
+            >
+              {location === "instant" && (
+                <div className="w-2 h-2 bg-gray-50 rounded-full"></div>
+              )}
+            </div>
+            <span className="font-medium text-gray-900 poppins">
+              Instant Delivery
+            </span>
+            <span className="ml-auto font-semibold text-gray-900 poppins">
+              ৳250
+            </span>
+          </div>
+
+          {/* Expandable description */}
+          
+
+          <AnimatePresence>
+            {location === "instant" && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="mt-3 bg-gray-50 rounded-lg p-3 text-sm text-gray-700 leading-relaxed"
+              >
+                
+                <p className="text-gray-600">
+                 ২৪ ঘণ্টার মধ্যে ডেলিভারি সম্পন্ন হবে।
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </label>
       </div>
     </div>

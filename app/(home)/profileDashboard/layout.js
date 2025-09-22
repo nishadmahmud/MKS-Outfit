@@ -72,7 +72,7 @@ const DashboardLayout = ({ children }) => {
       <div
         className={`fixed pt-10 md:pt-0 inset-y-0 left-0 transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out w-64 bg-gradient-to-t from-teal-700 to-teal-800 px-6 shadow-md md:relative z-20 rounded-lg`}
+        } md:translate-x-0 transition-transform duration-300 ease-in-out w-64 bg-gradient-to-t from-gray-700 to-gray-800 px-6 shadow-md md:relative z-20 rounded-lg`}
       >
         
 
@@ -113,7 +113,7 @@ const DashboardLayout = ({ children }) => {
           </Link>
           <div
             onClick={handleLogout}
-            className="text-white hover:font-semibold transition ease-in-out flex items-center gap-1 hover:text-red-300 cursor-pointer"
+            className="text-white hover:font-semibold transition ease-in-out flex items-center gap-1 hover:text-red-500 cursor-pointer"
           >
             <LogOut size={20} /> Logout
           </div>

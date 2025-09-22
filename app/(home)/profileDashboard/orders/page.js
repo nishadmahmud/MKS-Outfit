@@ -136,7 +136,7 @@ const MyOrders = () => {
           </div>
         </div>
       )}
-      <h2 className="text-xl font-bold my-6 text-[#115e59] text-center md:text-left">
+      <h2 className="text-xl font-bold my-6 text-[#1c1c1c] text-center md:text-left">
         My Orders
       </h2>
       <div className="bg-white text-black p-4 md:p-6 shadow-md rounded-lg">
@@ -147,7 +147,7 @@ const MyOrders = () => {
               key={tab.type}
               onClick={() => setActiveTab(tab.type)}
               className={`relative px-2 md:px-3 py-2 text-xs md:text-sm font-medium transition-colors duration-300 whitespace-nowrap flex items-center gap-1
-                ${activeTab === tab.type ? "text-[#115e59]" : "text-gray-500"}`}
+                ${activeTab === tab.type ? "text-[#1c1c1c]" : "text-gray-500"}`}
             >
               {tab.icon}
               <span className="hidden md:inline">{tab.label}</span>
@@ -155,7 +155,7 @@ const MyOrders = () => {
               {activeTab === tab.type && (
                 <motion.div
                   layoutId="underline"
-                  className="absolute left-0 right-0 bottom-0 h-1 bg-[#115e59]"
+                  className="absolute left-0 right-0 bottom-0 h-1 bg-[#1c1c1c]"
                 />
               )}
             </button>
@@ -175,7 +175,7 @@ const MyOrders = () => {
                 className="text-center text-gray-500 py-8"
               >
                 <div className="flex justify-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#115e59]"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1c1c1c]"></div>
                 </div>
                 <p className="mt-2">Loading your orders...</p>
               </motion.div>
@@ -247,7 +247,7 @@ const MyOrders = () => {
                               <p className="text-sm font-medium">
                                 Total Amount
                               </p>
-                              <p className="text-lg font-bold text-[#115e59]">
+                              <p className="text-lg font-bold text-[#1c1c1c]">
                                 ৳{order.sub_total}
                               </p>
                             </div>
