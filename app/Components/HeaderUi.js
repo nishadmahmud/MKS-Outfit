@@ -185,7 +185,16 @@ const HeaderUi = ({ data }) => {
     }
   };
 
- 
+ const [openCategory, setOpenCategory] = useState(null); // NEW
+
+const handleToggleCategory = async (categoryId) => {
+  if (openCategory === categoryId) {
+    setOpenCategory(null); // collapse
+  } else {
+    setOpenCategory(categoryId); // expand
+    await fetchSubcategories(categoryId);
+  }
+};
 
   return (
     <div>
@@ -256,7 +265,7 @@ const HeaderUi = ({ data }) => {
 
           <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 flex justify-center">
             <Link href={"/"}>
-               <Image unoptimized src='/mks-logo.png' width={500} height={500} className="w-10 md:w-20" alt="logo"></Image>
+               <Image unoptimized src='/mks-logo.png' width={500} height={500} className="w-16 md:w-20" alt="logo"></Image>
             </Link>
           </div>
 
@@ -292,17 +301,17 @@ const HeaderUi = ({ data }) => {
 
             {/* Subcategories dropdown */}
             {isHovered && currentSubs.length > 0 && (
-              <div className="absolute top-full left-0 pt-2 z-[100]">
-                <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out">
+              <div className="absolute top-full -left-20 pt-2 z-[100]">
+                <div className="bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out">
                   <div className="py-2">
-                    <div className="grid grid-cols-2 min-w-40 w-80 gap-1">
+                    <div className="grid grid-cols-2 min-w-80 w-96 gap-1">
                       {currentSubs.map((sub) => (
                         <Link
                           key={sub.id}
                           href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
                             sub.name
                           )}&categoryId=${encodeURIComponent(item?.category_id)}`}
-                          className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#373838] transition-colors duration-150 ease-in-out text-start rounded"
+                          className="px-5 py-2 text-sm text-gray-700 hover:text-[#707070] transition-colors duration-150 ease-in-out text-start"
                         >
                           {sub.name}
                         </Link>
@@ -434,27 +443,55 @@ const HeaderUi = ({ data }) => {
 
             
 
-            <motion.ul className="space-y-2" variants={container}>
-              {data?.data?.map((itemData, idx) => (
-                <motion.li key={idx} variants={item}>
-                  <Link
-                    onClick={toggleSidebar}
-                    href={`/category/${encodeURIComponent(
-                      itemData?.category_id || ""
-                    )}?category=${encodeURIComponent(
-                      itemData?.name || ""
-                    )}&total=${encodeURIComponent(
-                      itemData?.product_count || 0
-                    )}`}
-                    className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                  >
-                    <span className="text-sm font-medium">
-                      {itemData?.name || `Category ${idx + 1}`}
-                    </span>
-                  </Link>
-                </motion.li>
-              ))}
-            </motion.ul>
+          <motion.ul className="space-y-2" variants={container}>
+  {data?.data?.map((itemData, idx) => {
+    const isOpen = openCategory === itemData?.category_id;
+    const currentSubs = subcategories[itemData?.category_id] || [];
+
+    return (
+      <motion.li key={idx} variants={item} className="border-b">
+        {/* Category row */}
+        <button
+          onClick={() => handleToggleCategory(itemData?.category_id)}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-50 transition"
+        >
+          <span className="text-sm font-medium">
+            {itemData?.name || `Category ${idx + 1}`}
+          </span>
+          <span className="text-xs text-gray-500">
+            {isOpen ? "−" : "+"}
+          </span>
+        </button>
+
+        {/* Subcategories accordion */}
+        {isOpen && currentSubs.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            transition={{ duration: 0.3 }}
+            className="pl-5 flex flex-col"
+          >
+            {currentSubs.map((sub) => (
+              <Link
+                key={sub.id}
+                onClick={toggleSidebar}
+                href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
+                  sub.name
+                )}&categoryId=${encodeURIComponent(itemData?.category_id)}`}
+                className="px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#373838] transition rounded"
+              >
+                {sub.name}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </motion.li>
+    );
+  })}
+</motion.ul>
+
+
+
 
             <hr className="my-5 border-t" />
 
