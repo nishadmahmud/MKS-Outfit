@@ -20,7 +20,7 @@ const CheckoutPage = () => {
   const [cartItems, setCheckoutItems] = useState([])
 
   useEffect(() => {
-    const savedCheckoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || []
+    const savedCheckoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || JSON.parse(localStorage.getItem("cart")) || []
     setCheckoutItems(savedCheckoutItems)
   }, [])
   const quantity = cartItems.reduce((acc, curr) => acc + curr.quantity, 0)

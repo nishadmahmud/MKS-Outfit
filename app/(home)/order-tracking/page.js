@@ -95,7 +95,7 @@ export default function Page() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="p-1 px-4 bg-[#101010] text-white rounded-r-md hover:bg-gray-800 transition-colors disabled:opacity-50"
+                  className="p-1 px-4 bg-[#272727] text-white rounded-r-md hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
                   <SearchIcon size={23} />
                 </button>
@@ -114,7 +114,7 @@ export default function Page() {
       <div className="relative md:gap-0 gap-10 flex flex-col md:flex-row justify-between items-center w-full max-w-6xl mx-auto mt-10">
         <div className="absolute top-1/2 md:top-1/4 left-0 w-full h-[2px] bg-gray-200 md:block hidden" />
         <div
-          className="absolute top-1/2 md:top-1/4 left-0 h-[2px] bg-blue-500 transition-all duration-500 hidden md:block"
+          className="absolute top-1/2 md:top-1/4 left-0 h-[2px] bg-gray-800 transition-all duration-500 hidden md:block"
           style={{
             width: transStatus
               ? `${((transStatus - 1) / (STEPS.length - 1)) * 100}%`
@@ -157,7 +157,7 @@ export default function Page() {
                   md:w-6 md:h-6 h-4 w-4 rounded-full border-2 flex items-center justify-center transition-all duration-300
                   ${
                     isActive
-                      ? "border-blue-500 bg-blue-500"
+                      ? "border-gray-800 bg-gray-800"
                       : "border-gray-300 bg-white"
                   }
                 `}
@@ -180,7 +180,7 @@ export default function Page() {
               </div>
 
               {/* Step title */}
-              <span className="mt-2 text-sm font-medium text-gray-600">
+              <span className="mt-2 text-sm font-medium text-gray-800">
                 {step.title}
               </span>
             </div>

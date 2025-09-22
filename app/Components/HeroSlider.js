@@ -7,7 +7,7 @@ const HeroSlider = async() => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/get-sliders/${userId}`,{cache: "no-cache"});
   const slider = await res.json();
 
-  console.log(slider);
+  // console.log(slider);
   return (
     <div>
       <SliderUi slider={slider}/>

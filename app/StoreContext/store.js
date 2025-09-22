@@ -312,20 +312,41 @@ const handleDncQuantity = (id, qty, selectedSize) => {
   };
 
   
-   const handleBuy = (item, quantity) => {
-    if (!selectedSizeCart) {
+  const handleBuy = (item, quantity) => {
+  if (!selectedSizeCart) {
     toast.error("Please select a size first");
-    return; 
+    return;
   }
 
-    handleCart(item, quantity);
+  // Add to cart first
+  handleCart(item, quantity);
 
-    const status = typeof item?.status === 'string' ? item.status.toLowerCase() : null;
+  // Sync latest cart
+  const cartItems = getCartItems();
 
-    if ((status && status !== "stock out") || item?.current_stock) {
-        router.push('/checkout');
-    }
+  // Check stock availability
+  const status = typeof item?.status === "string" ? item.status.toLowerCase() : null;
+  const isAvailable = (status && status !== "stock out") || item?.current_stock;
+
+  if (isAvailable) {
+    // Save checkout items separately
+    const checkoutItems = cartItems.filter(
+      (cartItem) =>
+        (cartItem.cartItemId || cartItem.id) === (item.cartItemId || item.id)
+    );
+
+    localStorage.setItem("checkoutItems", JSON.stringify(checkoutItems));
+
+    // Remove checked out items from cart (keep only remaining ones)
+    removeCheckedOutItems();
+
+    // Redirect to checkout
+    router.push("/checkout");
+  } else {
+    toast.error("This item is out of stock");
+  }
 };
+
 
 
   const reload = (boolean) => {

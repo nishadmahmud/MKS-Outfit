@@ -37,7 +37,7 @@ const Pagination = ({ currentPage, totalPage, onPageChange }) => {
         <div className="pagination flex items-center justify-center gap-2 md:gap-4">
             {/* Previous Button */}
             <button
-                className="hover:bg-[#115e59] px-4 py-1 rounded-md hover:text-white transition flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="hover:bg-[#202020] px-4 py-1 rounded-md hover:text-white transition flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={currentPage === 1}
                 onClick={() => onPageChange(currentPage - 1)}
             >
@@ -55,7 +55,7 @@ const Pagination = ({ currentPage, totalPage, onPageChange }) => {
                             key={index}
                             className={`px-3 py-2 rounded-md transition min-w-[32px] ${
                                 page === currentPage
-                                    ? 'bg-[#115e59] text-white font-semibold'
+                                    ? 'bg-[#202020] text-white font-semibold'
                                     : 'bg-gray-200 text-black hover:bg-gray-300'
                             }`}
                             onClick={() => onPageChange(page)}
@@ -68,7 +68,7 @@ const Pagination = ({ currentPage, totalPage, onPageChange }) => {
 
             {/* Next Button */}
             <button
-                className="hover:bg-[#115e59] px-4 py-1 rounded-md hover:text-white transition flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="hover:bg-[#202020] px-4 py-1 rounded-md hover:text-white transition flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={currentPage === totalPage}
                 onClick={() => onPageChange(currentPage + 1)}
             >

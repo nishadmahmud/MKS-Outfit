@@ -12,7 +12,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function ProductListing({ params }) {
   const searchParams = useSearchParams()
-  const searchedCategory = searchParams.get("category") || "All Products"
+  const searchedCategory = searchParams.get("subcategory") || "All Products"
   const searchedTotal = searchParams.get("total") || "100"
   const limit = 20
   const totalPage = Math.ceil(Number.parseInt(searchedTotal) / limit)
@@ -30,7 +30,7 @@ export default function ProductListing({ params }) {
   const [availableColors] = useState(["Black", "White", "Blue", "Gray", "Red"])
   const [selectedColors, setSelectedColors] = useState([])
 
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
   const [currentPage, setCurrentPage] = useState(() => {
     if (typeof window !== "undefined") {
@@ -40,9 +40,32 @@ export default function ProductListing({ params }) {
   })
 
   const { data: products, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API}/public/categorywise-products/${id}?page=${currentPage}&limit=${limit}`,
+    `${process.env.NEXT_PUBLIC_API}/public/subcategorywise-products/${id}`,
     fetcher,
   )
+
+  useEffect(() => {
+    if (isMobileSidebarOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "unset"
+    }
+
+    return () => {
+      document.body.style.overflow = "unset"
+    }
+  }, [isMobileSidebarOpen])
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileSidebarOpen && !event.target.closest(".mobile-sidebar") && !event.target.closest(".filter-button")) {
+        setIsMobileSidebarOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [isMobileSidebarOpen])
 
   // initialize filters
   useEffect(() => {
@@ -115,30 +138,6 @@ export default function ProductListing({ params }) {
     }
   }, [priceRange, selectedBrand, selectedSizes, selectedColors, products])
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        isMobileFilterOpen &&
-        !event.target.closest(".mobile-filter-sidebar") &&
-        !event.target.closest(".mobile-filter-button")
-      ) {
-        setIsMobileFilterOpen(false)
-      }
-    }
-
-    if (isMobileFilterOpen) {
-      document.addEventListener("mousedown", handleClickOutside)
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "unset"
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-      document.body.style.overflow = "unset"
-    }
-  }, [isMobileFilterOpen])
-
   // helpers
   const handleSizeToggle = (size) => {
     setSelectedSizes((prev) => (prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]))
@@ -160,7 +159,12 @@ export default function ProductListing({ params }) {
 
   const FilterContent = () => (
     <div className="space-y-6">
-      <h2 className="text-lg font-medium">Filters</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-medium">Filters</h2>
+        <button onClick={clearAllFilters} className="text-sm text-red-500 hover:underline md:hidden">
+          Clear all
+        </button>
+      </div>
 
       {/* Price Filter */}
       <div>
@@ -196,7 +200,7 @@ export default function ProductListing({ params }) {
       <div>
         <h3 className="font-medium mb-2">Brand</h3>
         {brands.map((b) => (
-          <label key={b} className="flex items-center gap-2 text-sm mb-2">
+          <label key={b} className="flex items-center gap-2 text-sm">
             <input
               type="radio"
               checked={selectedBrand === b}
@@ -224,18 +228,6 @@ export default function ProductListing({ params }) {
           ))}
         </div>
       </div>
-
-      <div className="md:hidden pt-4 border-t">
-        <button
-          onClick={() => {
-            clearAllFilters()
-            setIsMobileFilterOpen(false)
-          }}
-          className="w-full py-2 text-sm text-red-500 hover:underline"
-        >
-          Clear all filters
-        </button>
-      </div>
     </div>
   )
 
@@ -245,31 +237,41 @@ export default function ProductListing({ params }) {
       <div className="text-sm text-gray-500 mb-6">Home / Collections / {searchedCategory}</div>
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-        <div className="flex items-center justify-between w-full md:w-64">
-          <h1 className="md:text-3xl text-xl font-serif font-medium text-gray-900">
-            {searchedCategory} <span className="text-sm font-medium text-gray-500">({filteredItems.length})</span>
-          </h1>
+      <div className="flex flex-col md:flex-row justify-between items-start mb-8">
+        <div className="flex justify-between items-center md:items-start w-full md:w-64">
+          
+             <h1 className="md:text-3xl text-xl font-serif font-medium text-gray-900">
+              {searchedCategory} <span className="text-sm">({filteredItems.length})</span>
+            </h1>
+            <button
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="md:hidden filter-button p-2 border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-1 text-sm"
+              aria-label="Open filters"
+            >
+              
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                />
+              </svg>
+              Filter
+            </button>
 
-          <button
-            onClick={() => setIsMobileFilterOpen(true)}
-            className="md:hidden mobile-filter-button flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-            Filter
-          </button>
+           
+         
 
-          <button onClick={clearAllFilters} className="hidden md:block text-sm text-red-500 hover:underline">
+          <button onClick={clearAllFilters} className="text-sm text-red-500 hover:underline hidden md:block">
             Clear all
           </button>
         </div>
 
-        <div className="flex items-center gap-4 mt-4 md:mt-0 w-full md:w-auto">
-          <div className="relative w-full md:w-auto">
+        <div className="flex items-center gap-4 mt-4 md:mt-0">
+          <div className="relative">
             <select
-              className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 text-sm leading-5 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-300 w-full md:w-[180px]"
+              className="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-4 pr-10 text-sm leading-5 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-300 w-[90vw] md:w-[180px]"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -284,28 +286,30 @@ export default function ProductListing({ params }) {
       </div>
 
       <div className="flex flex-col md:flex-row gap-8">
+        {/* Desktop Filters */}
         <div className="hidden md:block w-64 flex-shrink-0">
           <div className="sticky top-24">
             <FilterContent />
           </div>
         </div>
 
-        {isMobileFilterOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300 ease-in-out" />
-        )}
+        {isMobileSidebarOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" />}
 
         <div
-          className={`fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden mobile-filter-sidebar ${
-            isMobileFilterOpen ? "translate-x-0" : "-translate-x-full"
+          className={`fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden mobile-sidebar ${
+            isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <div className="p-6 h-full overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-medium">Filters</h2>
-              <button onClick={() => setIsMobileFilterOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
+              <button
+                onClick={() => setIsMobileSidebarOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-md"
+                aria-label="Close filters"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>

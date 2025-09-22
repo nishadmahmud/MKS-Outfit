@@ -19,6 +19,8 @@ import Navbar from "./Navbar"
 import { userId } from "../(home)/page"
 import { ShoppingCart } from "lucide-react"
 import ProductCard from "./ProductCard"
+import { AnimatePresence, motion } from "framer-motion";
+
 
 const HeaderUi = ({ data }) => {
   const {
@@ -31,9 +33,7 @@ const HeaderUi = ({ data }) => {
     setReload,
     getCartItems,
     userInfo,
-    country,
-    wishlist,
-    prices,
+   
   } = useStore()
   const [keyword, setKeyword] = useState("")
   const [searchedItem, setSearchedItem] = useState([])
@@ -50,6 +50,33 @@ const HeaderUi = ({ data }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev)
   }
+
+   const sidebarVariants = {
+    hidden: { x: "-100%", opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 80, damping: 18 },
+    },
+    exit: { x: "-100%", opacity: 0, transition: { duration: 0.3 } },
+  };
+
+  // Children container animation (for stagger)
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  // Each item animation
+  const item = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0 },
+  };
 
   // search api
   // useEffect(() => {
@@ -134,22 +161,31 @@ const HeaderUi = ({ data }) => {
 
   const handleModalClose = () => setIsLoginModal(false)
 
-  const selectedCountry = JSON.parse(localStorage.getItem("selectedCountry"))
 
-  const countrySign = selectedCountry?.value === "BD" ? "৳" : "$"
+  const [subcategories, setSubcategories] = useState({});
+  const [hoveredCategory, setHoveredCategory] = useState(null);
 
-  // utils/pricing.js (or right above your component)
-  const getPriceByCountry = (item, prices, country) => {
-    const productPrice = prices?.[item?.id]
+  const fetchSubcategories = async (categoryId) => {
+    if (!subcategories[categoryId]) {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/public/category-wise-subcategory/${categoryId}`
+        );
+        const result = await res.json();
 
-    if (country?.value === "BD") {
-      // Base → retail → 0
-      return productPrice?.basePrice ?? item?.retails_price ?? 0
+        if (result?.status === 200) {
+          setSubcategories((prev) => ({
+            ...prev,
+            [categoryId]: result.data[0]?.sub_category || [],
+          }));
+        }
+      } catch (err) {
+        console.error("Error fetching subcategories:", err);
+      }
     }
+  };
 
-    // Wholesale → item wholesale → 1 000 (fallback)
-    return productPrice?.wholesalePrice ?? item?.wholesale_price ?? 1_000
-  }
+ 
 
   return (
     <div>
@@ -177,7 +213,7 @@ const HeaderUi = ({ data }) => {
           {/* Mobile menu button */}
           <div className="flex items-center lg:gap-3 gap-1">
             <button
-              // onClick={toggleSidebar}
+              onClick={toggleSidebar}
               aria-label="Toggle menu"
               data-sidebar-trigger="mobile"
               className="relative z-50 w-8 h-8 flex items-center justify-center lg:hidden"
@@ -225,20 +261,61 @@ const HeaderUi = ({ data }) => {
           </div>
 
           <div className="hidden lg:flex items-center justify-center flex-1 mx-8 pr-20">
-            <nav className="flex items-center space-x-8">
-              {data?.data?.slice(0, 5).map((item, idx) => (
-                <Link
-                  key={idx}
-                  // href='/'
-                  href={`/category/${encodeURIComponent(item?.category_id || "")}?category=${encodeURIComponent(
-                    item?.name || "",
-                  )}&total=${encodeURIComponent(item?.product_count || 0)}`}
-                  className="text-sm font-medium text-gray-700 hover:text-gray-600 transition-colors duration-200 whitespace-nowrap"
-                >
-                  {item?.name || `Category ${idx + 1}`}
-                </Link>
-              ))}
-            </nav>
+             <nav className="flex items-center space-x-8 relative">
+      {data?.data?.slice(0, 5).map((item, idx) => {
+        const categoryHref = `/category/${encodeURIComponent(
+          item?.category_id || ""
+        )}?category=${encodeURIComponent(item?.name || "")}&total=${encodeURIComponent(
+          item?.product_count || 0
+        )}`;
+
+        const isHovered = hoveredCategory === item?.category_id;
+        const currentSubs = subcategories[item?.category_id] || [];
+
+        return (
+          <div
+            key={item?.category_id}
+            className="relative"
+            onMouseEnter={() => {
+              setHoveredCategory(item?.category_id);
+              fetchSubcategories(item?.category_id);
+            }}
+            onMouseLeave={() => setHoveredCategory(null)}
+          >
+            {/* Category link */}
+            <Link
+              href={categoryHref}
+              className="text-sm font-medium text-gray-700 hover:text-gray-600 transition-colors duration-200 whitespace-nowrap"
+            >
+              {item?.name || `Category ${idx + 1}`}
+            </Link>
+
+            {/* Subcategories dropdown */}
+            {isHovered && currentSubs.length > 0 && (
+              <div className="absolute top-full left-0 pt-2 z-[100]">
+                <div className="rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out">
+                  <div className="py-2">
+                    <div className="grid grid-cols-2 min-w-40 w-80 gap-1">
+                      {currentSubs.map((sub) => (
+                        <Link
+                          key={sub.id}
+                          href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
+                            sub.name
+                          )}&categoryId=${encodeURIComponent(item?.category_id)}`}
+                          className="px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#373838] transition-colors duration-150 ease-in-out text-start rounded"
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </nav>
           </div>
 
           {/* Right side icons */}
@@ -311,80 +388,113 @@ const HeaderUi = ({ data }) => {
         </div>
 
         {/* Mobile sidebar */}
-        <div
+        <AnimatePresence>
+      {isSidebarOpen && (
+        <motion.div
           data-sidebar="mobile"
-          className={`fixed top-0 left-0 w-4/5 max-w-xs h-full bg-white text-gray-800 z-50 transform transition-transform duration-300 ease-in-out shadow-lg ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
+          key="sidebar"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={sidebarVariants}
+          className="fixed top-0 left-0 w-4/5 max-w-xs h-full bg-white text-gray-800 z-50 shadow-lg"
         >
           {/* Header */}
           <div className="flex justify-between items-center p-4 border-b">
-            <Link href="/" onClick={toggleSidebar} className="text-lg text-center font-semibold logoFont">
-            <Image unoptimized src='/mks-logo.png' width={500} height={500} className="w-10 md:w-16" alt="logo"></Image>
+            <Link
+              href="/"
+              onClick={toggleSidebar}
+              className="text-lg text-center font-semibold logoFont"
+            >
+              <Image
+                unoptimized
+                src="/mks-logo.png"
+                width={500}
+                height={500}
+                className="w-10 md:w-16"
+                alt="logo"
+              />
             </Link>
             <button onClick={toggleSidebar} aria-label="Close sidebar">
-              <IoCloseSharp size={24} className="text-gray-600 hover:text-red-500 transition" />
+              <IoCloseSharp
+                size={24}
+                className="text-gray-600 hover:text-red-500 transition"
+              />
             </button>
           </div>
 
-          {/* Categories */}
-          <div className="p-4 overflow-y-auto h-[calc(100vh-120px)]">
-            <Link className="flex items-center gap-1 mb-3" href="/">
-              <ShoppingBagIcon color="gray" size={18}></ShoppingBagIcon>
-              Shop Now
-            </Link>
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">Categories</h3>
+          {/* Content with stagger */}
+          <motion.div
+            className="p-4 overflow-y-auto h-[calc(100vh-120px)]"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            
 
-            <ul className="space-y-2">
-              {data?.data?.map((item, idx) => (
-                <li key={idx}>
+            
+
+            <motion.ul className="space-y-2" variants={container}>
+              {data?.data?.map((itemData, idx) => (
+                <motion.li key={idx} variants={item}>
                   <Link
                     onClick={toggleSidebar}
-                    href={`/category/${encodeURIComponent(item?.category_id || "")}?category=${encodeURIComponent(
-                      item?.name || "",
-                    )}&total=${encodeURIComponent(item?.product_count || 0)}`}
+                    href={`/category/${encodeURIComponent(
+                      itemData?.category_id || ""
+                    )}?category=${encodeURIComponent(
+                      itemData?.name || ""
+                    )}&total=${encodeURIComponent(
+                      itemData?.product_count || 0
+                    )}`}
                     className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-50 transition"
                   >
-                    <span className="text-sm font-medium">{item?.name || `Category ${idx + 1}`}</span>
+                    <span className="text-sm font-medium">
+                      {itemData?.name || `Category ${idx + 1}`}
+                    </span>
                   </Link>
-                </li>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
 
-            {/* Divider */}
             <hr className="my-5 border-t" />
 
-            {/* Navigation */}
-            <div className="space-y-4">
-              <Link
-                // onClick={toggleSidebar}
-                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                href="/"
-                // href="/offer"
-              >
-                <Gift size={18} className="text-gray-600" />
-                <span className="text-sm font-medium">Latest Offer</span>
-              </Link>
-              <Link
-                onClick={toggleSidebar}
-                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                // href="/blogs"
-                href="/"
-              >
-                <NotebookPen size={18} className="text-gray-600" />
-                <span className="text-sm font-medium">Blog</span>
-              </Link>
-              <Link
-                onClick={toggleSidebar}
-                className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                href="/"
-              >
-                <FaUsers size={18} className="text-gray-600" />
-                <span className="text-sm font-medium">About Us</span>
-              </Link>
-            </div>
-          </div>
-        </div>
+            <motion.div className="space-y-4" variants={container}>
+              <motion.div variants={item}>
+                <Link
+                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                  href="/"
+                >
+                  <Gift size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Latest Offer</span>
+                </Link>
+              </motion.div>
+
+              <motion.div variants={item}>
+                <Link
+                  onClick={toggleSidebar}
+                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                  href="/"
+                >
+                  <NotebookPen size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Blog</span>
+                </Link>
+              </motion.div>
+
+              <motion.div variants={item}>
+                <Link
+                  onClick={toggleSidebar}
+                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                  href="/"
+                >
+                  <FaUsers size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">About Us</span>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
         {/* Search sidebar - slides from top */}
         <div
@@ -527,7 +637,7 @@ const HeaderUi = ({ data }) => {
                   onClose={handleModalClose}
                   isRegistered={isRegistered}
                   setReload={setReload}
-                  modal={true} // ✅ Added for consistency
+                  modal={true} 
                 />
               )
             }
