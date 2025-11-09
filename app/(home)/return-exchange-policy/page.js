@@ -1,9 +1,9 @@
 export default function Page() {
   return (
     <div className="max-w-3xl mx-auto px-4 md:pt-32 pt-20 py-10 text-gray-800">
-      <h1 className="text-3xl font-bold text-center mb-6">🔁 Morshed Mart Return & Exchange Policy</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">🔁 Mks Outfit Return & Exchange Policy</h1>
       <p className="text-center text-gray-600 mb-10">
-        At <span className="font-semibold">Morshed Mart</span>, your satisfaction is our priority. If you&apos;re not fully happy with your purchase, we&lsquo;re here to help with an easy and transparent process.
+        At <span className="font-semibold">Mks Outfit</span>, your satisfaction is our priority. If you&apos;re not fully happy with your purchase, we&lsquo;re here to help with an easy and transparent process.
       </p>
 
       <section className="mb-8">
@@ -57,10 +57,10 @@ export default function Page() {
       </section>
 
       <div className="text-center mt-10">
-        <p className="text-lg font-medium">📞 Customer Service: <a href="tel:+8801970085954" className="text-blue-500 underline">+880 19 7008 5954</a></p>
+        <p className="text-lg font-medium">📞 Customer Service: <a href="tel:+8801737332432" className="text-blue-500 underline">+880 19 7008 5954</a></p>
       </div>
 
-      <p className="text-center mt-8 text-sm italic text-gray-500">Thank you for choosing Morshed Mart – where quality meets trust.</p>
+      <p className="text-center mt-8 text-sm italic text-gray-500">Thank you for choosing Mks Outfit – where quality meets trust.</p>
     </div>
   );
 }

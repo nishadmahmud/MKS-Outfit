@@ -11,9 +11,9 @@ const Page = () => {
   </ul>
 
   <ul class="list-none pl-1 space-y-1">
-    <li>📞 Customer Support: <a href="tel:+8801970085954" class="text-blue-600 underline">+880 19 7008 5954</a></li>
-    <li>📧 Email: <a href="mailto:morshed.mart@gmail.com" class="text-blue-600 underline">[Insert official email]</a></li>
-    <li>🌐 Website: <a href="https://www.morshedmart.com" class="text-blue-600 underline">www.morshedmart.com</a></li>
+    <li>📞 Customer Support: <a href="tel:+8801737332432" class="text-blue-600 underline">+8801737332432</a></li>
+    <li>📧 Email: <a href="mailto:info@mksoutfit.com" class="text-blue-600 underline">info@mksoutfit.com</a></li>
+    <li>🌐 Website: <a href="https://www.mksoutfit.com" class="text-blue-600 underline">www.mksoutfit.com</a></li>
   </ul>
     </div>
   );

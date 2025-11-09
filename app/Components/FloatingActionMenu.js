@@ -33,7 +33,7 @@ const FloatingActionMenu = () => {
           icon={<FaFacebook style={{ fontSize: 20, color: "blue", zIndex: 0,  backgroundColor: "white", }} />}
           backgroundColor="#0068ff" 
           size={40}
-          onClick={() => window.open("https://www.facebook.com/morshed.mart2.0", "_blank")}
+          onClick={() => window.open("https://www.facebook.com", "_blank")}
         />
         {/* WhatsApp Button with Icon Background */}
         <ChildButton
@@ -41,7 +41,7 @@ const FloatingActionMenu = () => {
           backgroundColor="white"
           className="bg-white" 
           size={40}
-          onClick={() => window.open("https://wa.me/+8801970085954", "_blank")}
+          onClick={() => window.open("https://wa.me/+8801737332432", "_blank")}
         />
         {/* Support/Contact Button with Icon Background */}
         <ChildButton
@@ -49,7 +49,7 @@ const FloatingActionMenu = () => {
           icon={<FaPhoneAlt style={{ fontSize: 15, color: "#115e59" }} />}
           backgroundColor="white" 
           size={40}
-          onClick={() => window.open("tel: +8801970085954")}
+          onClick={() => window.open("tel: +8801737332432")}
         />
       </FloatingMenu>
     </div>

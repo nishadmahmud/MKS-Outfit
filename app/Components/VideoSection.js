@@ -35,7 +35,7 @@ const VideoSection = () => {
           className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center px-4"
         >
           <h1 className="text-3xl jost md:text-4xl lg:text-5xl font-bold drop-shadow-lg">
-            Morshed Mart
+            Mks Outfit
           </h1>
           <p className="mt-2 text-base md:text-lg lg:text-xl drop-shadow-md">
             Your signature look, redefined

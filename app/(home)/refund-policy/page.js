@@ -3,7 +3,7 @@ import React from "react";
 const Page = () => {
   return (
     <div className="lg:px-12 mx-auto p-6 bg-white text-black rounded-lg lg:pt-20 xl:pt-24 pt-216 w-10/12">
-     <h1 className="text-3xl font-bold text-center mb-6">🔁 Morshed Mart Refund Policy</h1>
+     <h1 className="text-3xl font-bold text-center mb-6">🔁 Mks Outfit Refund Policy</h1>
      
      <section className="mb-8">
         <h2 className="text-xl font-semibold mb-2 text-red-500">🚫 Non-Returnable Items:</h2>
