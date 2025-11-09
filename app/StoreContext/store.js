@@ -4,8 +4,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { fetcher, userId } from "../(home)/page";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import auth from "@/firebase/config";
+
 
 const countries = [
   { label: "United States", value: "USD", symbol: "$" },
@@ -36,7 +35,7 @@ const StoreProvider = ({ children }) => {
   const [convertedPrice, setConvertedPrice] = useState(null);
   const [basePrice,setBasePrice] = useState(0);
   const [wholesalePrice,setWholesalePrice] = useState(0);
-  const googleProvider = new GoogleAuthProvider();
+ 
   const [userInfo,setUserInfo] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [prices, setPrices] = useState({});
@@ -381,9 +380,9 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     setIsSelectRegion(false);
   };
 
-  const googleLogin = () => {
-       return signInWithPopup(auth,googleProvider);
-    }
+  // const googleLogin = () => {
+  //      return signInWithPopup(auth,googleProvider);
+  //   }
 
 
   const { data: blogs } = useSWR(
