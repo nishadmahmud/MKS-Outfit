@@ -321,63 +321,63 @@ const DeliveryForm = ({
   }, [orderSchema]);
 
   // Event handlers - all memoized
-  const handleGoogleLogin = useCallback(async () => {
-    try {
-      const response = await googleLogin();
-      const result = response.user;
-      try {
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/customer-registration`,
-          {
-            name: result.displayName,
-            phone: result.phoneNumber,
-            email: result.email,
-            password: result.uid,
-            user_id: String(userId),
-          },
-          { headers: { "Content-Type": "application/json" } }
-        );
-      } catch (error) {
-        console.warn(error.message);
-      }
+  // const handleGoogleLogin = useCallback(async () => {
+  //   try {
+  //     const response = await googleLogin();
+  //     const result = response.user;
+  //     try {
+  //       await axios.post(
+  //         `${process.env.NEXT_PUBLIC_API}/customer-registration`,
+  //         {
+  //           name: result.displayName,
+  //           phone: result.phoneNumber,
+  //           email: result.email,
+  //           password: result.uid,
+  //           user_id: String(userId),
+  //         },
+  //         { headers: { "Content-Type": "application/json" } }
+  //       );
+  //     } catch (error) {
+  //       console.warn(error.message);
+  //     }
 
-      const loginResponse = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/customer-login`,
-        { email: result.email, password: result.uid, user_id: String(userId) },
-        { headers: { "Content-Type": "application/json" } }
-      );
+  //     const loginResponse = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API}/customer-login`,
+  //       { email: result.email, password: result.uid, user_id: String(userId) },
+  //       { headers: { "Content-Type": "application/json" } }
+  //     );
 
-      setCustomerId(loginResponse?.data?.customer?.id);
-      setReload(true);
-      if (intendedUrl) {
-        router.push(intendedUrl);
-      }
+  //     setCustomerId(loginResponse?.data?.customer?.id);
+  //     setReload(true);
+  //     if (intendedUrl) {
+  //       router.push(intendedUrl);
+  //     }
 
-      setToken(loginResponse.data.token);
-      toast.success("Login Successful!");
-      setUserInfo(loginResponse?.data?.customer);
-      setOrderSchema((prev) => ({
-        ...prev,
-        customer_name: result.displayName,
-        customer_phone: result.phoneNumber,
-        customer_email: result.email,
-      }));
+  //     setToken(loginResponse.data.token);
+  //     toast.success("Login Successful!");
+  //     setUserInfo(loginResponse?.data?.customer);
+  //     setOrderSchema((prev) => ({
+  //       ...prev,
+  //       customer_name: result.displayName,
+  //       customer_phone: result.phoneNumber,
+  //       customer_email: result.email,
+  //     }));
 
-      setFormData({
-        ...formData,
-        firstName: result.displayName,
-        phone: result.phoneNumber,
-        email: result.email,
-      });
-      localStorage.setItem(
-        "user",
-        JSON.stringify(loginResponse?.data?.customer)
-      );
-      localStorage.setItem("token", loginResponse?.data?.token);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [googleLogin, intendedUrl, router, setToken, setUserInfo]);
+  //     setFormData({
+  //       ...formData,
+  //       firstName: result.displayName,
+  //       phone: result.phoneNumber,
+  //       email: result.email,
+  //     });
+  //     localStorage.setItem(
+  //       "user",
+  //       JSON.stringify(loginResponse?.data?.customer)
+  //     );
+  //     localStorage.setItem("token", loginResponse?.data?.token);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [googleLogin, intendedUrl, router, setToken, setUserInfo]);
 
   const handleChange = useCallback((e) => {
     setSelectedCountry(e.target.value);

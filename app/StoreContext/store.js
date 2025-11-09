@@ -402,7 +402,7 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     refetch,
     openCart,
     getPriceByCountry,
-    googleLogin,
+    // googleLogin,
     setOpenCart,
     reload,
     handleIncQuantity,

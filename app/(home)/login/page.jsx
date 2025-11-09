@@ -24,7 +24,7 @@ const onClose = () => {
 };
 
 
-  const { setToken, googleLogin, setUserInfo, isRegistered, setIsRegistered } = useStore()
+  const { setToken,  setUserInfo, isRegistered, setIsRegistered } = useStore()
   const router = useRouter()
   const searchParams = useSearchParams()
   const intendedUrl = searchParams.get("redirect")
@@ -71,111 +71,111 @@ const onClose = () => {
       .catch((error) => toast.error("Invalid Login Credentials!"))
   }
 
- const handleGoogleLogin = async () => {
-    try {
-      const response = await googleLogin();
-      const result = response.user;
-      axios
-        .post(`${process.env.NEXT_PUBLIC_API}/public/check-customer-user`, {
-          email: result.email,
-          user_id: userId,
-        })
-        .then((res) => {
-          if (!res.data.status) {
-            axios
-              .post(
-                `${process.env.NEXT_PUBLIC_API}/customer-registration`,
-                {
-                  first_name:
-                    result.displayName.split(" ").length > 2
-                      ? result.displayName.split(" ").slice(0, 1).join(" ")
-                      : result.displayName.split(" ").slice(0).join(" "),
-                  last_name: result.displayName.split(" ").slice(1).join(" "),
-                  phone: result.phone,
-                  email: result.email,
-                  password: result.uid,
-                  user_id: String(userId),
-                },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              )
-              .then((res) => {
-                if (res.data.status === 200) {
-                  axios
-                    .post(
-                      `${process.env.NEXT_PUBLIC_API}/customer-login`,
-                      { email: result.email, password: result.uid,user_id : String(userId) },
-                      {
-                        headers: { "Content-Type": "application/json" },
-                      }
-                    )
-                    .then((res) => {
-                      setReload(true);
-                      if (intendedUrl) {
-                        router.push(intendedUrl);
-                      } else {
-                        router.push("/");
-                      }
-                      if (modal) {
-                        onClose();
-                      }
-                      setToken(res.data.token);
-                      toast.success("Login Successful!");
-                      setUserInfo(res.data.customer);
-                      localStorage.setItem(
-                        "user",
-                        JSON.stringify(res.data.customer)
-                      );
-                      localStorage.setItem("token", res.data.token);
-                      router.push('/')
-                    })
-                    .catch((err) => {
-                      toast.error("Invalid Registration Credentials!")
-                      console.log(err);
-                    });
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } else {
-            axios
-              .post(`${process.env.NEXT_PUBLIC_API}/customer-login`, {
-                email: result.email,
-                password: result.uid,
-                user_id : String(userId)
-              })
-              .then((res) => {
-                setReload(true);
-                if (intendedUrl) {
-                  router.push(intendedUrl);
-                } else {
-                  router.push("/");
-                }
-                if (modal) {
-                  onClose();
-                }
-                setToken(res.data.token);
-                setUserInfo(res.data.customer);
-                toast.success("Login Successful!");
-                localStorage.setItem("user", JSON.stringify(res.data.customer));
-                localStorage.setItem("token", res.data.token);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+//  const handleGoogleLogin = async () => {
+//     try {
+//       const response = await googleLogin();
+//       const result = response.user;
+//       axios
+//         .post(`${process.env.NEXT_PUBLIC_API}/public/check-customer-user`, {
+//           email: result.email,
+//           user_id: userId,
+//         })
+//         .then((res) => {
+//           if (!res.data.status) {
+//             axios
+//               .post(
+//                 `${process.env.NEXT_PUBLIC_API}/customer-registration`,
+//                 {
+//                   first_name:
+//                     result.displayName.split(" ").length > 2
+//                       ? result.displayName.split(" ").slice(0, 1).join(" ")
+//                       : result.displayName.split(" ").slice(0).join(" "),
+//                   last_name: result.displayName.split(" ").slice(1).join(" "),
+//                   phone: result.phone,
+//                   email: result.email,
+//                   password: result.uid,
+//                   user_id: String(userId),
+//                 },
+//                 {
+//                   headers: {
+//                     "Content-Type": "application/json",
+//                   },
+//                 }
+//               )
+//               .then((res) => {
+//                 if (res.data.status === 200) {
+//                   axios
+//                     .post(
+//                       `${process.env.NEXT_PUBLIC_API}/customer-login`,
+//                       { email: result.email, password: result.uid,user_id : String(userId) },
+//                       {
+//                         headers: { "Content-Type": "application/json" },
+//                       }
+//                     )
+//                     .then((res) => {
+//                       setReload(true);
+//                       if (intendedUrl) {
+//                         router.push(intendedUrl);
+//                       } else {
+//                         router.push("/");
+//                       }
+//                       if (modal) {
+//                         onClose();
+//                       }
+//                       setToken(res.data.token);
+//                       toast.success("Login Successful!");
+//                       setUserInfo(res.data.customer);
+//                       localStorage.setItem(
+//                         "user",
+//                         JSON.stringify(res.data.customer)
+//                       );
+//                       localStorage.setItem("token", res.data.token);
+//                       router.push('/')
+//                     })
+//                     .catch((err) => {
+//                       toast.error("Invalid Registration Credentials!")
+//                       console.log(err);
+//                     });
+//                 }
+//               })
+//               .catch((err) => {
+//                 console.log(err);
+//               });
+//           } else {
+//             axios
+//               .post(`${process.env.NEXT_PUBLIC_API}/customer-login`, {
+//                 email: result.email,
+//                 password: result.uid,
+//                 user_id : String(userId)
+//               })
+//               .then((res) => {
+//                 setReload(true);
+//                 if (intendedUrl) {
+//                   router.push(intendedUrl);
+//                 } else {
+//                   router.push("/");
+//                 }
+//                 if (modal) {
+//                   onClose();
+//                 }
+//                 setToken(res.data.token);
+//                 setUserInfo(res.data.customer);
+//                 toast.success("Login Successful!");
+//                 localStorage.setItem("user", JSON.stringify(res.data.customer));
+//                 localStorage.setItem("token", res.data.token);
+//               })
+//               .catch((err) => {
+//                 console.log(err);
+//               });
+//           }
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//         });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
@@ -244,7 +244,7 @@ const onClose = () => {
         <hr className="w-full" />
       </div>
       <button
-        onClick={handleGoogleLogin}
+        // onClick={handleGoogleLogin}
         className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
       >
         {/* Google Logo */}
