@@ -18,7 +18,7 @@ export default function Footer() {
         <Link href="/">
           <Image
             unoptimized
-            src={companyLogo || noImg}
+            src={'https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859633.png' || noImg}
             alt="Mks Outfit Logo"
             width={150}
             height={100}

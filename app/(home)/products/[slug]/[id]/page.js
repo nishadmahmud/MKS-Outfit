@@ -1303,12 +1303,11 @@ const ProductPage = ({ params }) => {
             {/* Product Features */}
             <div className="md:grid grid-cols-1 sm:grid-cols-3 gap-4 justify-between justify-items-center hidden">
               <div className="flex items-center space-x-2 text-sm">
-                <Truck className="w-5 h-5 text-neutral-600" />
-                <span className="text-neutral-700">Free shipping over $100</span>
+                <Image width={100} height={100} src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762857676.png' alt="payment-method"></Image>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <RotateCcw className="w-4 h-4 text-neutral-600" />
-                <span className="text-neutral-700">30-day returns</span>
+                <span className="text-neutral-700">03-day returns</span>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Shield className="w-4 h-4 text-neutral-600" />

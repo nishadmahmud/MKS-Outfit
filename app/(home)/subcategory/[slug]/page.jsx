@@ -338,11 +338,16 @@ export default function ProductListing({ params }) {
             </div>
           )}
 
-          {totalPage > 1 && (
-            <div className="mt-12 flex justify-center">
-              <Pagination currentPage={currentPage} totalPages={totalPage} onPageChange={setCurrentPage} />
-            </div>
-          )}
+          {totalPage && totalPage > 1 ? (
+  <div className="mt-12 flex justify-center">
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPage}
+      onPageChange={setCurrentPage}
+    />
+  </div>
+): ""}
+
         </div>
       </div>
     </div>

@@ -8,7 +8,10 @@ import BrandMarquee from "../Components/BrandMarquee";
 import TrendingNow from "../Components/TrendingNow";
 import Banner from "../Components/Banner";
 import Banner2 from "../Components/Banner2";
-import MensPanjabi from "../Components/MensCollection";
+import WinterCollection from "../Components/WinterCollection";
+import WomenSharee from "../Components/WomenSharee";
+import KidsBoys from "../Components/KidsBoys";
+import KidsGirls from "../Components/KidsGirls";
 
 
 export const userId = 230;
@@ -44,7 +47,10 @@ export default async function Home() {
         <Banner banner={banner}></Banner>
         <TrendingNow></TrendingNow>
         <Banner2 banner={banner}></Banner2>
-        <MensPanjabi></MensPanjabi>
+        <WinterCollection></WinterCollection>
+        <WomenSharee></WomenSharee>
+        <KidsBoys></KidsBoys>
+        <KidsGirls></KidsGirls>
         {/* <SmallBanner banner={banner}/> */}
         
         {/* <VideoSection></VideoSection> */}

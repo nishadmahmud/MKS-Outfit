@@ -131,7 +131,15 @@ body{
   font-family: 'AdorshoLipi', sans-serif;
 }
 
-/* chatbot css */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 
 /* -----react chat bot------ */
 .react-chatbot-kit-chat-bot-message{

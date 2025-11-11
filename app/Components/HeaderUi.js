@@ -249,7 +249,7 @@ const handleToggleCategory = async (categoryId) => {
             <div className="hidden lg:flex gap-5">
               <div>
                 <Link href={"/"}>
-                <Image unoptimized src='/mks-logo.png' width={500} height={500} className="w-10 md:w-16" alt="logo"></Image>
+                <Image unoptimized src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} className="w-8 md:w-14" alt="logo"></Image>
               </Link>
               </div>
 
@@ -265,7 +265,7 @@ const handleToggleCategory = async (categoryId) => {
 
           <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 flex justify-center">
             <Link href={"/"}>
-               <Image unoptimized src='/mks-logo.png' width={500} height={500} className="w-16 md:w-20" alt="logo"></Image>
+               <Image unoptimized src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} className="w-10 md:w-20" alt="logo"></Image>
             </Link>
           </div>
 
@@ -417,7 +417,7 @@ const handleToggleCategory = async (categoryId) => {
             >
               <Image
                 unoptimized
-                src="/mks-logo.png"
+                src="https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png"
                 width={500}
                 height={500}
                 className="w-10 md:w-16"
@@ -546,7 +546,7 @@ const handleToggleCategory = async (categoryId) => {
               <div></div>
 
               <div onClick={toggleSearchSidebar} className="w-24 mx-auto cursor-pointer">
-                <Image className="w-24" src='/mks-logo.png' width={500} height={500} alt="logo"></Image>
+                <Image className="w-24" src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} alt="logo"></Image>
               </div>
               
               <div className="flex items-end

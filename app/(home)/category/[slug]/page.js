@@ -1,12 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import useSWR from "swr"
 import ProductCard from "@/app/Components/ProductCard"
 import Pagination from "@/app/Components/pagination"
 import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
+import Link from "next/link"
+import { ChevronLeft } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 
 const fetcher = (url) => fetch(url).then((res) => res.json())
 
@@ -16,7 +19,7 @@ export default function ProductListing({ params }) {
   const searchedTotal = searchParams.get("total") || "100"
   const limit = 20;
   const totalPage = Math.ceil(Number.parseInt(searchedTotal) / limit)
-  const { slug: id } = params
+  const { slug: id } = params;
   const [filteredItems, setFilteredItems] = useState([])
   const [sortBy, setSortBy] = useState("")
   const [priceRange, setPriceRange] = useState([0, 0])
@@ -42,6 +45,8 @@ export default function ProductListing({ params }) {
     `${process.env.NEXT_PUBLIC_API}/public/categorywise-products/${id}?page=${currentPage}&limit=${limit}`,
     fetcher,
   )
+
+  // console.log(products);
 
   // initialize filters
   useEffect(() => {
@@ -157,6 +162,52 @@ export default function ProductListing({ params }) {
     }
   }
 
+  // sub categories
+
+  const [subcategories, setSubcategories] = useState({});
+
+  console.log(id);
+
+  const fetchSubcategories = async () => {
+    if (!subcategories[id]) {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API}/public/category-wise-subcategory/${id}`
+        );
+        const result = await res.json();
+
+        console.log(result);
+
+        if (result?.status === 200) {
+          setSubcategories((prev) => ({
+            ...prev,
+            [id]: result.data[0]?.sub_category || [],
+          }));
+        }
+      } catch (err) {
+        console.error("Error fetching subcategories:", err);
+      }
+    }
+  };
+
+  fetchSubcategories()
+
+  // console.log('sub category name:--', subcategories);
+  const subcategoryArray = subcategories[id] || [];
+
+  const scrollRef = useRef(null);
+  const [hovered, setHovered] = useState(false);
+
+  const scroll = (direction) => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 200; // adjust for sensitivity
+    if (direction === "left") {
+      scrollRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    } else {
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
   const FilterContent = () => (
     <div className="space-y-6">
       <h2 className="text-lg font-medium">Filters</h2>
@@ -264,6 +315,50 @@ export default function ProductListing({ params }) {
             Clear all
           </button>
         </div>
+
+        <div
+      className="relative w-full md:max-w-3xl mx-auto"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Scroll container */}
+      <div
+        ref={scrollRef}
+        className="flex space-x-4 overflow-x-auto no-scrollbar border-b border-gray-200 px-4 py-2 scroll-smooth"
+      >
+        {subcategoryArray.map((sub) => (
+          <Link
+            key={sub.id}
+            href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
+              sub.name
+            )}&categoryId=${encodeURIComponent(id)}`}
+            className="flex-shrink-0 px-4 py-2 whitespace-nowrap text-gray-600 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-900 transition text-sm font-medium"
+          >
+            {sub.name}
+          </Link>
+        ))}
+      </div>
+
+      {/* Left Button */}
+      <button
+        onClick={() => scroll("left")}
+        className={`absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 transition-all duration-300 ${
+          hovered ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <ChevronLeft className="w-5 h-5 text-gray-600" />
+      </button>
+
+      {/* Right Button */}
+      <button
+        onClick={() => scroll("right")}
+        className={`absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full p-2 transition-all duration-300 ${
+          hovered ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <ChevronRight className="w-5 h-5 text-gray-600" />
+      </button>
+    </div>
 
         <div className="flex items-center gap-4 mt-4 md:mt-0 w-full md:w-auto">
           <div className="relative w-full md:w-auto">

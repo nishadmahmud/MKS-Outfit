@@ -42,8 +42,6 @@ const onClose = () => {
     
     e.preventDefault()
 
-  
-
     const payload = {
       first_name: formData.first_name,
       last_name: formData.last_name,

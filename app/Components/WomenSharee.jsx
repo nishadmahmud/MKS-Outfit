@@ -28,23 +28,26 @@ import useSWR from 'swr';
 import { fetcher, userId } from '../(home)/page';
 import CardSkeleton from './CardSkeleton';
 import ProductCard from './ProductCard';
+import Link from 'next/link';
 
-const MensPanjabi = () => {
+const WomenSharee = () => {
 
-   const { data: menCollections, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_API}/public/subcategorywise-products/7169`,
+   const { data: womensharee, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API}/public/subcategorywise-products/7161`,
     fetcher,
    
   );
 
   
-  console.log(menCollections, 'data from men collection');
+//   console.log(womensharee, 'data from men collection');
    
   return (
     <div className='w-11/12 mx-auto mt-12'>
 
-     <div className='mb-5'>
-       <Title title="Men's Panjabi"></Title>
+     <div className='mb-5 flex items-center justify-between'>
+       <Title title="Women Sharee"></Title>
+
+          <Link href={`/subcategory/7161?subcategory=Sharee&categoryId=7347`} className='hover:underline text-black'>View all</Link>
 
       {/* <p className='text-gray-600'>Fresh picks just in — discover the latest styles and products first.</p> */}
      </div>
@@ -55,8 +58,8 @@ const MensPanjabi = () => {
             Array.from({ length: 4 }).map((_, idx) => (
               <CardSkeleton key={idx} />
             ))
-          ) : menCollections?.data.length > 0 ? (
-            menCollections?.data.slice(0, 4).map((product, idx) => (
+          ) : womensharee?.data.length > 0 ? (
+            womensharee?.data.slice(0, 4).map((product, idx) => (
               <ProductCard key={idx} product={product} />
             ))
           ) : (
@@ -68,4 +71,4 @@ const MensPanjabi = () => {
   );
 };
 
-export default MensPanjabi;
+export default WomenSharee;
