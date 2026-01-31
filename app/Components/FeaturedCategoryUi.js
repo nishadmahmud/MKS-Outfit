@@ -21,7 +21,7 @@ const FeaturedCategoryUi = ({ categories }) => {
 
   return (
     <div className="bg-white">
-      <div className="w-11/12 mx-auto md:pb-16 mb-10 md:pt-14 relative group">
+      <div className="w-11/12 mx-auto md:pb-16 mb-10 md:pt-14 relative ">
         {/* Custom Slider */}
         <div
           ref={sliderRef}

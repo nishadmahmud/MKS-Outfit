@@ -1,44 +1,122 @@
-'use client'
-import React from 'react';
-import Title from '../CustomHooks/title';
+'use client';
+import React, { useRef } from 'react';
 import useSWR from 'swr';
 import { fetcher, userId } from '../(home)/page';
 import CardSkeleton from './CardSkeleton';
 import ProductCard from './ProductCard';
+import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
+
+// Swiper imports
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, FreeMode } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const TrendingNow = () => {
-
-// TODO: Api change kora lagbe
-   const { data: newArrivals, isLoading } = useSWR(
+  // Assuming 'new-arrivals' endpoint is used as placeholder for trending per previous code
+  // If there is a specific 'trending' endpoint, it should be used here.
+  // Previous code used: `${process.env.NEXT_PUBLIC_API}/public/new-arrivals/${userId}`
+  const { data: trendingData, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_API}/public/new-arrivals/${userId}`,
-    fetcher,
-   
+    fetcher
   );
-   
+
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
   return (
-    <div className='w-11/12 mx-auto mt-16'>
+    <div className="my-16 md:w-11/12 w-full mx-auto relative ">
+      {/* Header Section */}
+      <div className="flex flex-col items-center mb-8 px-4">
+        <h1 className="text-3xl md:text-4xl text-black font-bold mb-3 outfit uppercase tracking-wide">
+          Trending Now
+        </h1>
+        <div className="h-1 w-16 bg-black mb-4"></div>
+        <p className="text-center text-gray-600 max-w-2xl text-sm md:text-base poppins">
+          See what’s hot and loved by everyone right now.
+        </p>
+      </div>
 
-     <div className='mb-5'>
-       <Title title='🔥Trending Now'></Title>
+      {/* Slider Section */}
+      <div className="relative px-2 md:px-6">
+        {/* Custom Navigation Buttons */}
+        <button
+          ref={prevRef}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-800 hover:bg-black hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-0"
+          aria-label="Previous slide"
+        >
+          <IoArrowBack size={20} />
+        </button>
 
-      <p className='text-gray-600'>See what’s hot and loved by everyone right now.</p>
-     </div>
+        <button
+          ref={nextRef}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center text-gray-800 hover:bg-black hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 disabled:opacity-0"
+          aria-label="Next slide"
+        >
+          <IoArrowForward size={20} />
+        </button>
 
-      {/* Products grid */}
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5">
+        <Swiper
+          className="w-full !pb-8 !px-1"
+          modules={[Navigation, Autoplay, FreeMode]}
+          spaceBetween={16}
+          slidesPerView={2}
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+          }}
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+          }}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+          }}
+          freeMode={true}
+          breakpoints={{
+            320: {
+              slidesPerView: 2,
+              spaceBetween: 10,
+            },
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 16,
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 24,
+            },
+            1280: {
+              slidesPerView: 5,
+              spaceBetween: 24,
+            },
+          }}
+        >
           {isLoading ? (
-            Array.from({ length: 4 }).map((_, idx) => (
-              <CardSkeleton key={idx} />
+            Array.from({ length: 8 }).map((_, idx) => (
+              <SwiperSlide key={`loading-${idx}`}>
+                <CardSkeleton />
+              </SwiperSlide>
             ))
-          ) : newArrivals?.data?.data.length > 0 ? (
-            newArrivals?.data?.data.slice(0, 4).map((product, idx) => (
-              <ProductCard key={idx} product={product} />
+          ) : trendingData?.data?.data?.length > 0 ? (
+            trendingData?.data?.data.slice(0, 10).map((product) => (
+              <SwiperSlide key={product.id} className="h-auto">
+                <ProductCard product={product} />
+              </SwiperSlide>
             ))
           ) : (
-            <p className="col-span-full text-center text-gray-500">No products found</p>
+            <div className="w-full text-center py-10 col-span-full">
+              <p className="text-gray-500">No trending products found.</p>
+            </div>
           )}
-        </div>
-      
+        </Swiper>
+      </div>
     </div>
   );
 };

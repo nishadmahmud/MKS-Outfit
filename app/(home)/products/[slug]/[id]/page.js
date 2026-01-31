@@ -832,8 +832,8 @@ const ProductPage = ({ params }) => {
   const [relatedProducts, setRelatedProducts] = useState([])
   const [recentProducts, setRecentProducts] = useState([])
   const [imageArray, setImageArray] = useState([])
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpen, setIsOpen] = useState(true);
+
   const [selectedSize, setSelectedSize] = useState("")
   const { toggleWishlist, isInWishlist } = useWishlist()
   const {
@@ -864,7 +864,7 @@ const ProductPage = ({ params }) => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const handleTabChange = (event, newValue) => setTab(newValue)
-// console.log(selectedSku);
+  // console.log(selectedSku);
   const inches = [
     ["CHEST", "40", "42", "44", "46", "48"],
     ["LENGTH", "28", "29", "30", "31", "31.5"],
@@ -903,13 +903,13 @@ const ProductPage = ({ params }) => {
       : product?.data.discount_type === "Percentage"
         ? product?.data?.intl_discount
           ? (
-              product?.data?.intl_retails_price -
-              (product?.data?.intl_retails_price * product?.data.intl_discount) / 100
-            ).toFixed(0)
+            product?.data?.intl_retails_price -
+            (product?.data?.intl_retails_price * product?.data.intl_discount) / 100
+          ).toFixed(0)
           : null
         : product?.data.intl_retails_price - product?.data.intl_discount
 
- 
+
 
   useEffect(() => {
     const getCartItems = () => {
@@ -967,14 +967,14 @@ const ProductPage = ({ params }) => {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
- 
+
   const incrementQuantity = () => {
     if (quantity < sizeQuantity) {
       setQuantity((prev) => prev + 1)
     } else {
       toast.error(`Only ${sizeQuantity || 0} items available in stock`, {
-      position: "bottom-center",
-    })
+        position: "bottom-center",
+      })
     }
   }
 
@@ -1017,9 +1017,9 @@ const ProductPage = ({ params }) => {
 
   const descriptionText = product?.data?.description
     ? htmlToText(product.data.description, {
-        wordwrap: false,
-        selectors: [{ selector: "a", options: { ignoreHref: true } }],
-      })
+      wordwrap: false,
+      selectors: [{ selector: "a", options: { ignoreHref: true } }],
+    })
     : null
 
   const isCartItem = cartItems.find((item) => item?.id === product?.data.id && item?.selectedSizeId === selectedId)
@@ -1049,7 +1049,7 @@ const ProductPage = ({ params }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Product Images */}
           <div className="space-y-4 relative">
-            
+
 
             {/* Main Image */}
             <div className="aspect-[4/4] bg-neutral-100 rounded-sm overflow-hidden group relative">
@@ -1081,11 +1081,10 @@ const ProductPage = ({ params }) => {
                   <button
                     key={idx}
                     onClick={() => setImageIndex(idx)}
-                    className={`relative flex-shrink-0 w-20 h-20 rounded-xs overflow-hidden border-2 transition-all duration-300 ${
-                      imageIndex === idx
+                    className={`relative flex-shrink-0 w-20 h-20 rounded-xs overflow-hidden border-2 transition-all duration-300 ${imageIndex === idx
                         ? "border-neutral-100 shadow-lg"
                         : "border-neutral-400 hover:border-neutral-400"
-                    }`}
+                      }`}
                   >
                     <Image unoptimized src={image || noImg} alt={`Product view ${idx + 1}`} fill className="object-cover" />
                   </button>
@@ -1106,43 +1105,43 @@ const ProductPage = ({ params }) => {
                 <h3 className="font-semibold text-base font-serif text-gray-900">SKU:</h3>
                 <p className="text-gray-700 text-sm poppins">{selectedSku || "N/A"}</p>
               </div>) : ""}
-             
+
             </div>
 
             {/* Price */}
             <div className="space-y-2">
-             <div className="flex items-baseline space-x-3">
-  {product?.data?.discount > 0 ? (
-    <>
-      {/* Final discounted price */}
-      <span className="text-3xl font-bold text-neutral-900">
-        ৳
-        {product?.data?.discount_type === "Percentage"
-          ? (
-              product?.data.retails_price -
-              (product?.data.retails_price * product?.data.discount) / 100
-            ).toFixed(0)
-          : (product?.data.retails_price - product?.data.discount).toFixed(0)}
-      </span>
+              <div className="flex items-baseline space-x-3">
+                {product?.data?.discount > 0 ? (
+                  <>
+                    {/* Final discounted price */}
+                    <span className="text-3xl font-bold text-neutral-900">
+                      ৳
+                      {product?.data?.discount_type === "Percentage"
+                        ? (
+                          product?.data.retails_price -
+                          (product?.data.retails_price * product?.data.discount) / 100
+                        ).toFixed(0)
+                        : (product?.data.retails_price - product?.data.discount).toFixed(0)}
+                    </span>
 
-      {/* Original price (strikethrough) */}
-      <span className="text-lg text-neutral-500 line-through">
-        ৳{product?.data?.retails_price || 0}
-      </span>
+                    {/* Original price (strikethrough) */}
+                    <span className="text-lg text-neutral-500 line-through">
+                      ৳{product?.data?.retails_price || 0}
+                    </span>
 
-      {/* Save badge */}
-      <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-[10px] font-medium rounded-full">
-        Save {product?.data?.discount}
-        {product?.data?.discount_type === "Percentage" ? "%" : "৳"}
-      </div>
-    </>
-  ) : (
-    // No discount → just retail price
-    <span className="text-3xl font-bold text-neutral-900">
-      ৳{product?.data?.retails_price || 0}
-    </span>
-  )}
-</div>
+                    {/* Save badge */}
+                    <div className="inline-flex items-center px-2 py-1 bg-green-100 text-green-800 text-[10px] font-medium rounded-full">
+                      Save {product?.data?.discount}
+                      {product?.data?.discount_type === "Percentage" ? "%" : "৳"}
+                    </div>
+                  </>
+                ) : (
+                  // No discount → just retail price
+                  <span className="text-3xl font-bold text-neutral-900">
+                    ৳{product?.data?.retails_price || 0}
+                  </span>
+                )}
+              </div>
 
             </div>
 
@@ -1157,97 +1156,96 @@ const ProductPage = ({ params }) => {
 
             {/* Size Selection */}
             <div className="space-y-4 flex md:flex-row flex-col md:items-center justify-between">
-             <div className="space-y-4">
-               <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <h3 className="font-semibold text-neutral-900">Size:</h3>
-                  {selectedSize && (
-                    <p className="text-sm text-neutral-600">
-                      Selected: <span className="font-medium">{selectedSize}</span>
-                      <span className="ml-2">({sizeQuantity || 0} available)</span>
-                    </p>
-                  )}
-                </div>
-                {/* <button
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-neutral-900">Size:</h3>
+                    {selectedSize && (
+                      <p className="text-sm text-neutral-600">
+                        Selected: <span className="font-medium">{selectedSize}</span>
+                        <span className="ml-2">({sizeQuantity || 0} available)</span>
+                      </p>
+                    )}
+                  </div>
+                  {/* <button
                   onClick={handleOpen}
                   className="text-sm font-medium text-neutral-900 underline hover:no-underline transition-all"
                 >
                   Size Guide
                 </button> */}
 
-                
-              </div>
 
-              <div className="flex flex-wrap gap-3">
-                {product?.data?.product_variants && product.data.product_variants.length > 0 ? (
-                  product.data.product_variants.map((variant) => {
-                    const isSelected = selectedSize === variant.name
-                    const isDisabled = variant.quantity < 1
-                    const isInCartSize = cartItems.find(
-                      (item) => item.id === product.data.id && item.selectedSizeId === variant.id,
-                    )
+                </div>
 
-                    return (
-                      <button
-                        key={variant.name}
-                        onClick={() => {
-                          if (!isDisabled && !isInCartSize) {
-                            setSelectedSize(variant?.name)
-                            setSelectedSizeCart(variant?.name)
-                            setSelectedSku(variant?.sku)
-                            setSizeQuantity(variant?.quantity)
-                            setSelectedId(variant.id)
-                            setQuantity(1)
-                          }
-                        }}
-                        disabled={isDisabled || isInCartSize}
-                        className={`relative min-w-[3rem] h-12 px-4 border-2 rounded-sm font-medium transition-all duration-300 ${
-                          isSelected
-                            ? "border-neutral-900 bg-neutral-900 text-white shadow-lg"
-                            : "border-neutral-300 bg-white text-neutral-900 hover:border-neutral-500"
-                        } ${isDisabled || isInCartSize ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
-                      >
-                        {variant.name}
-                        {isInCartSize && (
-                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></div>
-                        )}
-                      </button>
-                    )
-                  })
-                ) : (
-                  <p className="text-neutral-500">No sizes available</p>
-                )}
+                <div className="flex flex-wrap gap-3">
+                  {product?.data?.product_variants && product.data.product_variants.length > 0 ? (
+                    product.data.product_variants.map((variant) => {
+                      const isSelected = selectedSize === variant.name
+                      const isDisabled = variant.quantity < 1
+                      const isInCartSize = cartItems.find(
+                        (item) => item.id === product.data.id && item.selectedSizeId === variant.id,
+                      )
+
+                      return (
+                        <button
+                          key={variant.name}
+                          onClick={() => {
+                            if (!isDisabled && !isInCartSize) {
+                              setSelectedSize(variant?.name)
+                              setSelectedSizeCart(variant?.name)
+                              setSelectedSku(variant?.sku)
+                              setSizeQuantity(variant?.quantity)
+                              setSelectedId(variant.id)
+                              setQuantity(1)
+                            }
+                          }}
+                          disabled={isDisabled || isInCartSize}
+                          className={`relative min-w-[3rem] h-12 px-4 border-2 rounded-sm font-medium transition-all duration-300 ${isSelected
+                              ? "border-neutral-900 bg-neutral-900 text-white shadow-lg"
+                              : "border-neutral-300 bg-white text-neutral-900 hover:border-neutral-500"
+                            } ${isDisabled || isInCartSize ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
+                        >
+                          {variant.name}
+                          {isInCartSize && (
+                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"></div>
+                          )}
+                        </button>
+                      )
+                    })
+                  ) : (
+                    <p className="text-neutral-500">No sizes available</p>
+                  )}
+                </div>
               </div>
-             </div>
 
               {/* Quantity Selector */}
-            <div className="space-y-3">
-              <h3 className="font-semibold text-neutral-900">Quantity:</h3>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center border border-neutral-200 rounded-full overflow-hidden">
-                  <button
-                    onClick={decrementQuantity}
-                    className="p-3 hover:bg-neutral-100 transition-colors text-black bg-slate-200 rounded-full"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="h-4 w-4" />
-                  </button>
-                  <span className="px-6 py-3 font-medium min-w-[4rem] text-center text-black">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={incrementQuantity}
-                    className="p-3 hover:bg-neutral-100 transition-colors text-black bg-slate-200 rounded-full"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
+              <div className="space-y-3">
+                <h3 className="font-semibold text-neutral-900">Quantity:</h3>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center border border-neutral-200 rounded-full overflow-hidden">
+                    <button
+                      onClick={decrementQuantity}
+                      className="p-3 hover:bg-neutral-100 transition-colors text-black bg-slate-200 rounded-full"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="h-4 w-4" />
+                    </button>
+                    <span className="px-6 py-3 font-medium min-w-[4rem] text-center text-black">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={incrementQuantity}
+                      className="p-3 hover:bg-neutral-100 transition-colors text-black bg-slate-200 rounded-full"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            </div>
 
-            
+
 
             {/* Action Buttons */}
             <div className="space-y-4">
@@ -1279,11 +1277,10 @@ const ProductPage = ({ params }) => {
                   e.preventDefault()
                   handleCart(product?.data, quantity, selectedId)
                 }}
-                className={`w-full flex items-center justify-center space-x-3 py-3 px-6 rounded-sm font-semibold text-lg transition-all duration-300 ${
-                  isInCart
+                className={`w-full flex items-center justify-center space-x-3 py-3 px-6 rounded-sm font-semibold text-lg transition-all duration-300 ${isInCart
                     ? "bg-green-100 text-green-800 border-2 border-green-300"
                     : "bg-neutral-100 hover:bg-neutral-200 text-neutral-900 border-2 border-neutral-300"
-                }`}
+                  }`}
                 disabled={isInCart}
               >
                 {isInCart ? (
@@ -1319,63 +1316,63 @@ const ProductPage = ({ params }) => {
 
         {/* Product Details Tabs */}
         <div className="md:mt-16 mt-5">
-         
+
 
           <div className="md:pb-8">
-          
-              <div className="prose prose-neutral max-w-none border-b border-gray-400">
-      {/* Header */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between py-4 text-left"
-      >
-        <h3 className="text-lg font-medium text-neutral-800">
-          Product Description
-        </h3>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <ChevronDown className="w-5 h-5 text-neutral-600" />
-        </motion.div>
-      </button>
 
-      {/* Content */}
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden px-4 pb-4"
-          >
-            <div className="text-neutral-700 leading-relaxed space-y-4">
-              {descriptionText ? (
-                <p className="whitespace-pre-line">{descriptionText}</p>
-              ) : (
-                <div className="space-y-4">
-                  <p>
-                    Experience premium quality and exceptional comfort with this
-                    carefully crafted piece. Made from the finest materials and
-                    designed with attention to detail.
-                  </p>
-                  <p>
-                    Perfect for both casual and formal occasions, this versatile
-                    item combines style with functionality to create a timeless
-                    addition to your wardrobe.
-                  </p>
-                </div>
-              )}
+            <div className="prose prose-neutral max-w-none border-b border-gray-400">
+              {/* Header */}
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex w-full items-center justify-between py-4 text-left"
+              >
+                <h3 className="text-lg font-medium text-neutral-800">
+                  Product Description
+                </h3>
+                <motion.div
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown className="w-5 h-5 text-neutral-600" />
+                </motion.div>
+              </button>
+
+              {/* Content */}
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden px-4 pb-4"
+                  >
+                    <div className="text-neutral-700 leading-relaxed space-y-4">
+                      {descriptionText ? (
+                        <p className="whitespace-pre-line">{descriptionText}</p>
+                      ) : (
+                        <div className="space-y-4">
+                          <p>
+                            Experience premium quality and exceptional comfort with this
+                            carefully crafted piece. Made from the finest materials and
+                            designed with attention to detail.
+                          </p>
+                          <p>
+                            Perfect for both casual and formal occasions, this versatile
+                            item combines style with functionality to create a timeless
+                            addition to your wardrobe.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-            
 
-            
+
+
           </div>
         </div>
 
@@ -1466,12 +1463,12 @@ const ProductPage = ({ params }) => {
                 <h3 className="font-semibold text-sm line-clamp-1 text-neutral-900">{product.data.name}</h3>
                 <div className="flex items-center space-x-2">
                   <p className="font-bold text-sm text-neutral-900">
-                    
+
                     {
-                       product.data.discount > 0
+                      product.data.discount > 0
                         ? discountedPrice
                         : product.data.retails_price
-                      }
+                    }
                   </p>
                   {selectedSize && <span className="text-xs text-neutral-600">Size: {selectedSize}</span>}
                 </div>
@@ -1494,11 +1491,10 @@ const ProductPage = ({ params }) => {
                   e.preventDefault()
                   handleCart(product?.data, quantity, selectedId)
                 }}
-                className={`py-2 px-6 rounded-sm font-medium text-sm transition-all ${
-                  isCartItem
+                className={`py-2 px-6 rounded-sm font-medium text-sm transition-all ${isCartItem
                     ? "bg-green-100 text-green-800 border-2 border-green-300"
                     : "bg-neutral-900 hover:bg-neutral-800 text-white"
-                }`}
+                  }`}
                 disabled={isCartItem && selectedSize}
               >
                 {isCartItem ? "Added" : "Add to Cart"}

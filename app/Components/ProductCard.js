@@ -4,39 +4,27 @@ import Image from "next/image"
 import noImg from "/public/no-image.jpg"
 import Link from "next/link"
 import { useEffect } from "react"
-import { ShoppingCart } from "lucide-react"
-import { FaHeart, FaRegHeart } from "react-icons/fa6"
+import { FaHeart, FaRegHeart, FaCartPlus, FaBagShopping } from "react-icons/fa6"
 import useWishlist from "../CustomHooks/useWishlist"
 import useStore from "../CustomHooks/useStore"
 
 const ProductCard = ({ product }) => {
-  const { handleCart, handleBuy, prices, country, setProductPrice } = useStore()
+  const { handleCart, handleBuy, prices, setProductPrice } = useStore()
   const { toggleWishlist, isInWishlist } = useWishlist()
-
-
-  
 
   useEffect(() => {
     if (product?.id && product?.retails_price) {
       setProductPrice(product.id, product?.retails_price, product?.intl_retails_price || null)
     }
-  }, [product.id, product.retails_price, product.intl_retails_price])
+  }, [product.id, product.retails_price, product.intl_retails_price, setProductPrice])
 
-  const productPrice = prices[product.id]
-
-  // const getPriceByCountry = () => {
-  //   if (country && country.value === "BD") {
-  //     return productPrice?.basePrice || product?.retails_price || 0
-  //   } else {
-  //     return productPrice?.intl_retails_price  || product?.intl_retails_price || 0
-  //   }
-  // }
+  // const productPrice = prices[product.id] // Not currently used directly for display logic needing country switch, keeping simple for now
 
   const discountedPrice = product?.discount
-  ? product?.discount_type === "Percentage"
-    ? (product.retails_price - (product.retails_price * product.discount) / 100).toFixed(0)
-    : (product.retails_price - product.discount).toFixed(0)
-  : product?.retails_price; 
+    ? product?.discount_type === "Percentage"
+      ? (product.retails_price - (product.retails_price * product.discount) / 100).toFixed(0)
+      : (product.retails_price - product.discount).toFixed(0)
+    : product?.retails_price;
 
   const discountSuffix = product?.discount_type === "Percentage" ? "%" : product?.discount_type === "Fixed" ? "Tk" : ""
 
@@ -67,22 +55,18 @@ const ProductCard = ({ product }) => {
       .replace(/[^a-z0-9-]/g, "")
   }
 
-  
-// console.log(product);
   return (
     <div
       className="
       group bg-white overflow-hidden
       transition-all duration-300 mx-auto w-full max-w-sm
-      flex flex-col h-full
-      sm:max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm
+      flex flex-col h-full rounded-md
     "
     >
       {/* Image Container */}
       <div
         className="
-        relative aspect-square w-full overflow-hidden bg-gray-50
-        sm:aspect-[4/5] md:aspect-square lg:aspect-[4/5]
+        relative aspect-[4/5] w-full overflow-hidden bg-gray-50 rounded-md
       "
       >
         <Link
@@ -91,7 +75,7 @@ const ProductCard = ({ product }) => {
           className="block w-full h-full"
         >
           <Image
-          unoptimized
+            unoptimized
             src={product?.image_path || noImg}
             alt={product?.name || "Product image"}
             fill
@@ -102,7 +86,7 @@ const ProductCard = ({ product }) => {
           {/* Hover Image */}
           {product?.image_path1 && (
             <Image
-            unoptimized
+              unoptimized
               src={product.image_path1 || noImg}
               alt={`${product?.name} alternate view`}
               fill
@@ -117,111 +101,21 @@ const ProductCard = ({ product }) => {
         </Link>
 
         {/* Discount Badge */}
-      {
-        product?.discount ? <>
-          {product?.discount && (
-          <div className="absolute top-2 -left-0 z-40 sm:top-3">
-            <span
-              className="
-              bg-gray-900 text-white text-xs font-bold 
-              py-1 px-2 rounded-xs shadow-lg
-              sm:py-1.5 sm:px-2.5
-            "
-            >
-              -{product.discount}
-              {discountSuffix}
+        {product?.discount && (
+          <div className="absolute top-2 left-2 z-20">
+            <span className="bg-red-600 text-white text-[10px] font-bold py-0.5 px-2 rounded-sm shadow-sm">
+              -{product.discount}{discountSuffix}
             </span>
           </div>
         )}
-        </> : ""
-      }
 
-
-       
-      </div>
-
-      {/* Product Info */}
-      <div className="py-3 space-y-2 flex-1 flex flex-col  sm:space-y-3">
-        {/* Brand Name */}
-        {product?.brand_name && (
-          <h5
-            className="
-            text-xs text-start font-medium text-gray-800 uppercase tracking-wide 
-            truncate sm:text-xs
-          "
-          >
-            {product.brand_name}
-          </h5>
-        )}
-
-        {/* Product Name */}
-        <Link
-          href={`/products/${sanitizeSlug(product?.brand_name || product?.name)}/${product?.id}`}
-          onClick={updateRecentViews}
-          className="flex-1 xl:w-56 w-40"
-        >
-          <h3
-            className="
-            font-medium xl:w-56 w-40 text-gray-900 hover:text-gray-600
-            transition-colors duration-200 
-            text-sm leading-tight truncate line-clamp-1
-            sm:text-base sm:max-w-xs md:max-w-sm lg:max-w-xs xl:max-w-sm sm:line-clamp-2
-            md:text-sm lg:text-base text-start
-          "
-          >
-            {product?.name || "N/A"}
-          </h3>
-        </Link>
-
-        {/* Price and Cart Section */}
-        <div className="flex items-center justify-between pt-1">
-          <div className="flex flex-col justify-between gap-1">
-            {product?.discount ? (
-  <div className="flex items-start gap-2 flex-wrap">
-    {/* Original Price */}
-    <span
-      className="
-        text-base font-bold text-gray-900 
-        sm:text-lg md:text-base lg:text-lg
-      "
-    >
-      ৳{product?.retails_price || 0}
-    </span>
-
-    {/* Discounted Price */}
-    <span
-      className="font-bold text-gray-600
-         text-sm line-through
-      "
-    >
-      ৳
-      {product?.discount_type === "Percentage"
-        ? (product.retails_price - (product.retails_price * product.discount) / 100).toFixed(0)
-        : (product.retails_price - product.discount).toFixed(0)}
-    </span>
-  </div>
-) : (
-  // No discount → show only retail price
-  <span
-    className="
-      text-base font-bold text-gray-900
-      sm:text-lg md:text-base lg:text-lg
-    "
-  >
-    ৳{product?.retails_price || 0}
-  </span>
-)}
-
-          </div>
-
-
-          
-        {/* Wishlist Button */}
+        {/* Wishlist Button - Image Top Right (Show on Hover) */}
         <button
           className="
-            flex p-1.5 rounded-full hover:bg-gray-100 
-              text-gray-600 hover:text-gray-900 transition-all duration-200
-              sm:p-2
+            absolute top-2 right-2 z-30
+            p-1.5 rounded-full bg-white/80 backdrop-blur-sm
+            text-gray-600 hover:text-red-500 hover:bg-white transition-all duration-200
+            shadow-sm opacity-0 group-hover:opacity-100 focus:opacity-100
           "
           onClick={(e) => {
             e.stopPropagation()
@@ -230,11 +124,83 @@ const ProductCard = ({ product }) => {
           title={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
         >
           {isInWishlist(product.id) ? (
-            <FaHeart className="w-4 h-4 text-gray-900 sm:w-5 sm:h-5" />
+            <FaHeart className="w-3.5 h-3.5 text-red-500" />
           ) : (
-            <FaRegHeart className="w-4 h-4 text-gray-600 hover:text-gray-500 transition-colors sm:w-5 sm:h-5" />
+            <FaRegHeart className="w-3.5 h-3.5" />
           )}
         </button>
+      </div>
+
+      {/* Product Info - Compacted */}
+      {/* Product Info - Clean Layout */}
+      <div className="pt-3 pb-2 flex-1 flex flex-col px-1">
+
+        {/* Product Name */}
+        <Link
+          href={`/products/${sanitizeSlug(product?.brand_name || product?.name)}/${product?.id}`}
+          onClick={updateRecentViews}
+          className="w-full mb-1"
+        >
+          <h3
+            className="
+            font-bold text-gray-900 hover:text-gray-700 text-start
+            transition-colors duration-200 
+            text-sm sm:text-base leading-tight line-clamp-1
+          "
+          >
+            {product?.name || "N/A"}
+          </h3>
+        </Link>
+
+        {/* Price and Actions Section */}
+        <div className="flex items-center justify-between mt-1">
+          {/* Price */}
+          <div className="flex items-center gap-2">
+            {product?.discount ? (
+              <div className="flex flex-col sm:flex-row sm:items-baseline gap-x-1.5">
+                <span className="text-base sm:text-lg font-bold text-gray-900">
+                  ৳{discountedPrice}
+                </span>
+                <span className="text-xs text-gray-500 line-through">
+                  ৳{product.retails_price}
+                </span>
+              </div>
+            ) : (
+              <span className="text-base sm:text-lg font-bold text-gray-900">
+                ৳{product?.retails_price || 0}
+              </span>
+            )}
+          </div>
+
+          {/* Actions (Always Visible) */}
+          <div className="flex items-center gap-5">
+            {/* Add to Cart */}
+            <button
+              className="text-gray-700 hover:text-black transition-colors duration-200"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleCart(product);
+              }}
+              title="Add to Cart"
+            >
+              <FaCartPlus className="w-5 h-5" />
+            </button>
+
+            {/* Buy Now */}
+            <button
+              className="text-gray-700 hover:text-[#033D7D] transition-colors duration-200"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleBuy(product);
+              }}
+              title="Buy Now"
+            >
+              <FaBagShopping className="w-5 h-5" />
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
