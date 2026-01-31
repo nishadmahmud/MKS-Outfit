@@ -800,7 +800,7 @@
 
 "use client"
 import { Modal, Box, Tab, Tabs, Typography, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import Image from "next/image"
 import { IoIosDoneAll } from "react-icons/io"
 import Link from "next/link"
@@ -820,7 +820,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const ProductPage = ({ params }) => {
-  const { id } = params
+  const { id } = use(params)
   const [quantity, setQuantity] = useState(1)
   const [imageIndex, setImageIndex] = useState(0)
   const [scroll, setScroll] = useState(0)
@@ -948,12 +948,16 @@ const ProductPage = ({ params }) => {
   }, [id])
 
   useEffect(() => {
+    console.log("DEBUG: Product Data Changed", product?.data);
     if (product?.data) {
       if (product.data?.image_paths && product.data?.image_paths.length > 0) {
+        console.log("DEBUG: Setting imageArray from image_paths", product.data.image_paths);
         setImageArray(product.data.image_paths)
       } else if (product.data?.have_variant === "1" && product.data?.imei_image && product?.data?.imei_image?.length > 0) {
+        console.log("DEBUG: Setting imageArray from imei_image", product.data.imei_image);
         setImageArray(product?.data?.imei_image)
       } else {
+        console.log("DEBUG: Setting imageArray from images (fallback)", product?.data?.images);
         setImageArray(product?.data?.images || [])
       }
     }
@@ -1052,12 +1056,12 @@ const ProductPage = ({ params }) => {
 
 
             {/* Main Image */}
-            <div className="aspect-[4/4] bg-neutral-100 rounded-sm overflow-hidden group relative">
+            <div className="aspect-[4/4] bg-white rounded-sm overflow-hidden group relative">
               {imageArray && imageArray.length > 0 ? (
                 <CursorImageZoom
                   src={imageArray[imageIndex]}
                   alt={product?.data?.name || "Product image"}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                   zoomScale={2.5}
                 />
               ) : product?.data?.image_path ? (
@@ -1065,7 +1069,7 @@ const ProductPage = ({ params }) => {
                   src={product.data.image_path || noImg}
                   alt={product?.data?.name || "Product image"}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-contain transition-transform duration-700 group-hover:scale-105"
                 />
               ) : (
                 <div className="w-full h-full bg-neutral-200 flex items-center justify-center">
@@ -1075,15 +1079,17 @@ const ProductPage = ({ params }) => {
             </div>
 
             {/* Thumbnail Images */}
-            {imageArray && imageArray.length > 1 && (
-              <div className="flex justify-center md:justify-start space-x-3 overflow-x-auto pb-2 md:absolute bottom-5 left-[25%]">
+
+
+            {imageArray && imageArray.length > 0 && (
+              <div className="flex justify-center md:justify-start space-x-3 overflow-x-auto pt-4 pb-2">
                 {imageArray.map((image, idx) => (
                   <button
                     key={idx}
                     onClick={() => setImageIndex(idx)}
-                    className={`relative flex-shrink-0 w-20 h-20 rounded-xs overflow-hidden border-2 transition-all duration-300 ${imageIndex === idx
-                      ? "border-neutral-100 shadow-lg"
-                      : "border-neutral-400 hover:border-neutral-400"
+                    className={`relative flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition-all duration-300 ${imageIndex === idx
+                      ? "border-neutral-900 shadow-md"
+                      : "border-gray-200 hover:border-gray-300"
                       }`}
                   >
                     <Image unoptimized src={image || noImg} alt={`Product view ${idx + 1}`} fill className="object-cover" />
@@ -1145,16 +1151,7 @@ const ProductPage = ({ params }) => {
 
             </div>
 
-            {/* Description Preview */}
-            <div className="prose prose-neutral max-w-none">
-              <div className="text-neutral-700 leading-relaxed line-clamp-3"
-                dangerouslySetInnerHTML={{
-                  __html: product?.data?.description
-                    ? product.data.description
-                    : "Premium quality fashion piece crafted with attention to detail."
-                }}
-              />
-            </div>
+
 
             {/* Size Selection */}
             <div className="space-y-4 flex md:flex-row flex-col md:items-center justify-between">

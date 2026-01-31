@@ -52,7 +52,7 @@ const CursorImageZoom = ({
         fill
         src={src || noImage}
         alt={alt}
-        className="w-full h-full object-cover transition-transform duration-200 ease-out"
+        className="w-full h-full object-contain transition-transform duration-200 ease-out"
         style={{
           transform: isZoomed ? `scale(${zoomScale})` : 'scale(1)',
           transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`,

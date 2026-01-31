@@ -536,7 +536,7 @@ const HeaderUi = ({ data }) => {
           className={`fixed inset-0 top-0 bg-white text-black z-50 transform transition-transform duration-500 ease-in-out shadow-lg ${isSearchSidebarOpen ? "translate-y-0" : "-translate-y-full"
             }`}
         >
-          <div className="max-w-11/12 mx-auto p-6">
+          <div className="max-w-11/12 mx-auto p-6" suppressHydrationWarning>
             <div className="grid grid-cols-3 justify-center items-center mb-6">
 
               <div></div>
