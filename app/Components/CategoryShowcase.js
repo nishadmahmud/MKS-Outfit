@@ -109,7 +109,7 @@ const CategoryShowcase = ({
             <div className="grid grid-cols-1 lg:grid-cols-6 gap-6">
 
                 {/* Left Banner - Spans 2 columns on large screens to be square-ish match with 2 rows of products */}
-                <div className="col-span-1 hidden lg:block relative w-full h-full rounded-lg overflow-hidden group cursor-pointer lg:col-span-2">
+                <div className="col-span-1 hidden lg:block relative w-full h-full aspect-square rounded-lg overflow-hidden group cursor-pointer lg:col-span-2">
                     <Link href={categoryLink} className="block w-full h-full relative">
                         <Image
                             unoptimized

@@ -27,7 +27,31 @@ export default async function Home() {
   const categoriesRes = await fetch(`${process.env.NEXT_PUBLIC_API}/public/categories/${userId}`, {
     cache: 'no-cache'
   });
-  const categories = await categoriesRes.json();
+  const categoriesData = await categoriesRes.json();
+  const categories = categoriesData?.data || [];
+
+  // Get first 4 categories for showcase
+  const showcaseCategories = categories.slice(0, 4);
+
+  // Fetch products for these 4 categories
+  const showcaseData = await Promise.all(showcaseCategories.map(async (category) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/public/categorywise-products/${category.category_id}?page=1&limit=8`, {
+        cache: 'no-cache'
+      });
+      const data = await res.json();
+      return {
+        ...category,
+        products: data?.data || []
+      };
+    } catch (error) {
+      console.error(`Error fetching products for category ${category.name}:`, error);
+      return {
+        ...category,
+        products: []
+      };
+    }
+  }));
 
 
 
@@ -44,29 +68,31 @@ export default async function Home() {
         <Banner banner={banner}></Banner>
         <TrendingNow></TrendingNow>
 
-        <CategoryShowcase
-          title="Winter Collection"
-          bannerImage="https://images.unsplash.com/photo-1548624313-0396c75e4b1a?q=80&w=1000&auto=format&fit=crop"
-          categoryLink="/category/winter"
-        />
-        <CategoryShowcase
-          title="Women's Sharee"
-          bannerImage="https://images.unsplash.com/photo-1583391733958-e026639f18b7?q=80&w=1000&auto=format&fit=crop"
-          categoryLink="/category/sharee"
-        />
+        {/* Dynamic Category Showcases - Remaining */}
+        {showcaseData.slice(2).map((category, index) => (
+          <CategoryShowcase
+            key={category.category_id || index + 2}
+            title={category.name}
+            bannerImage={category.image_url || "https://images.unsplash.com/photo-1548624313-0396c75e4b1a?q=80&w=1000&auto=format&fit=crop"}
+            products={category.products}
+            categoryLink={`/category/${category.category_id}?category=${encodeURIComponent(category.name)}`}
+          />
+        ))}
 
         <Banner2 banner={banner}></Banner2>
 
-        <CategoryShowcase
-          title="Kids (Boys)"
-          bannerImage="https://images.unsplash.com/photo-1519238263496-6362d74c1123?q=80&w=1000&auto=format&fit=crop"
-          categoryLink="/category/kids-boys"
-        />
-        <CategoryShowcase
-          title="Kids (Girls)"
-          bannerImage="https://images.unsplash.com/photo-1519457431-44ccd64a579b?q=80&w=1000&auto=format&fit=crop"
-          categoryLink="/category/kids-girls"
-        />
+
+
+        {/* Dynamic Category Showcases - First 2 */}
+        {showcaseData.slice(0, 2).map((category, index) => (
+          <CategoryShowcase
+            key={category.category_id || index}
+            title={category.name}
+            bannerImage={category.image_url || "https://images.unsplash.com/photo-1548624313-0396c75e4b1a?q=80&w=1000&auto=format&fit=crop"}
+            products={category.products}
+            categoryLink={`/category/${category.category_id}?category=${encodeURIComponent(category.name)}`}
+          />
+        ))}
         {/* <SmallBanner banner={banner}/> */}
 
         {/* <VideoSection></VideoSection> */}
