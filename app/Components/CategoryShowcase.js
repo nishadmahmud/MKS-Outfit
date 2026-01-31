@@ -7,91 +7,17 @@ import ProductCardShowcase from "./ProductCardShowcase"
 import { FaArrowRight } from "react-icons/fa6"
 import noImg from "/public/no-image.jpg"
 
-// Dummy Product Data for fallback - More accurate South Asian Context
-const dummyProducts = [
-    {
-        id: 101,
-        name: "Premium Cotton Panjabi",
-        retails_price: 2500,
-        discount: 0,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 102,
-        name: "Embroidered Salwar Kameez",
-        retails_price: 3500,
-        discount: 10,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 103,
-        name: "Elegant Silk Sharee",
-        retails_price: 5500,
-        discount: 0,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1610189012906-47833870f074?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 104,
-        name: "Classic Beige Kurti",
-        retails_price: 1800,
-        discount: 5,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1589810635657-232948472d98?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 105,
-        name: "Printed Lawn Suit",
-        retails_price: 2200,
-        discount: 0,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1564859228273-274232fdb516?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 106,
-        name: "Designer Georgette Gown",
-        retails_price: 4500,
-        discount: 15,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 107,
-        name: "Casual Black Tunic",
-        retails_price: 1200,
-        discount: 0,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1503342217505-b0815a0de1ca?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    },
-    {
-        id: 108,
-        name: "Festive wear collection",
-        retails_price: 6000,
-        discount: 0,
-        discount_type: "Percentage",
-        image_path: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=500&h=500",
-        brand_name: "MKS"
-    }
-]
+
 
 const CategoryShowcase = ({
     title = "Category Name",
     bannerImage = "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop", // Placeholder vertical
-    products = dummyProducts,
+    products = [],
     categoryLink = "/products"
 }) => {
 
-    // Ensure we have exactly 8 items or fill with dummy if empty
-    const displayProducts = products && products.length > 0 ? products.slice(0, 8) : dummyProducts;
+    // Ensure we have exactly 8 items max
+    const displayProducts = products ? products.slice(0, 8) : [];
 
     return (
         <div className="w-11/12 mx-auto my-16">
