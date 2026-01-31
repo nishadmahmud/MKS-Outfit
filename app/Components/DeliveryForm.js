@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { fetcher, userId } from "../(home)/page";
+import { fetcher, userId } from "@/lib/constants";
 import Image from "next/image";
 import Modal from "./Modal";
 import PaymentMethodForm from "./PaymentMethodForm";

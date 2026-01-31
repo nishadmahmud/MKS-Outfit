@@ -5,7 +5,7 @@ import "@smastrom/react-rating/style.css";
 import Heading from "../CustomHooks/title";
 import useStore from "../CustomHooks/useStore";
 import useSWR from "swr";
-import { fetcher, userId } from "../(home)/page";
+import { fetcher, userId } from "@/lib/constants";
 import CardSkeleton from "./CardSkeleton";
 import ProductCard from "./ProductCard";
 

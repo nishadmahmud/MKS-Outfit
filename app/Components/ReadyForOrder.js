@@ -6,7 +6,7 @@ import Link from 'next/link';
 import SubHeading from '../CustomHooks/subHeading';
 import Image from 'next/image';
 import useSWR from 'swr';
-import { fetcher, userId } from '../(home)/page';
+import { fetcher, userId } from '@/lib/constants';
 import CardSkeleton from './CardSkeleton';
 import ProductCard from './ProductCard';
 

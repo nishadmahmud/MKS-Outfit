@@ -2,14 +2,15 @@
 
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
-import orderRecived from "/public/orderRecived.png";
-import orderConfirmed from "/public/orderConfirmd.png";
-import deliveryProccesing from "/public/deliveryProcc.png";
-import orderDelivered from "/public/delivered.png";
 import Image from "next/image";
 import toast from "react-hot-toast";
-import { userId } from "../page";
+import { userId } from "@/lib/constants";
 import CurrencyConverter from "@/app/Components/CurrencyConverter";
+
+const orderRecived = "/orderRecived.png";
+const orderConfirmed = "/orderConfirmd.png";
+const deliveryProccesing = "/deliveryProcc.png";
+const orderDelivered = "/delivered.png";
 
 const STEPS = [
   { title: "Order Received", image: orderRecived },
@@ -65,10 +66,10 @@ export default function Page() {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center px-4 py-20 lg:pt-20 md:pt-16 pt-14">
-      
+
       {/* <CurrencyConverter baseBDT={500}></CurrencyConverter> */}
 
-      
+
       <div className="w-full text-black pt-5">
         <h1 className="text-2xl font-semibold mb-2 text-center">
           Check Your Order Status
@@ -135,10 +136,9 @@ export default function Page() {
               <div
                 className={`
                   md:w-36 md:h-36 w-20 h-20 mb-4 rounded-full flex items-center justify-center p-4 transition-all duration-300
-                  ${
-                    isActive
-                      ? "bg-[#87e8e214] opacity-100 grayscale-0"
-                      : "bg-gray-100 opacity-50 grayscale"
+                  ${isActive
+                    ? "bg-[#87e8e214] opacity-100 grayscale-0"
+                    : "bg-gray-100 opacity-50 grayscale"
                   }
                 `}
               >
@@ -155,10 +155,9 @@ export default function Page() {
               <div
                 className={`
                   md:w-6 md:h-6 h-4 w-4 rounded-full border-2 flex items-center justify-center transition-all duration-300
-                  ${
-                    isActive
-                      ? "border-gray-800 bg-gray-800"
-                      : "border-gray-300 bg-white"
+                  ${isActive
+                    ? "border-gray-800 bg-gray-800"
+                    : "border-gray-300 bg-white"
                   }
                 `}
               >

@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import ProductCardShowcase from "./ProductCardShowcase"
 import { FaArrowRight } from "react-icons/fa6"
-import noImg from "/public/no-image.jpg"
+const noImg = "/no-image.jpg"
 
 
 

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useRef } from 'react';
-import noImage from '/public/no-image.jpg';
+const noImage = "/no-image.jpg"
 
 const CursorImageZoom = ({
   src,
@@ -48,7 +48,7 @@ const CursorImageZoom = ({
       onMouseMove={handleMouseMove}
     >
       <Image
-      unoptimized
+        unoptimized
         fill
         src={src || noImage}
         alt={alt}

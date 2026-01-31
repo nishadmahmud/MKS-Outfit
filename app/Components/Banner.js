@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React from "react";
-import noImg from "/public/no-image.jpg";
+const noImg = "/no-image.jpg";
 
 const Banner = ({ banner }) => {
 
@@ -15,7 +15,7 @@ const Banner = ({ banner }) => {
       {/* Banner 1 */}
       <div className="relative w-full aspect-square overflow-hidden rounded-lg">
         <Image
-        unoptimized
+          unoptimized
           src={image1}
           alt="Mens Banner 1"
           width={2000}
@@ -28,7 +28,7 @@ const Banner = ({ banner }) => {
       {/* Banner 2 */}
       <div className="relative w-full aspect-square overflow-hidden rounded-lg">
         <Image
-        unoptimized
+          unoptimized
           src={image2}
           alt="Mens Banner 2"
           width={2000}

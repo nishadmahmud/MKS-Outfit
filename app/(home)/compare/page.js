@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { userId } from "../page";
+import { userId } from "@/lib/constants";
 import axios from "axios";
-import noImg from '/public/no-image.jpg'
+const noImg = "/no-image.jpg"
 import useStore from "@/app/CustomHooks/useStore";
 
 const Page = () => {
@@ -39,13 +39,13 @@ const Page = () => {
 
   const { handleBuy } = useStore()
 
-useEffect(() => {
-  if (products?.specifications?.length > 0) {
-    const names = products?.specifications?.map((dName) => dName.name); // Extract names
-    setHello(names); // Store as an array in state
- ;
-  }
-}, [products]); // Runs when `products` changes
+  useEffect(() => {
+    if (products?.specifications?.length > 0) {
+      const names = products?.specifications?.map((dName) => dName.name); // Extract names
+      setHello(names); // Store as an array in state
+      ;
+    }
+  }, [products]); // Runs when `products` changes
 
 
 
@@ -125,13 +125,13 @@ useEffect(() => {
                 <h3 className="mt-4 font-semibold text-black text-sm w-2/3 text-center mx-auto text-ellipsis line-clamp-2">{selectedProduct1.name}</h3>
 
                 <div className="flex items-center justify-center gap-2 mt-3">
-                <button onClick={() => {handleBuy(selectedProduct1,1)}} className="border-[#115e59] text-nowrap border text-xs text-[#115e59] w-full px-[8px] py-1.5 rounded font-semibold  transition-colors">Buy Now</button>
-                <button
-                  className="px-2 text-sm py-1 bg-red-500 text-white rounded"
-                  onClick={() => handleRemoveProduct(setSelectedProduct1, setShowResults1)}
-                >
-                  Remove
-                </button>
+                  <button onClick={() => { handleBuy(selectedProduct1, 1) }} className="border-[#115e59] text-nowrap border text-xs text-[#115e59] w-full px-[8px] py-1.5 rounded font-semibold  transition-colors">Buy Now</button>
+                  <button
+                    className="px-2 text-sm py-1 bg-red-500 text-white rounded"
+                    onClick={() => handleRemoveProduct(setSelectedProduct1, setShowResults1)}
+                  >
+                    Remove
+                  </button>
                 </div>
 
               </div>
@@ -189,14 +189,14 @@ useEffect(() => {
                 />
                 <h3 className="mt-4 font-semibold text-black text-sm w-2/3 text-center mx-auto text-ellipsis line-clamp-2">{selectedProduct2.name}</h3>
 
-               <div className="flex items-center justify-center gap-2 mt-3">
-                <button onClick={() => {handleBuy(selectedProduct2,1)}} className="border-[#115e59] text-nowrap border text-xs text-[#115e59] w-full px-[8px] py-1.5 rounded font-semibold  transition-colors">Buy Now</button>
-                <button
-                  className="px-2 text-sm py-1 bg-red-500 text-white rounded"
-                  onClick={() => handleRemoveProduct(setSelectedProduct2, setShowResults2)}
-                >
-                  Remove
-                </button>
+                <div className="flex items-center justify-center gap-2 mt-3">
+                  <button onClick={() => { handleBuy(selectedProduct2, 1) }} className="border-[#115e59] text-nowrap border text-xs text-[#115e59] w-full px-[8px] py-1.5 rounded font-semibold  transition-colors">Buy Now</button>
+                  <button
+                    className="px-2 text-sm py-1 bg-red-500 text-white rounded"
+                    onClick={() => handleRemoveProduct(setSelectedProduct2, setShowResults2)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ) : (
@@ -209,7 +209,7 @@ useEffect(() => {
 
       {/* Product Comparison Table */}
       <div className="mt-8 text-black">
-        
+
         <div className="overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300">
             <thead>
@@ -222,27 +222,27 @@ useEffect(() => {
 
 
             <tbody>
-  {selectedProduct1?.specifications?.length > 0 || selectedProduct2?.specifications?.length > 0 ? (
-    (selectedProduct1?.specifications || selectedProduct2?.specifications || []).map((spec, index) => {
-      const spec1 = selectedProduct1?.specifications?.find((s) => s.name === spec.name);
-      const spec2 = selectedProduct2?.specifications?.find((s) => s.name === spec.name);
+              {selectedProduct1?.specifications?.length > 0 || selectedProduct2?.specifications?.length > 0 ? (
+                (selectedProduct1?.specifications || selectedProduct2?.specifications || []).map((spec, index) => {
+                  const spec1 = selectedProduct1?.specifications?.find((s) => s.name === spec.name);
+                  const spec2 = selectedProduct2?.specifications?.find((s) => s.name === spec.name);
 
-      return (
-        <tr key={index} className="border-b">
-          <td className="py-2 font-semibold border pl-3">
-            {spec.name.charAt(0).toUpperCase() + spec.name.slice(1)}
-          </td>
-          <td className="py-2 pl-3 border">{spec1?.description || "N/A"}</td>
-          <td className="py-2 pl-3 border">{spec2?.description || "N/A"}</td>
-        </tr>
-      );
-    })
-  ) : (
-    <tr>
-      <td colSpan="3" className="text-center py-3 border">No specifications available</td>
-    </tr>
-  )}
-</tbody>
+                  return (
+                    <tr key={index} className="border-b">
+                      <td className="py-2 font-semibold border pl-3">
+                        {spec.name.charAt(0).toUpperCase() + spec.name.slice(1)}
+                      </td>
+                      <td className="py-2 pl-3 border">{spec1?.description || "N/A"}</td>
+                      <td className="py-2 pl-3 border">{spec2?.description || "N/A"}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="3" className="text-center py-3 border">No specifications available</td>
+                </tr>
+              )}
+            </tbody>
 
 
 

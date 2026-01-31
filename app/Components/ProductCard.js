@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import noImg from "/public/no-image.jpg"
+const noImg = "/no-image.jpg"
 import Link from "next/link"
 import { useEffect } from "react"
 import { FaHeart, FaRegHeart, FaCartPlus, FaBagShopping } from "react-icons/fa6"
@@ -29,30 +29,37 @@ const ProductCard = ({ product }) => {
   const discountSuffix = product?.discount_type === "Percentage" ? "%" : product?.discount_type === "Fixed" ? "Tk" : ""
 
   const updateRecentViews = () => {
-    if (!product?.id) return
+    try {
+      if (!product?.id) return
 
-    let recentViews = JSON.parse(localStorage.getItem("recentlyViewed") || "[]")
-    recentViews = recentViews.filter((p) => p.id !== product.id)
-    recentViews.unshift({
-      id: product.id,
-      name: product.name,
-      image: product.image_path || product.images?.[0] || noImg.src,
-      price: product.retails_price,
-      discount: product.discount || 0,
-    })
+      let recentViews = JSON.parse(localStorage.getItem("recentlyViewed") || "[]")
+      recentViews = recentViews.filter((p) => p.id !== product.id)
+      recentViews.unshift({
+        id: product.id,
+        name: product.name,
+        image: product.image_path || product.images?.[0] || noImg,
+        price: product.retails_price,
+        discount: product.discount || 0,
+      })
 
-    if (recentViews.length > 6) recentViews.pop()
-    localStorage.setItem("recentlyViewed", JSON.stringify(recentViews))
+      if (recentViews.length > 6) recentViews.pop()
+      localStorage.setItem("recentlyViewed", JSON.stringify(recentViews))
+    } catch (error) {
+      console.error("Error updating recent views:", error)
+    }
   }
 
   const sanitizeSlug = (str) => {
-    return str
-      ?.toLowerCase()
+    if (!str) return "item";
+    const slug = str
+      .toLowerCase()
       .split(" ")
       .slice(0, 2)
       .join(" ")
       .replace(/\s+/g, "-")
       .replace(/[^a-z0-9-]/g, "")
+
+    return slug || "item"
   }
 
   return (

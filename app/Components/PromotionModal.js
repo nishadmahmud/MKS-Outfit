@@ -5,7 +5,7 @@ import useStore from "../CustomHooks/useStore";
 import { IoClose } from 'react-icons/io5';
 import { FadeLoader } from 'react-spinners';
 import useSWR from 'swr';
-import { fetcher, userId } from '../(home)/page';
+import { fetcher, userId } from '@/lib/constants';
 import { X } from 'lucide-react';
 
 const PromotionModal = () => {

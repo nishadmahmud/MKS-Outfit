@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { fetcher, userId } from "../(home)/page";
+import { fetcher, userId } from "@/lib/constants";
 
 
 const countries = [
@@ -33,16 +33,16 @@ const StoreProvider = ({ children }) => {
   const [isSelectRegion, setIsSelectRegion] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("Bangladesh");
   const [convertedPrice, setConvertedPrice] = useState(null);
-  const [basePrice,setBasePrice] = useState(0);
-  const [wholesalePrice,setWholesalePrice] = useState(0);
- 
-  const [userInfo,setUserInfo] = useState(null);
+  const [basePrice, setBasePrice] = useState(0);
+  const [wholesalePrice, setWholesalePrice] = useState(0);
+
+  const [userInfo, setUserInfo] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [prices, setPrices] = useState({});
   const [country, setCountry] = useState("BD");
   const [wishlist, setWishlist] = useState([]);
   const [selectedSizeCart, setSelectedSizeCart] = useState("")
-console.log(selectedSizeCart);
+  console.log(selectedSizeCart);
   const [selectedSku, setSelectedSku] = useState('')
 
 
@@ -52,31 +52,40 @@ console.log(selectedSizeCart);
 
   // Setter to update price for a specific product
   const setProductPrice = (productId, basePrice, wholesalePrice) => {
-    setPrices((prev) => ({
-      ...prev,
-      [productId]: {
-        basePrice,
-        wholesalePrice,
-      },
-    }));
+    setPrices((prev) => {
+      // Prevent unnecessary updates/re-renders
+      if (
+        prev[productId]?.basePrice === basePrice &&
+        prev[productId]?.wholesalePrice === wholesalePrice
+      ) {
+        return prev;
+      }
+      return {
+        ...prev,
+        [productId]: {
+          basePrice,
+          wholesalePrice,
+        },
+      };
+    });
   };
 
-  
+
 
 
   useEffect(() => {
     setIsMounted(true);
-  // const bangladesh = JSON.parse(localStorage.getItem("selectedCountry"))
+    // const bangladesh = JSON.parse(localStorage.getItem("selectedCountry"))
 
   }, []);
 
   const router = useRouter();
 
 
-// console.log(bangladesh);
+  // console.log(bangladesh);
   const getPriceByCountry = (basePrice, wholesalePrice) => {
-  return selectedCountry.valueOf === "BD" ? basePrice : wholesalePrice;
-};
+    return selectedCountry.valueOf === "BD" ? basePrice : wholesalePrice;
+  };
 
 
 
@@ -93,13 +102,13 @@ console.log(selectedSizeCart);
   }, []);
 
   useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if(user){
-            setUserInfo(user);
-        }
-    },[])
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      setUserInfo(user);
+    }
+  }, [])
 
- 
+
 
   //   const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
   //   const existingProduct = cartItems.find((product) => product.id === item.id);
@@ -126,66 +135,66 @@ console.log(selectedSizeCart);
   // };
 
 
- const handleCart = (item, quantity, variant_id) => {
-   if (!selectedSizeCart) {
-     toast.error("Please select a size first", {
-      position: "bottom-center",
-    });
-     return; 
-   }
-  if (!isMounted) return;
+  const handleCart = (item, quantity, variant_id) => {
+    if (!selectedSizeCart) {
+      toast.error("Please select a size first", {
+        position: "bottom-center",
+      });
+      return;
+    }
+    if (!isMounted) return;
 
 
-  setRefetch(true);
+    setRefetch(true);
 
-  const newItem = {
-    ...item,
-    retails_price: item.price ?? item.retails_price,
-    currency_retail_price: convertedPrice,
-    selectedSize: selectedSizeCart,
-    selectedSizeId: selectedId, // make sure we have this for comparison
-    product_variant_id: selectedId,
-    variant_id,
-    cartItemId: `${item.id}_${selectedId}`,
-    quantity,
+    const newItem = {
+      ...item,
+      retails_price: item.price ?? item.retails_price,
+      currency_retail_price: convertedPrice,
+      selectedSize: selectedSizeCart,
+      selectedSizeId: selectedId, // make sure we have this for comparison
+      product_variant_id: selectedId,
+      variant_id,
+      cartItemId: `${item.id}_${selectedId}`,
+      quantity,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    // Check if the exact product with selected size already exists
+    const existingItemIndex = existingCart.findIndex(
+      (cartItem) =>
+        cartItem.id === item.id && cartItem.selectedSizeId === selectedId
+    );
+
+    // Check stock
+    const isInStock =
+      (newItem.status && newItem.status.toLowerCase() !== "stock out") ||
+      newItem.current_stock > 0;
+
+    if (!isInStock) {
+      toast.error("Out of stock!", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    // If item exists, show error
+    if (existingItemIndex > -1) {
+      toast.error("This product with the selected size is already in your cart!", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    // Add new item to cart
+    existingCart.push(newItem);
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    setCartItems(existingCart);
+    setIsInCart(true);
+
+    toast.success("Item added to cart successfully");
   };
-
-  const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-  // Check if the exact product with selected size already exists
-  const existingItemIndex = existingCart.findIndex(
-    (cartItem) =>
-      cartItem.id === item.id && cartItem.selectedSizeId === selectedId
-  );
-
-  // Check stock
-  const isInStock =
-    (newItem.status && newItem.status.toLowerCase() !== "stock out") ||
-    newItem.current_stock > 0;
-
-  if (!isInStock) {
-    toast.error("Out of stock!", {
-      position: "bottom-center",
-    });
-    return;
-  }
-
-  // If item exists, show error
-  if (existingItemIndex > -1) {
-    toast.error("This product with the selected size is already in your cart!", {
-      position: "bottom-center",
-    });
-    return;
-  }
-
-  // Add new item to cart
-  existingCart.push(newItem);
-  localStorage.setItem("cart", JSON.stringify(existingCart));
-  setCartItems(existingCart);
-  setIsInCart(true);
-
-  toast.success("Item added to cart successfully");
-};
 
 
   const getCartItems = () => {
@@ -195,28 +204,28 @@ console.log(selectedSizeCart);
   };
 
   const removeCheckedOutItems = () => {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const checkoutItems = JSON.parse(localStorage.getItem("checkoutItems")) || [];
 
-  const updatedCart = cart.map(cartItem => {
-    const orderedItem = checkoutItems.find(checkedItem => 
-      (checkedItem.cartItemId || checkedItem.id) === (cartItem.cartItemId || cartItem.id)
-    );
+    const updatedCart = cart.map(cartItem => {
+      const orderedItem = checkoutItems.find(checkedItem =>
+        (checkedItem.cartItemId || checkedItem.id) === (cartItem.cartItemId || cartItem.id)
+      );
 
-    if (orderedItem) {
-      // If user ordered part of the quantity → reduce
-      const remainingQty = cartItem.quantity - orderedItem.quantity;
-      if (remainingQty > 0) {
-        return { ...cartItem, quantity: remainingQty };
+      if (orderedItem) {
+        // If user ordered part of the quantity → reduce
+        const remainingQty = cartItem.quantity - orderedItem.quantity;
+        if (remainingQty > 0) {
+          return { ...cartItem, quantity: remainingQty };
+        }
+        return null; // remove completely if none left
       }
-      return null; // remove completely if none left
-    }
-    return cartItem;
-  }).filter(Boolean);
+      return cartItem;
+    }).filter(Boolean);
 
-  localStorage.setItem("cart", JSON.stringify(updatedCart));
-  localStorage.removeItem("checkoutItems"); // cleanup
-};
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    localStorage.removeItem("checkoutItems"); // cleanup
+  };
 
 
   const handleCartUpdate = () => {
@@ -225,61 +234,61 @@ console.log(selectedSizeCart);
     setCartItems(updatedItems);
   };
 
- const handleIncQuantity = (id, qty, selectedSize) => {
-  const items = getCartItems();
+  const handleIncQuantity = (id, qty, selectedSize) => {
+    const items = getCartItems();
 
-  const updatedItems = items.map((item) => {
-    if (item.id === id && item.selectedSize === selectedSize) {
-      // Find the matching variant inside product_variants array
-      const matchedVariant = item.product_variants?.find(
-        (variant) => variant.name === selectedSize
-      );
-
-      // If stock limit reached, show toast and return original item
-      if (matchedVariant && qty + 1 > matchedVariant.quantity) {
-        toast.error(`Only ${matchedVariant.quantity} items in stock`, {
-      position: "bottom-center",
-    });
-        return item;
-      }
-
-      // Otherwise, increment quantity
-      return { ...item, quantity: qty + 1 };
-    }
-
-    return item;
-  });
-
-  localStorage.setItem("cart", JSON.stringify(updatedItems));
-  handleCartUpdate();
-};
-
-
-const handleDncQuantity = (id, qty, selectedSize) => {
-  const items = getCartItems();
-  let removedItemName = null;
-
-  const updatedItems = items
-    .map((item) => {
+    const updatedItems = items.map((item) => {
       if (item.id === id && item.selectedSize === selectedSize) {
-        const newQty = qty - 1;
-        if (newQty <= 0) {
-          removedItemName = item.name;
-          return null;
+        // Find the matching variant inside product_variants array
+        const matchedVariant = item.product_variants?.find(
+          (variant) => variant.name === selectedSize
+        );
+
+        // If stock limit reached, show toast and return original item
+        if (matchedVariant && qty + 1 > matchedVariant.quantity) {
+          toast.error(`Only ${matchedVariant.quantity} items in stock`, {
+            position: "bottom-center",
+          });
+          return item;
         }
-        return { ...item, quantity: newQty };
+
+        // Otherwise, increment quantity
+        return { ...item, quantity: qty + 1 };
       }
+
       return item;
-    })
-    .filter(Boolean); // Remove nulls
+    });
 
-  localStorage.setItem("cart", JSON.stringify(updatedItems));
-  handleCartUpdate();
+    localStorage.setItem("cart", JSON.stringify(updatedItems));
+    handleCartUpdate();
+  };
 
-  if (removedItemName) {
-    toast.success(`${removedItemName} removed from cart`);
-  }
-};
+
+  const handleDncQuantity = (id, qty, selectedSize) => {
+    const items = getCartItems();
+    let removedItemName = null;
+
+    const updatedItems = items
+      .map((item) => {
+        if (item.id === id && item.selectedSize === selectedSize) {
+          const newQty = qty - 1;
+          if (newQty <= 0) {
+            removedItemName = item.name;
+            return null;
+          }
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      })
+      .filter(Boolean); // Remove nulls
+
+    localStorage.setItem("cart", JSON.stringify(updatedItems));
+    handleCartUpdate();
+
+    if (removedItemName) {
+      toast.success(`${removedItemName} removed from cart`);
+    }
+  };
 
 
 
@@ -318,45 +327,45 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     localStorage.setItem("wishlist", JSON.stringify(remainingItems));
   };
 
-  
+
   const handleBuy = (item, quantity) => {
-  if (!selectedSizeCart) {
-    toast.error("Please select a size first", {
-      position: "bottom-center",
-    });
-    return;
-  }
+    if (!selectedSizeCart) {
+      toast.error("Please select a size first", {
+        position: "bottom-center",
+      });
+      return;
+    }
 
-  // Add to cart first
-  handleCart(item, quantity);
+    // Add to cart first
+    handleCart(item, quantity);
 
-  // Sync latest cart
-  const cartItems = getCartItems();
+    // Sync latest cart
+    const cartItems = getCartItems();
 
-  // Check stock availability
-  const status = typeof item?.status === "string" ? item.status.toLowerCase() : null;
-  const isAvailable = (status && status !== "stock out") || item?.current_stock;
+    // Check stock availability
+    const status = typeof item?.status === "string" ? item.status.toLowerCase() : null;
+    const isAvailable = (status && status !== "stock out") || item?.current_stock;
 
-  if (isAvailable) {
-    // Save checkout items separately
-    const checkoutItems = cartItems.filter(
-      (cartItem) =>
-        (cartItem.cartItemId || cartItem.id) === (item.cartItemId || item.id)
-    );
+    if (isAvailable) {
+      // Save checkout items separately
+      const checkoutItems = cartItems.filter(
+        (cartItem) =>
+          (cartItem.cartItemId || cartItem.id) === (item.cartItemId || item.id)
+      );
 
-    localStorage.setItem("checkoutItems", JSON.stringify(checkoutItems));
+      localStorage.setItem("checkoutItems", JSON.stringify(checkoutItems));
 
-    // Remove checked out items from cart (keep only remaining ones)
-    removeCheckedOutItems();
+      // Remove checked out items from cart (keep only remaining ones)
+      removeCheckedOutItems();
 
-    // Redirect to checkout
-    router.push("/checkout");
-  } else {
-    toast.error("This item is out of stock", {
-      position: "bottom-center",
-    });
-  }
-};
+      // Redirect to checkout
+      router.push("/checkout");
+    } else {
+      toast.error("This item is out of stock", {
+        position: "bottom-center",
+      });
+    }
+  };
 
 
 
@@ -392,8 +401,8 @@ const handleDncQuantity = (id, qty, selectedSize) => {
 
   const values = {
     handleCart,
-     prices,
-        setProductPrice,
+    prices,
+    setProductPrice,
     setIsSelectRegion,
     isSelectRegion,
     handleSelectRegion,
@@ -421,7 +430,7 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     setIsLoginModal,
     setWishlist,
     wishlist,
-   
+
     token,
     setWholesalePrice,
     wholesalePrice,
@@ -447,7 +456,7 @@ const handleDncQuantity = (id, qty, selectedSize) => {
     convertedPrice,
     setSelectedSizeCart,
     selectedSizeCart,
-    
+
     setConvertedPrice,
     setBasePrice,
     setCountry,

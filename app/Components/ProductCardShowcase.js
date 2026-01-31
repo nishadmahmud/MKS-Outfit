@@ -2,17 +2,19 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import noImg from "/public/no-image.jpg"
+const noImg = "/no-image.jpg"
 
 const ProductCardShowcase = ({ product }) => {
     const sanitizeSlug = (str) => {
-        return str
-            ?.toLowerCase()
+        if (!str) return "item";
+        const slug = str
+            .toLowerCase()
             .split(" ")
             .slice(0, 2)
             .join(" ")
             .replace(/\s+/g, "-")
             .replace(/[^a-z0-9-]/g, "")
+        return slug || "item"
     }
 
     const discountedPrice = product?.discount

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { fetcher, userId } from "../page";
+import { fetcher, userId } from "@/lib/constants";
 import Link from "next/link";
 import useSWR from "swr";
 import Loader from "@/app/Components/Loader";

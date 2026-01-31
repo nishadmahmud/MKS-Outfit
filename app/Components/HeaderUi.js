@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Gift, Heart, NotebookPen, ShoppingBag, ShoppingBagIcon, User } from "lucide-react"
 import { IoCloseSharp, IoSearch } from "react-icons/io5"
 import axios from "axios"
-import noImg from "/public/no-image.jpg"
+const noImg = "/no-image.jpg"
 import Search from "./Search"
 import useStore from "../CustomHooks/useStore"
 import CartItems from "./CartItems"
@@ -16,7 +16,7 @@ import RegisterForm from "./RegisterForm"
 import LoginForm from "./LoginForm"
 import Modal from "./Modal"
 import Navbar from "./Navbar"
-import { userId } from "../(home)/page"
+import { userId } from "@/lib/constants"
 import { ShoppingCart } from "lucide-react"
 import ProductCard from "./ProductCard"
 import { AnimatePresence, motion } from "framer-motion";
@@ -33,7 +33,7 @@ const HeaderUi = ({ data }) => {
     setReload,
     getCartItems,
     userInfo,
-   
+
   } = useStore()
   const [keyword, setKeyword] = useState("")
   const [searchedItem, setSearchedItem] = useState([])
@@ -51,7 +51,7 @@ const HeaderUi = ({ data }) => {
     setIsSidebarOpen((prev) => !prev)
   }
 
-   const sidebarVariants = {
+  const sidebarVariants = {
     hidden: { x: "-100%", opacity: 0 },
     visible: {
       x: 0,
@@ -185,16 +185,16 @@ const HeaderUi = ({ data }) => {
     }
   };
 
- const [openCategory, setOpenCategory] = useState(null); // NEW
+  const [openCategory, setOpenCategory] = useState(null); // NEW
 
-const handleToggleCategory = async (categoryId) => {
-  if (openCategory === categoryId) {
-    setOpenCategory(null); // collapse
-  } else {
-    setOpenCategory(categoryId); // expand
-    await fetchSubcategories(categoryId);
-  }
-};
+  const handleToggleCategory = async (categoryId) => {
+    if (openCategory === categoryId) {
+      setOpenCategory(null); // collapse
+    } else {
+      setOpenCategory(categoryId); // expand
+      await fetchSubcategories(categoryId);
+    }
+  };
 
   return (
     <div>
@@ -229,19 +229,16 @@ const handleToggleCategory = async (categoryId) => {
             >
               <div className={`burger-menu text-white bg-white ${isSidebarOpen ? "open" : ""}`}>
                 <span
-                  className={`block w-5 h-0.5 bg-black transition-all duration-300 ${
-                    isSidebarOpen ? "rotate-45 translate-y-1" : ""
-                  }`}
+                  className={`block w-5 h-0.5 bg-black transition-all duration-300 ${isSidebarOpen ? "rotate-45 translate-y-1" : ""
+                    }`}
                 ></span>
                 <span
-                  className={`block w-5 h-0.5 bg-black my-1 transition-all duration-300 ${
-                    isSidebarOpen ? "opacity-0" : ""
-                  }`}
+                  className={`block w-5 h-0.5 bg-black my-1 transition-all duration-300 ${isSidebarOpen ? "opacity-0" : ""
+                    }`}
                 ></span>
                 <span
-                  className={`block w-5 h-0.5 bg-black transition-all duration-300 ${
-                    isSidebarOpen ? "-rotate-45 -translate-y-1" : ""
-                  }`}
+                  className={`block w-5 h-0.5 bg-black transition-all duration-300 ${isSidebarOpen ? "-rotate-45 -translate-y-1" : ""
+                    }`}
                 ></span>
               </div>
             </button>
@@ -249,88 +246,88 @@ const handleToggleCategory = async (categoryId) => {
             <div className="hidden lg:flex gap-5">
               <div>
                 <Link href={"/"}>
-                <Image unoptimized src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} className="w-8 md:w-14" alt="logo"></Image>
-              </Link>
+                  <Image unoptimized src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} className="w-8 md:w-14" alt="logo"></Image>
+                </Link>
               </div>
 
-                  <div onClick={toggleSearchSidebar} className="flex items-center gap-0.5 text-base cursor-pointer">
-                    <IoSearch
-        size={18}
-        className=" text-gray-800 peer-focus:text-black transition-colors"
-      /> Search
-                  </div>
-              
+              <div onClick={toggleSearchSidebar} className="flex items-center gap-0.5 text-base cursor-pointer">
+                <IoSearch
+                  size={18}
+                  className=" text-gray-800 peer-focus:text-black transition-colors"
+                /> Search
+              </div>
+
             </div>
           </div>
 
           <div className="lg:hidden absolute left-1/2 transform -translate-x-1/2 flex justify-center">
             <Link href={"/"}>
-               <Image unoptimized src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} className="w-10 md:w-20" alt="logo"></Image>
+              <Image unoptimized src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} className="w-10 md:w-20" alt="logo"></Image>
             </Link>
           </div>
 
           <div className="hidden lg:flex items-center justify-center flex-1 mx-8 pr-20">
-             <nav className="flex items-center space-x-8 relative">
-      {data?.data?.slice(0, 5).map((item, idx) => {
-        const categoryHref = `/category/${encodeURIComponent(
-          item?.category_id || ""
-        )}?category=${encodeURIComponent(item?.name || "")}&total=${encodeURIComponent(
-          item?.product_count || 0
-        )}`;
+            <nav className="flex items-center space-x-8 relative">
+              {data?.data?.slice(0, 5).map((item, idx) => {
+                const categoryHref = `/category/${encodeURIComponent(
+                  item?.category_id || ""
+                )}?category=${encodeURIComponent(item?.name || "")}&total=${encodeURIComponent(
+                  item?.product_count || 0
+                )}`;
 
-        const isHovered = hoveredCategory === item?.category_id;
-        const currentSubs = subcategories[item?.category_id] || [];
+                const isHovered = hoveredCategory === item?.category_id;
+                const currentSubs = subcategories[item?.category_id] || [];
 
-        return (
-          <div
-            key={item?.category_id}
-            className="relative"
-            onMouseEnter={() => {
-              setHoveredCategory(item?.category_id);
-              fetchSubcategories(item?.category_id);
-            }}
-            onMouseLeave={() => setHoveredCategory(null)}
-          >
-            {/* Category link */}
-            <Link
-              href={categoryHref}
-              className="text-sm font-medium text-gray-700 hover:text-gray-600 transition-colors duration-200 whitespace-nowrap"
-            >
-              {item?.name || `Category ${idx + 1}`}
-            </Link>
+                return (
+                  <div
+                    key={item?.category_id}
+                    className="relative"
+                    onMouseEnter={() => {
+                      setHoveredCategory(item?.category_id);
+                      fetchSubcategories(item?.category_id);
+                    }}
+                    onMouseLeave={() => setHoveredCategory(null)}
+                  >
+                    {/* Category link */}
+                    <Link
+                      href={categoryHref}
+                      className="text-sm font-medium text-gray-700 hover:text-gray-600 transition-colors duration-200 whitespace-nowrap"
+                    >
+                      {item?.name || `Category ${idx + 1}`}
+                    </Link>
 
-            {/* Subcategories dropdown */}
-            {isHovered && currentSubs.length > 0 && (
-              <div className="absolute top-full -left-20 pt-2 z-[100]">
-                <div className="bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out">
-                  <div className="py-2">
-                    <div className="grid grid-cols-2 min-w-80 w-96 gap-1">
-                      {currentSubs.map((sub) => (
-                        <Link
-                          key={sub.id}
-                          href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
-                            sub.name
-                          )}&categoryId=${encodeURIComponent(item?.category_id)}`}
-                          className="px-5 py-2 text-sm text-gray-700 hover:text-[#707070] transition-colors duration-150 ease-in-out text-start"
-                        >
-                          {sub.name}
-                        </Link>
-                      ))}
-                    </div>
+                    {/* Subcategories dropdown */}
+                    {isHovered && currentSubs.length > 0 && (
+                      <div className="absolute top-full -left-20 pt-2 z-[100]">
+                        <div className="bg-white ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out">
+                          <div className="py-2">
+                            <div className="grid grid-cols-2 min-w-80 w-96 gap-1">
+                              {currentSubs.map((sub) => (
+                                <Link
+                                  key={sub.id}
+                                  href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
+                                    sub.name
+                                  )}&categoryId=${encodeURIComponent(item?.category_id)}`}
+                                  className="px-5 py-2 text-sm text-gray-700 hover:text-[#707070] transition-colors duration-150 ease-in-out text-start"
+                                >
+                                  {sub.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </nav>
+                );
+              })}
+            </nav>
           </div>
 
           {/* Right side icons */}
           <div className="flex items-center justify-end gap-2 md:gap-6">
 
-          
+
             {/* Search icon */}
             <button
               onClick={toggleSearchSidebar}
@@ -359,9 +356,9 @@ const handleToggleCategory = async (categoryId) => {
 
             {/* Cart icon */}
             <Link
-             href="/cart" 
-            //  href="/" 
-             className="items-center cursor-pointer hidden md:flex" aria-label="Cart">
+              href="/cart"
+              //  href="/" 
+              className="items-center cursor-pointer hidden md:flex" aria-label="Cart">
               <div className="relative">
                 <ShoppingCart size={22} className="text-black" />
                 {total > 0 && (
@@ -374,19 +371,19 @@ const handleToggleCategory = async (categoryId) => {
 
             {/* User account */}
             {!user ? (
-              <Link 
-              // href="/" 
-              href="/login" 
-              className="hidden lg:flex items-center cursor-pointer" aria-label="Login">
+              <Link
+                // href="/" 
+                href="/login"
+                className="hidden lg:flex items-center cursor-pointer" aria-label="Login">
                 <User size={22} className="text-black" />
               </Link>
             ) : (
-              <Link 
-              
-              // href="/"
-              href="/profileDashboard"
-              
-              className="hidden lg:flex items-center cursor-pointer">
+              <Link
+
+                // href="/"
+                href="/profileDashboard"
+
+                className="hidden lg:flex items-center cursor-pointer">
                 <div className="w-6 h-6 rounded-full overflow-hidden">
                   <Image unoptimized src="/userLogin.png" alt="User" width={32} height={32} />
                 </div>
@@ -398,147 +395,146 @@ const handleToggleCategory = async (categoryId) => {
 
         {/* Mobile sidebar */}
         <AnimatePresence>
-      {isSidebarOpen && (
-        <motion.div
-          data-sidebar="mobile"
-          key="sidebar"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={sidebarVariants}
-          className="fixed top-0 left-0 w-4/5 max-w-xs h-full bg-white text-gray-800 z-50 shadow-lg"
-        >
-          {/* Header */}
-          <div className="flex justify-between items-center p-4 border-b">
-            <Link
-              href="/"
-              onClick={toggleSidebar}
-              className="text-lg text-center font-semibold logoFont"
+          {isSidebarOpen && (
+            <motion.div
+              data-sidebar="mobile"
+              key="sidebar"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={sidebarVariants}
+              className="fixed top-0 left-0 w-4/5 max-w-xs h-full bg-white text-gray-800 z-50 shadow-lg"
             >
-              <Image
-                unoptimized
-                src="https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png"
-                width={500}
-                height={500}
-                className="w-10 md:w-16"
-                alt="logo"
-              />
-            </Link>
-            <button onClick={toggleSidebar} aria-label="Close sidebar">
-              <IoCloseSharp
-                size={24}
-                className="text-gray-600 hover:text-red-500 transition"
-              />
-            </button>
-          </div>
+              {/* Header */}
+              <div className="flex justify-between items-center p-4 border-b">
+                <Link
+                  href="/"
+                  onClick={toggleSidebar}
+                  className="text-lg text-center font-semibold logoFont"
+                >
+                  <Image
+                    unoptimized
+                    src="https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png"
+                    width={500}
+                    height={500}
+                    className="w-10 md:w-16"
+                    alt="logo"
+                  />
+                </Link>
+                <button onClick={toggleSidebar} aria-label="Close sidebar">
+                  <IoCloseSharp
+                    size={24}
+                    className="text-gray-600 hover:text-red-500 transition"
+                  />
+                </button>
+              </div>
 
-          {/* Content with stagger */}
-          <motion.div
-            className="p-4 overflow-y-auto h-[calc(100vh-120px)]"
-            variants={container}
-            initial="hidden"
-            animate="show"
-          >
-            
-
-            
-
-          <motion.ul className="space-y-2" variants={container}>
-  {data?.data?.map((itemData, idx) => {
-    const isOpen = openCategory === itemData?.category_id;
-    const currentSubs = subcategories[itemData?.category_id] || [];
-
-    return (
-      <motion.li key={idx} variants={item} className="border-b">
-        {/* Category row */}
-        <button
-          onClick={() => handleToggleCategory(itemData?.category_id)}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-50 transition"
-        >
-          <span className="text-sm font-medium">
-            {itemData?.name || `Category ${idx + 1}`}
-          </span>
-          <span className="text-xs text-gray-500">
-            {isOpen ? "−" : "+"}
-          </span>
-        </button>
-
-        {/* Subcategories accordion */}
-        {isOpen && currentSubs.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            transition={{ duration: 0.3 }}
-            className="pl-5 flex flex-col"
-          >
-            {currentSubs.map((sub) => (
-              <Link
-                key={sub.id}
-                onClick={toggleSidebar}
-                href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
-                  sub.name
-                )}&categoryId=${encodeURIComponent(itemData?.category_id)}`}
-                className="px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#373838] transition rounded"
+              {/* Content with stagger */}
+              <motion.div
+                className="p-4 overflow-y-auto h-[calc(100vh-120px)]"
+                variants={container}
+                initial="hidden"
+                animate="show"
               >
-                {sub.name}
-              </Link>
-            ))}
-          </motion.div>
-        )}
-      </motion.li>
-    );
-  })}
-</motion.ul>
 
 
 
 
-            <hr className="my-5 border-t" />
+                <motion.ul className="space-y-2" variants={container}>
+                  {data?.data?.map((itemData, idx) => {
+                    const isOpen = openCategory === itemData?.category_id;
+                    const currentSubs = subcategories[itemData?.category_id] || [];
 
-            <motion.div className="space-y-4" variants={container}>
-              <motion.div variants={item}>
-                <Link
-                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                  href="/"
-                >
-                  <Gift size={18} className="text-gray-600" />
-                  <span className="text-sm font-medium">Latest Offer</span>
-                </Link>
-              </motion.div>
+                    return (
+                      <motion.li key={idx} variants={item} className="border-b">
+                        {/* Category row */}
+                        <button
+                          onClick={() => handleToggleCategory(itemData?.category_id)}
+                          className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                        >
+                          <span className="text-sm font-medium">
+                            {itemData?.name || `Category ${idx + 1}`}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {isOpen ? "−" : "+"}
+                          </span>
+                        </button>
 
-              <motion.div variants={item}>
-                <Link
-                  onClick={toggleSidebar}
-                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                  href="/"
-                >
-                  <NotebookPen size={18} className="text-gray-600" />
-                  <span className="text-sm font-medium">Blog</span>
-                </Link>
-              </motion.div>
+                        {/* Subcategories accordion */}
+                        {isOpen && currentSubs.length > 0 && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            transition={{ duration: 0.3 }}
+                            className="pl-5 flex flex-col"
+                          >
+                            {currentSubs.map((sub) => (
+                              <Link
+                                key={sub.id}
+                                onClick={toggleSidebar}
+                                href={`/subcategory/${sub.id}?subcategory=${encodeURIComponent(
+                                  sub.name
+                                )}&categoryId=${encodeURIComponent(itemData?.category_id)}`}
+                                className="px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#373838] transition rounded"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </motion.li>
+                    );
+                  })}
+                </motion.ul>
 
-              <motion.div variants={item}>
-                <Link
-                  onClick={toggleSidebar}
-                  className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
-                  href="/"
-                >
-                  <FaUsers size={18} className="text-gray-600" />
-                  <span className="text-sm font-medium">About Us</span>
-                </Link>
+
+
+
+                <hr className="my-5 border-t" />
+
+                <motion.div className="space-y-4" variants={container}>
+                  <motion.div variants={item}>
+                    <Link
+                      className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                      href="/"
+                    >
+                      <Gift size={18} className="text-gray-600" />
+                      <span className="text-sm font-medium">Latest Offer</span>
+                    </Link>
+                  </motion.div>
+
+                  <motion.div variants={item}>
+                    <Link
+                      onClick={toggleSidebar}
+                      className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                      href="/"
+                    >
+                      <NotebookPen size={18} className="text-gray-600" />
+                      <span className="text-sm font-medium">Blog</span>
+                    </Link>
+                  </motion.div>
+
+                  <motion.div variants={item}>
+                    <Link
+                      onClick={toggleSidebar}
+                      className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-gray-50 transition"
+                      href="/"
+                    >
+                      <FaUsers size={18} className="text-gray-600" />
+                      <span className="text-sm font-medium">About Us</span>
+                    </Link>
+                  </motion.div>
+                </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          )}
+        </AnimatePresence>
 
         {/* Search sidebar - slides from top */}
         <div
           data-sidebar="search"
-          className={`fixed inset-0 top-0 bg-white text-black z-50 transform transition-transform duration-500 ease-in-out shadow-lg ${
-            isSearchSidebarOpen ? "translate-y-0" : "-translate-y-full"
-          }`}
+          className={`fixed inset-0 top-0 bg-white text-black z-50 transform transition-transform duration-500 ease-in-out shadow-lg ${isSearchSidebarOpen ? "translate-y-0" : "-translate-y-full"
+            }`}
         >
           <div className="max-w-11/12 mx-auto p-6">
             <div className="grid grid-cols-3 justify-center items-center mb-6">
@@ -548,12 +544,11 @@ const handleToggleCategory = async (categoryId) => {
               <div onClick={toggleSearchSidebar} className="w-24 mx-auto cursor-pointer">
                 <Image className="w-24" src='https://www.outletexpense.xyz/uploads/215-Rifat-Hasan/1762859683.png' width={500} height={500} alt="logo"></Image>
               </div>
-              
-              <div className="flex items-end
-               justify-end justify-items-end">
+
+              <div className="flex items-end justify-end justify-items-end">
                 <button onClick={toggleSearchSidebar} aria-label="Close search">
-                <IoCloseSharp size={25} className="text-gray-800 hover:text-red-600 transition" />
-              </button>
+                  <IoCloseSharp size={25} className="text-gray-800 hover:text-red-600 transition" />
+                </button>
               </div>
             </div>
 
@@ -600,8 +595,8 @@ const handleToggleCategory = async (categoryId) => {
 
                     return (
                       <div key={idx} onClick={toggleSearchSidebar}>
-                      
-                      <ProductCard  product={item} />
+
+                        <ProductCard product={item} />
                       </div>
                     )
                   })}
@@ -674,7 +669,7 @@ const handleToggleCategory = async (categoryId) => {
                   onClose={handleModalClose}
                   isRegistered={isRegistered}
                   setReload={setReload}
-                  modal={true} 
+                  modal={true}
                 />
               )
             }

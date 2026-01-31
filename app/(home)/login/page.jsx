@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import axios from "axios"
 import toast from "react-hot-toast"
 import useStore from "@/app/CustomHooks/useStore"
-import { userId } from "../page"
+import { userId } from "@/lib/constants"
 
 
 export default function LoginPage() {

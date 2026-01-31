@@ -19,7 +19,7 @@
 // import useSWR from "swr";
 // import axios from "axios";
 // import toast from "react-hot-toast";
-// import noImg from "/public/no-image.jpg";
+// const noImg = "/no-image.jpg";
 // import { htmlToText } from "html-to-text";
 // import "react-inner-image-zoom/lib/styles.min.css";
 // import useStore from "@/app/CustomHooks/useStore";
@@ -808,18 +808,16 @@ import { Minus, Plus, ShoppingBag, Star, Truck, Shield, RotateCcw } from "lucide
 import useSWR from "swr"
 import axios from "axios"
 import toast from "react-hot-toast"
-import noImg from "/public/no-image.jpg"
-import { htmlToText } from "html-to-text"
+// import { htmlToText } from "html-to-text"
 import "react-inner-image-zoom/lib/styles.min.css"
 import useStore from "@/app/CustomHooks/useStore"
+const noImg = "/no-image.jpg"
 import useWishlist from "@/app/CustomHooks/useWishlist"
 import { FaHeart, FaRegHeart } from "react-icons/fa6"
 import CursorImageZoom from "@/app/Components/CustomImageZoom"
-import { userId } from "@/app/(home)/page"
+import { userId, fetcher } from "@/lib/constants"
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-// Fetcher function from the original code
-const fetcher = (url) => fetch(url).then((res) => res.json())
 
 const ProductPage = ({ params }) => {
   const { id } = params
@@ -882,7 +880,7 @@ const ProductPage = ({ params }) => {
     }
   }, [])
 
-  const productPrice = prices[product?.data.id]
+  const productPrice = prices[product?.data?.id]
 
 
 
@@ -895,19 +893,19 @@ const ProductPage = ({ params }) => {
 
   const discountedPrice =
     country?.value === "BD"
-      ? product?.data.discount_type === "Percentage"
+      ? product?.data?.discount_type === "Percentage"
         ? product?.data?.discount
-          ? (product?.data?.retails_price - (product?.data?.retails_price * product?.data.discount) / 100).toFixed(0)
+          ? (product?.data?.retails_price - (product?.data?.retails_price * product?.data?.discount) / 100).toFixed(0)
           : null
-        : product?.data.retails_price - product?.data.discount
-      : product?.data.discount_type === "Percentage"
+        : product?.data?.retails_price - product?.data?.discount
+      : product?.data?.discount_type === "Percentage"
         ? product?.data?.intl_discount
           ? (
             product?.data?.intl_retails_price -
-            (product?.data?.intl_retails_price * product?.data.intl_discount) / 100
+            (product?.data?.intl_retails_price * product?.data?.intl_discount) / 100
           ).toFixed(0)
           : null
-        : product?.data.intl_retails_price - product?.data.intl_discount
+        : product?.data?.intl_retails_price - product?.data?.intl_discount
 
 
 
@@ -951,10 +949,12 @@ const ProductPage = ({ params }) => {
 
   useEffect(() => {
     if (product?.data) {
-      if (product.data?.have_variant === "1" && product.data?.imei_image && product?.data?.imei_image?.length > 0) {
+      if (product.data?.image_paths && product.data?.image_paths.length > 0) {
+        setImageArray(product.data.image_paths)
+      } else if (product.data?.have_variant === "1" && product.data?.imei_image && product?.data?.imei_image?.length > 0) {
         setImageArray(product?.data?.imei_image)
       } else {
-        setImageArray(product?.data?.images)
+        setImageArray(product?.data?.images || [])
       }
     }
   }, [product?.data])
@@ -1015,12 +1015,12 @@ const ProductPage = ({ params }) => {
     )
   }
 
-  const descriptionText = product?.data?.description
-    ? htmlToText(product.data.description, {
-      wordwrap: false,
-      selectors: [{ selector: "a", options: { ignoreHref: true } }],
-    })
-    : null
+  // const descriptionText = product?.data?.description
+  //   ? htmlToText(product.data.description, {
+  //     wordwrap: false,
+  //     selectors: [{ selector: "a", options: { ignoreHref: true } }],
+  //   })
+  //   : null
 
   const isCartItem = cartItems.find((item) => item?.id === product?.data.id && item?.selectedSizeId === selectedId)
 
@@ -1082,8 +1082,8 @@ const ProductPage = ({ params }) => {
                     key={idx}
                     onClick={() => setImageIndex(idx)}
                     className={`relative flex-shrink-0 w-20 h-20 rounded-xs overflow-hidden border-2 transition-all duration-300 ${imageIndex === idx
-                        ? "border-neutral-100 shadow-lg"
-                        : "border-neutral-400 hover:border-neutral-400"
+                      ? "border-neutral-100 shadow-lg"
+                      : "border-neutral-400 hover:border-neutral-400"
                       }`}
                   >
                     <Image unoptimized src={image || noImg} alt={`Product view ${idx + 1}`} fill className="object-cover" />
@@ -1147,11 +1147,13 @@ const ProductPage = ({ params }) => {
 
             {/* Description Preview */}
             <div className="prose prose-neutral max-w-none">
-              <p className="text-neutral-700 leading-relaxed">
-                {descriptionText
-                  ? descriptionText.substring(0, 150) + "..."
-                  : "Premium quality fashion piece crafted with attention to detail."}
-              </p>
+              <div className="text-neutral-700 leading-relaxed line-clamp-3"
+                dangerouslySetInnerHTML={{
+                  __html: product?.data?.description
+                    ? product.data.description
+                    : "Premium quality fashion piece crafted with attention to detail."
+                }}
+              />
             </div>
 
             {/* Size Selection */}
@@ -1201,8 +1203,8 @@ const ProductPage = ({ params }) => {
                           }}
                           disabled={isDisabled || isInCartSize}
                           className={`relative min-w-[3rem] h-12 px-4 border-2 rounded-sm font-medium transition-all duration-300 ${isSelected
-                              ? "border-neutral-900 bg-neutral-900 text-white shadow-lg"
-                              : "border-neutral-300 bg-white text-neutral-900 hover:border-neutral-500"
+                            ? "border-neutral-900 bg-neutral-900 text-white shadow-lg"
+                            : "border-neutral-300 bg-white text-neutral-900 hover:border-neutral-500"
                             } ${isDisabled || isInCartSize ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
                         >
                           {variant.name}
@@ -1278,8 +1280,8 @@ const ProductPage = ({ params }) => {
                   handleCart(product?.data, quantity, selectedId)
                 }}
                 className={`w-full flex items-center justify-center space-x-3 py-3 px-6 rounded-sm font-semibold text-lg transition-all duration-300 ${isInCart
-                    ? "bg-green-100 text-green-800 border-2 border-green-300"
-                    : "bg-neutral-100 hover:bg-neutral-200 text-neutral-900 border-2 border-neutral-300"
+                  ? "bg-green-100 text-green-800 border-2 border-green-300"
+                  : "bg-neutral-100 hover:bg-neutral-200 text-neutral-900 border-2 border-neutral-300"
                   }`}
                 disabled={isInCart}
               >
@@ -1349,8 +1351,11 @@ const ProductPage = ({ params }) => {
                     className="overflow-hidden px-4 pb-4"
                   >
                     <div className="text-neutral-700 leading-relaxed space-y-4">
-                      {descriptionText ? (
-                        <p className="whitespace-pre-line">{descriptionText}</p>
+                      {product?.data?.description ? (
+                        <div
+                          className="prose prose-sm max-w-none"
+                          dangerouslySetInnerHTML={{ __html: product.data.description }}
+                        />
                       ) : (
                         <div className="space-y-4">
                           <p>
@@ -1492,8 +1497,8 @@ const ProductPage = ({ params }) => {
                   handleCart(product?.data, quantity, selectedId)
                 }}
                 className={`py-2 px-6 rounded-sm font-medium text-sm transition-all ${isCartItem
-                    ? "bg-green-100 text-green-800 border-2 border-green-300"
-                    : "bg-neutral-900 hover:bg-neutral-800 text-white"
+                  ? "bg-green-100 text-green-800 border-2 border-green-300"
+                  : "bg-neutral-900 hover:bg-neutral-800 text-white"
                   }`}
                 disabled={isCartItem && selectedSize}
               >

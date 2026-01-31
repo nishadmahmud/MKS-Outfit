@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
 import useSWR from 'swr';
-import { fetcher, userId } from '../(home)/page';
+import { fetcher, userId } from '@/lib/constants';
 import CardSkeleton from './CardSkeleton';
 import ProductCard from './ProductCard';
 import { IoArrowBack, IoArrowForward } from 'react-icons/io5';

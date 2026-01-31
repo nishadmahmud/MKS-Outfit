@@ -7,7 +7,7 @@ import { House } from "lucide-react";
 import { Gift } from "lucide-react";
 import useStore from "../CustomHooks/useStore";
 import Image from "next/image";
-import loginLogo from "/public/user.png";
+const loginLogo = "/user.png";
 import { IoNewspaperOutline } from "react-icons/io5";
 import GlobeModalButton from "./GlobeModalButton";
 import { Heart } from "lucide-react";
@@ -62,7 +62,7 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
   return (
     <div className="relative">
       {/* desktop menu */}
-      
+
 
       {/* mobile & tablet menu */}
       <div className="relative">
@@ -76,23 +76,23 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
               <span className="text-black">Home</span>
             </Link>
 
-           <Link
-            href='/wishlist'
-              
+            <Link
+              href='/wishlist'
+
               className="flex flex-col items-center text-sm text-[#242424]"
             >
               <div>
                 <Heart className="text-2xl" />
                 {wishlist.length ? (<p className="bg-[#242424] z-[900] h-fit text-[#ffffff] w-fit px-1 text-xs rounded-full absolute top-2">
                   {wishlist.length}
-                </p>): ""}
+                </p>) : ""}
               </div>
               <span className="text-black">Wishlist</span>
             </Link>
 
             <Link
-            href='/cart'
-              
+              href='/cart'
+
               className="flex flex-col items-center text-sm text-[#242424]"
             >
               <div>
@@ -109,7 +109,7 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
                 className="flex flex-col items-center text-sm text-[#242424]"
               >
                 <Image
-                  
+
                   className="border-2 p-0.5 border-[#242424] rounded-full"
                   src={loginLogo}
                   alt="navLogo"
@@ -119,9 +119,9 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
                 <span className="text-black">Account</span>
               </Link>
             ) : (
-              <Link 
-              href="/"
-               
+              <Link
+                href="/"
+
                 className="flex flex-col items-center text-sm text-[#242424] cursor-pointer"
               >
                 <LogIn className="text-2xl" />
@@ -129,7 +129,7 @@ const Navbar = ({ data, openCart, setOpenCart, setIsLoginModal }) => {
               </Link>
             )}
 
-             
+
           </div>
 
 

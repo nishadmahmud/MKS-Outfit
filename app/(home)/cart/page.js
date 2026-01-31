@@ -7,7 +7,7 @@ import Link from "next/link"
 import toast from "react-hot-toast"
 import { NotebookPen, ShoppingCart, Trash2 } from "lucide-react"
 import CartSkeleton from "@/app/Components/CartSkeleton"
-import noImg from "/public/no-image.jpg"
+const noImg = "/no-image.jpg"
 import { Minus } from "lucide-react"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -30,7 +30,7 @@ const CartPage = () => {
   const [loading, setLoading] = useState(true)
   const [selectedItems, setSelectedItems] = useState(new Set())
   const [selectAll, setSelectAll] = useState(false)
-  
+
   useEffect(() => {
     setCartItems(getCartItems())
     setLoading(false)
@@ -143,13 +143,13 @@ const CartPage = () => {
     // window.location.href = "/checkout"
 
     const selectedCartItems = cartItems.filter((item) =>
-    selectedItems.has(item.cartItemId || item.id)
-  )
+      selectedItems.has(item.cartItemId || item.id)
+    )
 
-  // ✅ Save selected items separately
-  localStorage.setItem("checkoutItems", JSON.stringify(selectedCartItems))
- window.location.href = "/checkout"
-// navigate('/checkout')
+    // ✅ Save selected items separately
+    localStorage.setItem("checkoutItems", JSON.stringify(selectedCartItems))
+    window.location.href = "/checkout"
+    // navigate('/checkout')
 
   }
 
@@ -314,11 +314,10 @@ const CartPage = () => {
                   <button
                     onClick={handleCheckout}
                     disabled={selectedItems.size === 0}
-                    className={`w-full py-3 px-4 rounded font-medium flex items-center justify-center transition duration-300 ease-in-out ${
-                      selectedItems.size === 0
+                    className={`w-full py-3 px-4 rounded font-medium flex items-center justify-center transition duration-300 ease-in-out ${selectedItems.size === 0
                         ? "bg-gray-400 text-gray-200 cursor-not-allowed"
                         : "bg-[#1a1a1a] text-white hover:bg-gray-900"
-                    }`}
+                      }`}
                   >
                     Proceed to Checkout ({selectedItems.size} items)
                     <svg

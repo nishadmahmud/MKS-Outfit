@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import useStore from "../CustomHooks/useStore";
 import toast from "react-hot-toast";
-import { userId } from "../(home)/page";
+import { userId } from "@/lib/constants";
 
 const LoginForm = ({ isRegistered,setIsRegistered, isLoginModal,onClose,setReload }) => {
   const userData = JSON.parse(localStorage.getItem("user"));

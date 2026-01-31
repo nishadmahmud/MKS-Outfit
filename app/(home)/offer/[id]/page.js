@@ -4,7 +4,7 @@ import ProductCard from "@/app/Components/ProductCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { userId } from "../../page";
+import { userId } from "@/lib/constants";
 
 const Page = ({ params }) => {
     const [products, setProducts] = useState([]);

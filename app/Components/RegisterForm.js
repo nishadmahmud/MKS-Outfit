@@ -2,7 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
-import { userId } from "../(home)/page";
+import { userId } from "@/lib/constants";
 import toast from "react-hot-toast";
 
 const RegisterForm = ({setIsRegistered,isRegistered,isLoginModal}) => {

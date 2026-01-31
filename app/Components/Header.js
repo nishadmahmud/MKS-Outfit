@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { userId } from '../(home)/page';
+import { userId } from '@/lib/constants';
 import HeaderUi from './HeaderUi';
 
 const Header = async() => {

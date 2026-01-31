@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
-import noImg from "/public/no-image.jpg"
+const noImg = "/no-image.jpg"
 import { use, useRef } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
 

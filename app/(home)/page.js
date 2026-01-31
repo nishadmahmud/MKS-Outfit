@@ -8,11 +8,7 @@ import TrendingNow from "../Components/TrendingNow";
 import Banner from "../Components/Banner";
 import Banner2 from "../Components/Banner2";
 import CategoryShowcase from "../Components/CategoryShowcase";
-
-
-
-export const userId = 230;
-export const fetcher = (url) => fetch(url).then(res => res.json());
+import { userId, fetcher } from "@/lib/constants";
 
 
 

@@ -7,10 +7,11 @@ import { Suspense } from "react";
 import { Audiowide, Outfit, Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import ClientLayout from "../client-layout";
+import NextTopLoader from 'nextjs-toploader';
+
 import Providers from "@/lib/Providers";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
   src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
@@ -23,23 +24,23 @@ const geistMono = localFont({
 });
 
 const audiowide = Audiowide({
-   subsets: ["latin"],
-   weight: [ '400'],
-   variable: '--font-audiowide'
-  });
+  subsets: ["latin"],
+  weight: ['400'],
+  variable: '--font-audiowide'
+});
 
 const poppins = Poppins({
-   subsets: ["latin"],
-   weight: ['100', '200', '300', '400', '500', '600','700', '800'],
-   variable: '--font-poppins'
-  });
+  subsets: ["latin"],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
+  variable: '--font-poppins'
+});
 
 
 const outfit = Outfit({
-   subsets: ["latin"],
-   weight: ['100', '200', '300', '400', '500', '600','700', '800', '900'],
-   variable: '--font-outift'
-  });
+  subsets: ["latin"],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-outift'
+});
 
 
 export const metadata = {
@@ -52,12 +53,13 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   return (
-    <html lang="en">
-     
+    <html lang="en" >
+
 
       <body
         className={`${geistSans.variable} ${poppins.variable} ${outfit.variable} ${audiowide.variable} ${geistMono.variable} antialiased nunito`}
       >
+        <NextTopLoader color="#000" showSpinner={false} />
         <Toaster></Toaster>
         <StoreProvider>
           <div>
@@ -68,13 +70,13 @@ export default async function RootLayout({ children }) {
               <Providers>
                 <ClientLayout>{children}</ClientLayout>
               </Providers>
-              
+
               {/* <AvatarChat /> */}
             </div>
             <Footer />
           </Suspense>
         </StoreProvider>
       </body>
-    </html>
+    </html >
   );
 }

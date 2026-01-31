@@ -1,8 +1,8 @@
-import React from 'react';
-import noImg from '/public/no-image.jpg';
+const noImg = "/no-image.jpg";
+import Link from 'next/link';
 
 const SmallBanner = ({ banner }) => {
-  const imageUrl = banner?.data?.[0]?.image_path || noImg.src;
+  const imageUrl = banner?.data?.[0]?.image_path || noImg;
 
   return (
     <div className="w-full bg-gray-100 h-[25vh] md:h-[55vh] mt-10 lg:mt-20">
